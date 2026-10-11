@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Оплата заказа — Sculpted & Candle</title>
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/qrcode.min.js"></script>
+</head>
+<body style="background-color: var(--bg-main);">
+
+  <div class="bg-ambient"></div>
+
+  <div class="pay-page-wrap">
+    <div class="pay-card">
+      
+      <!-- Brand Header -->
+      <a href="index.html" class="pay-brand-header">
+        <img src="assets/img/logo.jpg" alt="Sculpted & Candle" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;" onerror="this.style.display='none'">
+        <div style="text-align: left;">
+          <div style="font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; line-height: 1.1;">Sculpted & Candle</div>
+          <div style="font-size: 0.72rem; color: var(--accent-sage); text-transform: uppercase; letter-spacing: 0.1em;">мастерская эстетики</div>
+        </div>
+      </a>
+
+      <!-- Order ID Badge -->
+      <div>
+        <span id="order-badge" class="pay-order-badge">Заказ № SC-101</span>
+      </div>
+
+      <!-- Description / Client -->
+      <div id="order-desc" style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 16px; font-weight: 500;">
+        Изделия ручной работы
+      </div>
+
+      <!-- Amount Box -->
+      <div class="pay-amount-box">
+        <div class="pay-amount-label">Сумма к оплате</div>
+        <div id="order-amount" class="pay-amount-val">2 500 ₽</div>
+      </div>
+
+      <!-- Bank Selector Tabs -->
+      <div class="pay-bank-tabs" role="tablist">
+        <button type="button" class="pay-bank-tab active tab-alfa" data-bank="alfa">
+          🔴 Альфа-Банк
+        </button>
+        <button type="button" class="pay-bank-tab tab-tbank" data-bank="tbank">
+          🟡 Т-Банк
+        </button>
+        <button type="button" class="pay-bank-tab tab-sber" data-bank="sber">
+          🟢 Сбербанк
+        </button>
+        <button type="button" class="pay-bank-tab" data-bank="sbp">
+          🔵 СБП
+        </button>
+      </div>
+
+      <!-- Exact Amount Notification Pill -->
+      <div>
+        <span class="pay-exact-amount-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Сумма <span id="pill-amount">2 500 ₽</span> уже внесена в QR-код
+        </span>
+      </div>
+
+      <!-- SBP QR Code -->
+      <div style="margin-bottom: 16px;">
+        <div class="pay-qr-wrap">
+          <div id="qrcode"></div>
+        </div>
+        <div style="font-size: 0.76rem; color: var(--text-muted); line-height: 1.4;">
+          Наведите камеру смартфона — банк откроется с уже заполненной суммой, останется только нажать «Перевести».
+        </div>
+      </div>
+
+      <!-- Direct Mobile Banking App Button (for phones) -->
+      <a id="btn-open-app" href="#" class="pay-app-btn pay-app-btn-tbank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        <span id="btn-app-text">Оплатить в приложении Т-Банк</span>
+      </a>
+
+      <!-- Payment Details with Copy -->
+      <div class="pay-details-list">
+        <div class="pay-detail-row">
+          <span class="pay-detail-lbl">Банк:</span>
+          <span class="pay-detail-val" id="pay-bank-label">Т-Банк (СБП)</span>
+        </div>
+        <div class="pay-detail-row">
+          <span class="pay-detail-lbl">Получатель:</span>
+          <span class="pay-detail-val" id="recipient-name">Екатерина М. (Катерина)</span>
+        </div>
+        <div class="pay-detail-row">
+          <span class="pay-detail-lbl">Номер телефона:</span>
+          <span class="pay-detail-val">
+            <span id="pay-phone">+7 (900) 000-00-00</span>
+            <button class="copy-mini-btn" id="btn-copy-phone" title="Скопировать номер">Копировать</button>
+          </span>
+        </div>
+        <div class="pay-detail-row">
+          <span class="pay-detail-lbl">Сумма перевода:</span>
+          <span class="pay-detail-val">
+            <span id="pay-sum-copy-val">2 500 ₽</span>
+            <button class="copy-mini-btn" id="btn-copy-amount" title="Скопировать точную сумму">Копировать</button>
+          </span>
+        </div>
+        <div class="pay-detail-row">
+          <span class="pay-detail-lbl">Назначение / Комментарий:</span>
+          <span class="pay-detail-val" id="pay-comment">Заказ SC-101</span>
+        </div>
+      </div>
+
+      <!-- Telegram Confirmation Button -->
+      <a id="btn-confirm-tg" href="https://t.me/layra_ms" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; padding: 14px 20px; font-size: 0.95rem; margin-bottom: 14px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.75-.56 2.94-1.28 4.91-2.12 5.9-2.53 2.81-1.17 3.39-1.37 3.77-1.38.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .34z"/></svg>
+        Я оплатил(а) — прикрепить чек в Telegram
+      </a>
+
+      <!-- Back to Showcase link -->
+      <div>
+        <a href="index.html" style="font-size: 0.84rem; color: var(--text-muted); text-decoration: underline;">
+          ← Вернуться в каталог мастерской
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="assets/js/pay.js"></script>
+</body>
+</html>

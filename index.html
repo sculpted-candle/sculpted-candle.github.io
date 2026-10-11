@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sculpted&Candle — Изделия из гипса&свечи ручной работы</title>
+  <meta name="description" content="Мастерская гипсовых изделий и свечей ручной работы из натурального соевого воска. Санкт-Петербург, доставка по РФ и Беларуси.">
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sculpted&Candle — Изделия из гипса&свечи ручной работы">
+  <meta property="og:description" content="Мастерская гипсовых изделий и свечей ручной работы из натурального соевого воска. Санкт-Петербург, доставка по РФ и Беларуси.">
+  <meta property="og:url" content="https://sculpted-candle.netlify.app">
+  <meta property="og:image" content="https://sculpted-candle.netlify.app/assets/img/fairy_katerina.jpg">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#3F5E4D">
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css?v=2.8">
+</head>
+<body>
+
+  <!-- Ambient Backdrop -->
+  <div class="bg-ambient"></div>
+
+  <!-- Navigation (Чистая брендовая витрина без дублирования) -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand-wrap">
+        <img src="assets/img/logo.jpg" alt="Sculpted&Candle" class="brand-logo" onerror="this.style.display='none'">
+        <div class="brand-title">
+          <span class="brand-name">Sculpted&Candle</span>
+          <span class="brand-sub" data-i18n="navBrandSub">Изделия из гипса & свечи ручной работы</span>
+          <span class="brand-city" data-i18n="navBrandCity">Санкт-Петербург</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#catalog" data-i18n="navCatalog">Каталог</a></li>
+        <li><a href="#about" data-i18n="navAbout">О мастере</a></li>
+        <li><a href="#delivery" data-i18n="navDelivery">Доставка</a></li>
+        <li><a href="https://t.me/sculpted_candle" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+        <li><a href="https://instagram.com/sculpted_candle" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+
+        <a href="https://t.me/layra_ms" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm btn-nav-contact">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.75-.56 2.94-1.28 4.91-2.12 5.9-2.53 2.81-1.17 3.39-1.37 3.77-1.38.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .34z"/></svg>
+          <span data-i18n="heroCtaTelegram">Написать Катерине</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Permanent Mobile Sticky Navigation Strip -->
+    <nav class="mobile-sticky-nav-strip" aria-label="Быстрая навигация">
+      <a href="#catalog" class="mob-nav-pill" data-i18n="navCatalog">Каталог</a>
+      <a href="#about" class="mob-nav-pill" data-i18n="navAbout">О мастере</a>
+      <a href="#delivery" class="mob-nav-pill" data-i18n="navDelivery">Доставка</a>
+      <a href="https://t.me/layra_ms" target="_blank" rel="noopener noreferrer" class="mob-nav-pill mob-nav-pill-tg">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.75-.56 2.94-1.28 4.91-2.12 5.9-2.53 2.81-1.17 3.39-1.37 3.77-1.38.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .34z"/></svg>
+        <span>Telegram</span>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Running Marquee Ticker (Clean editorial atelier signature) -->
+    <div class="hero-ticker-wrap">
+      <div class="hero-ticker-track">
+        <span>SCULPTED &amp; CANDLE</span><span class="ticker-sep">/</span>
+        <span>АВТОРСКИЙ ГИПСОВЫЙ ДЕКОР И СОЕВЫЕ СВЕЧИ</span><span class="ticker-sep">/</span>
+        <span>САНКТ-ПЕТЕРБУРГ</span><span class="ticker-sep">/</span>
+        <span>ПРЕМИАЛЬНЫЕ АРОМАТЫ БЕЗ ФТАЛАТОВ</span><span class="ticker-sep">/</span>
+        <span>ДЕРЕВЯННЫЙ ПОТРЕСКИВАЮЩИЙ ФИТИЛЬ</span><span class="ticker-sep">/</span>
+        <span>ДОСТАВКА ПО РОССИИ И БЕЛАРУСИ</span><span class="ticker-sep">/</span>
+        <span>SCULPTED &amp; CANDLE</span><span class="ticker-sep">/</span>
+        <span>АВТОРСКИЙ ГИПСОВЫЙ ДЕКОР И СОЕВЫЕ СВЕЧИ</span><span class="ticker-sep">/</span>
+        <span>САНКТ-ПЕТЕРБУРГ</span><span class="ticker-sep">/</span>
+        <span>ПРЕМИАЛЬНЫЕ АРОМАТЫ БЕЗ ФТАЛАТОВ</span><span class="ticker-sep">/</span>
+        <span>ДЕРЕВЯННЫЙ ПОТРЕСКИВАЮЩИЙ ФИТИЛЬ</span><span class="ticker-sep">/</span>
+        <span>ДОСТАВКА ПО РОССИИ И БЕЛАРУСИ</span><span class="ticker-sep">/</span>
+      </div>
+    </div>
+
+    <!-- Hero Section (Haute Boutique Atelier Standard) -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-grid">
+        
+        <!-- Left 50%: Editorial Typography & CTAs -->
+        <div class="hero-text-wrap">
+          <div class="hero-editorial-label">
+            <span class="editorial-line"></span>
+            <span data-i18n="heroTag">Авторская мастерская · Санкт-Петербург</span>
+          </div>
+          <h1 class="hero-main-title" data-i18n="heroTitle">
+            Скульптурные свечи & гипсовый декор
+          </h1>
+          <p class="hero-desc" data-i18n="heroDesc">
+            Эстетика натурального соевого воска, шелковистого гипса и тепла живого огня. Создаем предметы уюта, интерьерные арт-объекты и душевные подарки в мастерской Санкт-Петербурга.
+          </p>
+          <div class="hero-cta">
+            <a href="#catalog" class="btn btn-primary btn-lg btn-hero-catalog" data-i18n="heroCtaCatalog">
+              <span>Смотреть ассортимент</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="https://t.me/layra_ms" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg" data-i18n="heroCtaTelegram">Написать Катерине</a>
+          </div>
+        </div>
+
+        <!-- Right 50%: Haute Boutique Arched Portal & Living Atelier Composition -->
+        <div class="hero-portal-wrap magic-hero-card" id="magicHeroCard">
+          <!-- Subtle warm aura -->
+          <div class="portal-ambient-aura"></div>
+
+          <!-- Main Arched Editorial Portal -->
+          <div class="portal-frame">
+            <img id="hero-img-display" src="assets/img/hero_showcase.jpg?v=2.9" alt="Скульптурная свеча «Анатомическое сердце»" class="portal-img" onerror="this.src='assets/img/product_6.jpg'">
+            <!-- Canvas for warm golden floating embers -->
+            <canvas id="hero-sparks-canvas" class="hero-sparks-canvas"></canvas>
+            <div class="portal-lens-overlay"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Features Pill Bar -->
+      <div id="features" class="container reveal" style="margin-top: 40px;">
+        <div class="features-bar">
+          <div class="feat-item">
+            <div class="feat-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </div>
+            <div>
+              <div class="feat-title" data-i18n="feat1Title">100% Соевый воск</div>
+              <div class="feat-desc" data-i18n="feat1Desc">Экологичный состав и чистое горение</div>
+            </div>
+          </div>
+
+          <div class="feat-item">
+            <div class="feat-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <div>
+              <div class="feat-title" data-i18n="feat2Title">Прочный гипс</div>
+              <div class="feat-desc" data-i18n="feat2Desc">Гладкая обработка и влагостойкость</div>
+            </div>
+          </div>
+
+          <div class="feat-item">
+            <div class="feat-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <div>
+              <div class="feat-title" data-i18n="feat3Title">Премиальные аромамасла</div>
+              <div class="feat-desc" data-i18n="feat3Desc">Тонкие и стойкие композиции</div>
+            </div>
+          </div>
+
+          <div class="feat-item">
+            <div class="feat-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div>
+              <div class="feat-title" data-i18n="feat4Title">Доставка по РФ и Беларуси</div>
+              <div class="feat-desc" data-i18n="feat4Desc">По РФ — любая служба, по РБ — СДЭК</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section id="catalog" class="catalog-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-subtitle" data-i18n="catalogSubtitle">Коллекция изделий</div>
+            <h2 class="heading-lg" data-i18n="catalogTitle">Ассортимент мастерской</h2>
+          </div>
+        </div>
+
+        <!-- Filter Tabs (Динамически формируются из админки) -->
+        <div id="catalog-filter-bar" class="filter-bar"></div>
+
+        <!-- Holiday Subfilters (Подсылки по праздникам при переходе на "Сезонное") -->
+        <div id="holiday-subfilters" class="holiday-subfilters" style="display: none;">
+          <div class="holiday-subfilters-header">
+            <span data-i18n="holidayHeader">Тематические сезонные серии:</span>
+          </div>
+          <div class="holiday-chips-scroll" id="holiday-chips-container">
+            <button class="holiday-chip active" data-holiday="all" onclick="filterByHoliday('all')">Все серии</button>
+            <button class="holiday-chip" data-holiday="ny" onclick="filterByHoliday('ny')">Новый Год & Рождество</button>
+            <button class="holiday-chip" data-holiday="feb14" onclick="filterByHoliday('feb14')">14 Февраля</button>
+            <button class="holiday-chip" data-holiday="mar8" onclick="filterByHoliday('mar8')">8 Марта</button>
+            <button class="holiday-chip" data-holiday="teacher" onclick="filterByHoliday('teacher')">День Учителя / 1 Сентября</button>
+            <button class="holiday-chip" data-holiday="autumn" onclick="filterByHoliday('autumn')">Осенняя серия</button>
+            <button class="holiday-chip" data-holiday="bday" onclick="filterByHoliday('bday')">День Рождения</button>
+          </div>
+        </div>
+
+        <!-- Catalog Toolbar: Сортировка и счетчик -->
+        <div class="catalog-toolbar">
+          <div class="pagination-info" id="catalog-count-info">Загрузка каталога...</div>
+          <div class="catalog-sort-wrap">
+            <span data-i18n="catalogSortLabel">Сортировка:</span>
+            <select id="catalog-sort-select" class="sort-select" onchange="handleSortChange(this.value)">
+              <option value="default" data-i18n="sortDefault">Авторский порядок</option>
+              <option value="price-asc" data-i18n="sortPriceAsc">Сначала недорогие</option>
+              <option value="price-desc" data-i18n="sortPriceDesc">Сначала премиум</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid (только чистая премиум-витрина) -->
+        <div id="products-grid" class="products-grid"></div>
+
+        <!-- Catalog Pagination Controls -->
+        <div id="catalog-pagination" class="pagination-wrap"></div>
+      </div>
+    </section>
+
+    <!-- About Master Section -->
+    <section id="about" class="about-section">
+      <div class="container about-grid">
+        
+        <!-- Left: Elegant Atelier Photo Frame with Living Animated Portrait -->
+        <div class="about-avatar-card reveal-left magic-avatar-frame" id="magicAboutCard">
+          <div class="about-character-stage">
+            <img id="about-img-display" src="assets/img/fairy_katerina.jpg" alt="Катерина — мастер Sculpted&Candle" class="about-avatar-img magic-living-character" loading="lazy" onerror="this.src='assets/img/product_4.jpg'">
+            
+            <!-- Dynamic Candlelight Hearth Glow -->
+            <div class="hearth-living-glow"></div>
+            
+            <!-- Living Pulsing Flame on the Candle Hearth -->
+            <div class="magic-living-candle-flame"></div>
+            
+            <!-- Rising Aromatic Vapor / Smoke -->
+            <div class="candle-smoke-vapor"></div>
+            
+            <!-- Live Golden Sparks Canvas for About section -->
+            <canvas id="about-sparks-canvas" class="about-sparks-canvas"></canvas>
+            <div class="magic-glow-overlay"></div>
+          </div>
+        </div>
+
+        <!-- Right: Narrative & Stats -->
+        <div class="reveal-right">
+          <div class="section-subtitle" data-i18n="aboutSub">О мастере</div>
+          <blockquote class="about-quote" data-i18n="aboutQuote">
+            «Я создаю вещи, которые наполняют пространство сказочным уютом, ароматами трав и спокойствием живого пламени.»
+          </blockquote>
+          <p class="about-text" data-i18n="aboutText1">
+            Привет! Меня зовут Катерина. Родом я из Беларуси, а мастерскую волшебных свечей и гипсового декора Sculpted&Candle создаю в Санкт-Петербурге. Для меня каждое изделие — это маленькая история тепла и душевного спокойствия.
+          </p>
+          <p class="about-text" data-i18n="aboutText2">
+            Каждую свечу из чистого соевого воска и гипсовую форму я отливаю, шлифую и бережно упаковываю вручную. Доставляем заказы по всей России и Беларуси, чтобы в каждом доме зажегся огонек уюта.
+          </p>
+          
+          <div class="about-stats">
+            <div>
+              <div class="stat-num" data-i18n="stat1Num">250+</div>
+              <div class="stat-label" data-i18n="stat1Lbl">Созданных свечей</div>
+            </div>
+            <div>
+              <div class="stat-num" data-i18n="stat2Num">100%</div>
+              <div class="stat-label" data-i18n="stat2Lbl">Эко-материалы</div>
+            </div>
+            <div>
+              <div class="stat-num" data-i18n="stat3Num">2-7 дн</div>
+              <div class="stat-label" data-i18n="stat3Lbl">Срок изготовления</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Dedicated Delivery Section (Отдельный блок Доставка) -->
+    <section id="delivery" class="delivery-section">
+      <div class="container">
+        <div class="section-head reveal" style="margin-bottom: 24px;">
+          <div>
+            <div class="section-subtitle" data-i18n="deliverySub">Доставка и забота</div>
+            <h2 class="heading-lg" data-i18n="deliveryTitle">Доставка по всей России и Беларуси</h2>
+            <p class="section-desc delivery-lead-desc" data-i18n="deliveryDesc" style="margin-top: 10px; color: var(--text-secondary); max-width: 680px; font-size: 0.95rem; line-height: 1.6;">
+              Бережно упаковываем каждую свечу и гипсовое изделие в прочную многослойную крафт-упаковку с защитой от повреждений. По России отправляем СДЭК, Почтой России, Яндекс Доставкой или Boxberry. По Беларуси доставка осуществляется компанией СДЭК до двери или пункта выдачи.
+            </p>
+          </div>
+        </div>
+
+        <div class="delivery-grid reveal">
+          <div class="delivery-card">
+            <div class="delivery-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <h3 class="delivery-card-title" data-i18n="delivery1Title">Доставка по России</h3>
+            <p class="delivery-card-desc" data-i18n="delivery1Desc">Отправляем заказы из Санкт-Петербурга любой удобной службой на ваш выбор: СДЭК, Почта России, Яндекс Доставка, Boxberry. Сроки по РФ: от 2 до 5 дней.</p>
+          </div>
+
+          <div class="delivery-card">
+            <div class="delivery-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3 class="delivery-card-title" data-i18n="delivery2Title">Доставка в Беларусь</h3>
+            <p class="delivery-card-desc" data-i18n="delivery2Desc">Регулярная отправка компанией СДЭК до двери или в пункт самовывоза в Минск, Брест, Гродно, Витебск, Гомель и все города РБ. Сроки: от 3 до 6 дней.</p>
+          </div>
+
+          <div class="delivery-card">
+            <div class="delivery-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <h3 class="delivery-card-title" data-i18n="delivery3Title">Надёжная крафт-упаковка</h3>
+            <p class="delivery-card-desc" data-i18n="delivery3Desc">Каждая свеча и гипсовое изделие упаковываются в воздушную защиту, многослойный крафт и плотный брендированный коробок. Доезжает в 100% целости.</p>
+          </div>
+        </div>
+
+        <div class="delivery-cta-bar">
+          <div>
+            <div style="font-weight: 600; color: var(--text-primary); font-size: 1.05rem;" data-i18n="deliveryCtaText">Нужно рассчитать доставку в ваш город?</div>
+            <div style="font-size: 0.86rem; color: var(--text-secondary); margin-top: 2px;" data-i18n="deliveryCtaSub">Напишите Катерине — подскажет точный тариф и ближайший пункт выдачи.</div>
+          </div>
+          <a href="https://t.me/layra_ms?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20%D0%B4%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%B8" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" data-i18n="deliveryCtaBtn">
+            Уточнить доставку в Telegram
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-col-brand">
+          <div class="brand-wrap footer-brand-wrap">
+            <img src="assets/img/logo.jpg" alt="" class="brand-logo" onerror="this.style.display='none'">
+            <div class="brand-title" style="text-align: left; align-items: flex-start;">
+              <span class="brand-name" style="font-size: 1.45rem;">Sculpted&Candle</span>
+              <span class="brand-sub" data-i18n="navBrandSub">Изделия из гипса&свечи ручной работы</span>
+            </div>
+          </div>
+          <p class="footer-tagline" data-i18n="footerTagline">
+            Мастерская гипсовых изделий и свечей ручной работы из Санкт-Петербурга.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footerNavTitle">Навигация</h4>
+          <ul>
+            <li><a href="#catalog" data-i18n="navCatalog">Каталог</a></li>
+            <li><a href="#about" data-i18n="navAbout">О мастере</a></li>
+            <li><a href="#delivery" data-i18n="navDelivery">Доставка</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footerContactTitle">Связь & Соцсети</h4>
+          <ul>
+            <li><a href="https://t.me/layra_ms" target="_blank" rel="noopener noreferrer">Катерина: @layra_ms</a></li>
+            <li><a href="https://t.me/sculpted_candle" target="_blank" rel="noopener noreferrer">Telegram: @sculpted_candle</a></li>
+            <li><a href="https://instagram.com/sculpted_candle" target="_blank" rel="noopener noreferrer">Instagram: @sculpted_candle</a></li>
+            <li><span style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="footerLocation">Санкт-Петербург • Доставка РФ и Беларусь</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div data-i18n="footerCopy">© 2026 Sculpted&Candle. Все права защищены. · Санкт-Петербург</div>
+        <div class="footer-bottom-actions">
+          <span data-i18n="footerCraftLove">Ручная работа с любовью</span>
+          <!-- Прямой вход в админ-панель -->
+          <a href="admin.html" class="admin-entry-badge" title="Вход в кабинет мастера">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span data-i18n="footerMasterCabinet">Кабинет мастера</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- MODAL: Quick View -->
+  <div id="modal-quickview" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h4 class="font-serif" style="font-size: 1.3rem;" data-i18n="modalQuickTitle">Детали изделия</h4>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div id="quickview-modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Scroll to Top -->
+  <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Наверх" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <!-- Mobile Floating Bottom Navigation Bar (Always with user on scroll) -->
+  <nav class="mobile-bottom-nav" aria-label="Мобильная навигация">
+    <a href="#hero" class="mobile-nav-item active" data-nav="hero" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Главная</span>
+    </a>
+    <a href="#catalog" class="mobile-nav-item" data-nav="catalog">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>Каталог</span>
+    </a>
+    <a href="#about" class="mobile-nav-item" data-nav="about">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Мастер</span>
+    </a>
+    <a href="#delivery" class="mobile-nav-item" data-nav="delivery">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      <span>Доставка</span>
+    </a>
+    <a href="https://t.me/layra_ms" target="_blank" rel="noopener noreferrer" class="mobile-nav-item nav-tg-item">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.75-.56 2.94-1.28 4.91-2.12 5.9-2.53 2.81-1.17 3.39-1.37 3.77-1.38.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .34z"/></svg>
+      <span>Написать</span>
+    </a>
+  </nav>
+
+  <script src="assets/js/app.js?v=2.7"></script>
+</body>
+</html>
+
+
+
+

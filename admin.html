@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кабинет мастера — Sculpted&Candle</title>
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .admin-nav {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-light);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 24px 0 28px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 16px;
+    }
+    .admin-tab-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      padding: 9px 16px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .admin-tab-btn:hover {
+      border-color: var(--accent-sage-light);
+      color: var(--accent-sage);
+      background-color: var(--bg-subtle);
+    }
+    .admin-tab-btn.active {
+      background-color: var(--accent-sage);
+      color: #FFFFFF;
+      border-color: var(--accent-sage);
+      box-shadow: 0 2px 8px rgba(63, 94, 77, 0.25);
+    }
+    .admin-panel {
+      display: none;
+      padding-bottom: 60px;
+    }
+    .admin-panel.active {
+      display: block;
+    }
+    .product-row-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .product-row-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(63, 94, 77, 0.3);
+    }
+    .product-row-thumb {
+      width: 70px;
+      height: 70px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      background: var(--bg-subtle);
+      flex-shrink: 0;
+    }
+    .btn-danger {
+      background: #FFF1F0;
+      color: #CF1322;
+      border: 1px solid #FFA39E;
+    }
+    .btn-danger:hover {
+      background: #CF1322;
+      color: #FFFFFF;
+    }
+    .pin-auth-card {
+      max-width: 400px;
+      margin: 100px auto;
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+    }
+  </style>
+</head>
+<body style="background-color: var(--bg-main);">
+
+  <div class="bg-ambient"></div>
+
+  <!-- Экран авторизации по PIN-коду -->
+  <div id="auth-screen" class="container">
+    <div class="pin-auth-card">
+      <img src="assets/img/logo.jpg" alt="Logo" style="width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 16px; object-fit: cover;" onerror="this.style.display='none'">
+      <h2 class="font-serif" style="font-size: 1.6rem; margin-bottom: 8px;">Кабинет мастера</h2>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px;">
+        Введите PIN-код для входа в панель управления:
+      </p>
+      <form id="form-pin-auth">
+        <input type="password" id="input-pin" class="form-input" placeholder="PIN (по умолчанию: 1234)" style="text-align: center; font-size: 1.2rem; letter-spacing: 0.2em; margin-bottom: 16px;" required autofocus>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Войти</button>
+      </form>
+      <div id="pin-error" style="display: none; color: #CF1322; font-size: 0.82rem; margin-top: 12px;">Неверный PIN-код</div>
+      <div style="margin-top: 20px;">
+        <a href="index.html" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: underline;">
+          ← Вернуться на витрину
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Главный кабинет мастера (доступен после ввода PIN) -->
+  <div id="admin-workspace" style="display: none;">
+    
+    <header class="admin-nav">
+      <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="assets/img/logo.jpg" alt="Logo" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;" onerror="this.style.display='none'">
+          <div>
+            <div style="font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600;">Кабинет мастера</div>
+            <div style="font-size: 0.72rem; color: var(--accent-sage);">Sculpted&Candle Control</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="index.html" class="btn btn-outline btn-sm">
+            👁️ Смотреть витрину
+          </a>
+          <button id="btn-admin-logout" class="btn btn-sm" style="background: none; border: 1px solid var(--border-light); color: var(--text-muted);">
+            Выйти
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      
+      <!-- Панель мгновенной публикации изменений на весь сайт -->
+      <div class="admin-publish-bar" id="admin-publish-bar">
+        <div class="publish-bar-info">
+          <div class="publish-status-dot" id="publish-status-dot"></div>
+          <div>
+            <strong id="publish-status-text">Опубликовать изменения на сайт (для всех устройств)</strong>
+            <div style="font-size: 0.8rem; color: var(--text-muted);" id="publish-status-sub">
+              Новые фото, описания, товары и цены мгновенно обновятся на телефонах клиентов и жены
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button id="btn-admin-publish-now" class="btn btn-primary btn-sm" onclick="publishChangesToNetlify()">
+            🚀 Опубликовать на сайт сейчас
+          </button>
+        </div>
+      </div>
+
+      <!-- Вкладки управления -->
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" data-tab="tab-products">
+          📦 Товары (<span id="count-products">0</span>)
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-orders">
+          🔔 Заявки (<span id="count-orders">0</span>)
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-categories">
+          🏷️ Категории
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-photos">
+          🖼️ Фото витрины
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-texts">
+          ✍️ Тексты сайта
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-scents">
+          🌸 Ароматы (<span id="count-scents">0</span>)
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-promo">
+          ✨ Всплывающее окно
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-paylinks">
+          💳 Оплата СБП
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-settings">
+          ⚙️ Реквизиты и бэкап
+        </button>
+      </div>
+
+      <!-- ВКЛАДКА ЗАЯВКИ: Поступающие заказы с сайта -->
+      <section id="tab-orders" class="admin-panel">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 class="font-serif" style="font-size: 1.6rem;">Заявки с сайта</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">
+              Клиенты, заполнившие форму на витрине с указанием имени и телефона/Telegram:
+            </p>
+          </div>
+          <button id="btn-clear-orders" class="btn btn-sm" style="border: 1px solid var(--border-light); background: none; color: var(--text-muted);">
+            Очистить список
+          </button>
+        </div>
+
+        <div id="admin-orders-list"></div>
+      </section>
+
+      <!-- ВКЛАДКА 1: Товары и каталог -->
+      <section id="tab-products" class="admin-panel active">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 class="font-serif" style="font-size: 1.6rem;">Управление изделиями</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">
+              Добавляйте новые свечи и гипс, меняйте цены, описания или удаляйте позиции.
+            </p>
+          </div>
+          <button id="btn-open-add-modal" class="btn btn-primary">
+            + Добавить новое изделие
+          </button>
+        </div>
+
+        <div id="admin-products-list"></div>
+      </section>
+
+      <!-- ВКЛАДКА 2: Управление категориями -->
+      <section id="tab-categories" class="admin-panel">
+        <div style="max-width: 680px; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+          <h2 class="font-serif" style="font-size: 1.6rem; margin-bottom: 8px;">Категории витрины</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">
+            Управляйте панелью переключателей на витрине. Вы можете добавить праздник (например, «8 Марта» или «Новый Год») или удалить ненужные:
+          </p>
+
+          <!-- Форма добавления категории -->
+          <form id="form-add-category" style="display: flex; gap: 10px; margin-bottom: 24px;">
+            <input type="text" id="new-cat-name-ru" class="form-input" placeholder="Название на русском (например: 8 Марта)" required style="flex: 1.2;">
+            <input type="text" id="new-cat-name-en" class="form-input" placeholder="На английском (March 8)" style="flex: 1;">
+            <button type="submit" class="btn btn-primary btn-sm">+ Добавить</button>
+          </form>
+
+          <div id="admin-categories-list"></div>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА 3: Фотографии витрины -->
+      <section id="tab-photos" class="admin-panel">
+        <div style="max-width: 680px; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+          <h2 class="font-serif" style="font-size: 1.6rem; margin-bottom: 8px;">Главные фотографии на сайте</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px;">
+            Здесь можно легко заменить главную фотографию на первом экране и фото в разделе «О мастере»:
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <!-- Hero Photo -->
+            <div>
+              <label class="form-label">Главное фото (Hero экран справа)</label>
+              <div id="drop-hero-photo" class="form-file-drop" style="padding: 16px;">
+                <img id="preview-hero-photo" src="assets/img/fairy_katerina.jpg" style="max-height: 160px; margin: 0 auto 10px; border-radius: var(--radius-sm); object-fit: cover; display: block;" onerror="this.src='assets/img/product_1.jpg'">
+                <div style="font-size: 0.8rem; color: var(--accent-sage); font-weight: 600;">Заменить фото Hero</div>
+                <input type="file" id="input-hero-photo" accept="image/*" style="display: none;">
+              </div>
+            </div>
+
+            <!-- About Photo -->
+            <div>
+              <label class="form-label">Фото в блоке «О мастере»</label>
+              <div id="drop-about-photo" class="form-file-drop" style="padding: 16px;">
+                <img id="preview-about-photo" src="assets/img/fairy_katerina.jpg" style="max-height: 160px; margin: 0 auto 10px; border-radius: var(--radius-sm); object-fit: cover; display: block;" onerror="this.src='assets/img/product_1.jpg'">
+                <div style="font-size: 0.8rem; color: var(--accent-sage); font-weight: 600;">Заменить фото мастера</div>
+                <input type="file" id="input-about-photo" accept="image/*" style="display: none;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Настройки плашки на главном фото -->
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-light);">
+            <h3 class="font-serif" style="font-size: 1.25rem; margin-bottom: 12px;">Надписи на плашке главного фото (Hero)</h3>
+            <div class="form-group">
+              <label class="form-label">Название изделия на плашке</label>
+              <input type="text" id="input-badge-title" class="form-input" placeholder="Свеча «Анатомическое сердце»">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Подзаголовок / Цена на плашке</label>
+              <input type="text" id="input-badge-sub" class="form-input" placeholder="Скульптурный бестселлер • от 1 800 ₽">
+            </div>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button id="btn-save-photos" class="btn btn-primary" style="width: 100%;">
+              Сохранить фото и настройки главного экрана
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА 3.1: Редактор текстов сайта -->
+      <section id="tab-texts" class="admin-panel">
+        <div style="max-width: 720px; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+          <h2 class="font-serif" style="font-size: 1.6rem; margin-bottom: 8px;">Редактор текстов сайта</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px;">
+            Здесь вы можете изменить любые тексты на сайте: приветствие, описание мастерской, цитату и историю о мастере, а также условия доставки:
+          </p>
+
+          <form id="form-site-texts">
+            <!-- Блок: Первый экран (Hero) -->
+            <div style="margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light);">
+              <h3 class="font-serif" style="font-size: 1.25rem; margin-bottom: 14px; color: var(--accent-sage);">🌟 Первый экран (Hero)</h3>
+              <div class="form-group">
+                <label class="form-label">Бейдж сверху (например, «Ручная работа из Санкт-Петербурга»)</label>
+                <input type="text" id="txt-heroTag" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Главный заголовок H1</label>
+                <input type="text" id="txt-heroTitle" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Описание под заголовком</label>
+                <textarea id="txt-heroDesc" class="form-textarea" rows="3"></textarea>
+              </div>
+            </div>
+
+            <!-- Блок: О мастере -->
+            <div style="margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light);">
+              <h3 class="font-serif" style="font-size: 1.25rem; margin-bottom: 14px; color: var(--accent-sage);">🕯️ Раздел «О мастере»</h3>
+              <div class="form-group">
+                <label class="form-label">Цитата мастера (курсивом)</label>
+                <textarea id="txt-aboutQuote" class="form-textarea" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Текст абзац 1 (Приветствие и философия)</label>
+                <textarea id="txt-aboutText1" class="form-textarea" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Текст абзац 2 (Процесс изготовления и доставка)</label>
+                <textarea id="txt-aboutText2" class="form-textarea" rows="3"></textarea>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                <div class="form-group">
+                  <label class="form-label">Цифра 1</label>
+                  <input type="text" id="txt-stat1Num" class="form-input">
+                  <input type="text" id="txt-stat1Lbl" class="form-input" style="margin-top: 4px; font-size: 0.78rem;">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Цифра 2</label>
+                  <input type="text" id="txt-stat2Num" class="form-input">
+                  <input type="text" id="txt-stat2Lbl" class="form-input" style="margin-top: 4px; font-size: 0.78rem;">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Цифра 3</label>
+                  <input type="text" id="txt-stat3Num" class="form-input">
+                  <input type="text" id="txt-stat3Lbl" class="form-input" style="margin-top: 4px; font-size: 0.78rem;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Блок: Условия доставки -->
+            <div style="margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light);">
+              <h3 class="font-serif" style="font-size: 1.25rem; margin-bottom: 14px; color: var(--accent-sage);">🚚 Условия доставки (Блок Доставка)</h3>
+              <div class="form-group">
+                <label class="form-label">Заголовок блока доставки</label>
+                <input type="text" id="txt-deliveryTitle" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Подробное описание доставки (РФ, Беларусь, упаковка, сроки)</label>
+                <textarea id="txt-deliveryDesc" class="form-textarea" rows="4"></textarea>
+              </div>
+            </div>
+
+            <!-- Блок: Подвал (Footer) -->
+            <div style="margin-bottom: 24px;">
+              <h3 class="font-serif" style="font-size: 1.25rem; margin-bottom: 14px; color: var(--accent-sage);">🌿 Подпись мастерской (Подвал)</h3>
+              <div class="form-group">
+                <label class="form-label">Подпись в подвале сайта (Мастерская гипсовых изделий...)</label>
+                <input type="text" id="txt-footerTagline" class="form-input">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
+              💾 Сохранить все тексты сайта
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА: Управление ароматами мастерской -->
+      <section id="tab-scents" class="admin-panel">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 class="font-serif" style="font-size: 1.6rem;">Ароматы мастерской</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">
+              Управляйте палитрой ароматов. Покупатель выбирает аромат из этого списка при оформлении заказа на сайте:
+            </p>
+          </div>
+          <button id="btn-open-add-scent" class="btn btn-primary">
+            + Добавить новый аромат
+          </button>
+        </div>
+
+        <div id="admin-scents-list"></div>
+      </section>
+
+      <!-- ВКЛАДКА: Всплывающее предложение (Заказ коллекции) -->
+      <section id="tab-promo" class="admin-panel">
+        <div style="max-width: 680px; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+          <h2 class="font-serif" style="font-size: 1.6rem; margin-bottom: 8px;">Всплывающая надпись «Заказать коллекцию»</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px;">
+            Настройте всплывающее сообщение для привлечения внимания гостей к сезонной новинке или набору:
+          </p>
+
+          <form id="form-admin-promo">
+            <div class="form-group" style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px;">
+              <input type="checkbox" id="promo-enabled" style="width: 20px; height: 20px; accent-color: var(--accent-sage); cursor: pointer;">
+              <label for="promo-enabled" style="font-size: 0.95rem; font-weight: 600; cursor: pointer;">
+                Показывать всплывающее предложение на сайте
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Бейдж / Метка (сверху надписи)</label>
+              <input type="text" id="promo-badge" class="form-input" placeholder="✨ Особая коллекция" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Заголовок предложения</label>
+              <input type="text" id="promo-title" class="form-input" placeholder="Сет «Тепло и Камень»" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Текст описания предложения</label>
+              <textarea id="promo-desc" class="form-textarea" rows="3" placeholder="Краткое привлекательное описание сета или изделий..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Текст на кнопке действия</label>
+              <input type="text" id="promo-btn-text" class="form-input" placeholder="Заказать коллекцию" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Связанное изделие из каталога (откроет карточку заказа при клике)</label>
+              <select id="promo-product-select" class="form-select">
+                <option value="">— Прямой диалог в Telegram с Катериной —</option>
+              </select>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+              <button type="submit" class="btn btn-primary" style="flex: 1; padding: 12px;">
+                💾 Сохранить настройки предложения
+              </button>
+              <button type="button" id="btn-preview-promo-site" class="btn btn-outline" style="padding: 12px;">
+                👁️ Посмотреть на витрине
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА 4: Генератор ссылок на оплату -->
+      <section id="tab-paylinks" class="admin-panel">
+        <div style="max-width: 620px; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+          <h2 class="font-serif" style="font-size: 1.6rem; margin-bottom: 8px;">Создание ссылки на оплату</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px;">
+            Когда покупатель договорился с вами в Telegram о сроках, сформируйте персональную ссылку с суммой и отправьте ему в чат:
+          </p>
+          
+          <form id="form-admin-gen-link">
+            <div class="form-group">
+              <label class="form-label">Сумма к оплате (₽)</label>
+              <input type="number" id="adm-pay-amount" class="form-input" placeholder="2500" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Описание заказа (что покупает клиент)</label>
+              <input type="text" id="adm-pay-desc" class="form-input" placeholder="Свеча «Анатомическое сердце» + СДЭК до Москвы" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Имя клиента (необязательно)</label>
+              <input type="text" id="adm-pay-client" class="form-input" placeholder="Елена">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              Сгенерировать ссылку
+            </button>
+          </form>
+
+          <div id="adm-link-result-box" style="display: none; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-light);">
+            <label class="form-label" style="color: var(--accent-sage);">Готовая ссылка для клиента в Telegram:</label>
+            <div style="display: flex; gap: 8px; margin-top: 6px;">
+              <input type="text" id="adm-link-result-url" class="form-input" readonly style="font-size: 0.82rem; background: var(--bg-subtle);">
+              <button id="btn-adm-copy-link" class="btn btn-terracotta btn-sm">Скопировать</button>
+            </div>
+            <div style="margin-top: 12px; display: flex; gap: 10px;">
+              <a id="btn-adm-open-link" href="#" target="_blank" class="btn btn-outline btn-sm" style="flex: 1; text-align: center;">
+                👀 Проверить страницу оплаты
+              </a>
+              <button id="btn-adm-share-tg" class="btn btn-primary btn-sm" style="flex: 1;">
+                💬 Отправить в Telegram
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА 5: Реквизиты и настройки -->
+      <section id="tab-settings" class="admin-panel">
+        <div style="max-width: 680px; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+          
+          <!-- БЛОК 1: Telegram-бот для заказов -->
+          <div style="background: #F4F7F5; border: 1px solid rgba(63, 94, 77, 0.2); border-radius: var(--radius-md); padding: 22px; margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span style="font-size: 1.3rem;">🤖</span>
+              <h3 class="font-serif" style="font-size: 1.4rem; margin: 0; color: var(--accent-sage-dark);">Telegram-бот для заказов</h3>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5;">
+              Каждый раз, когда покупатель оформляет заказ на сайте, бот моментально присылает карточку с товаром, выбранным ароматом, контактами и адресом в ваш Telegram.
+            </p>
+
+            <div class="form-group">
+              <label class="form-label">Telegram Bot Token (от @BotFather)</label>
+              <input type="text" id="set-tg-token" class="form-input" placeholder="например: 123456789:ABCdefGHIjklMNOpqrsTUVwxyz">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Telegram Chat ID (ваш ID или ID группы для заказов)</label>
+              <input type="text" id="set-tg-chat-id" class="form-input" placeholder="например: 987654321 или -1001234567890">
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap;">
+              <button type="button" id="btn-test-tg-bot" class="btn btn-primary btn-sm" style="background: var(--accent-sage);">
+                🧪 Отправить тестовое сообщение
+              </button>
+              <span id="tg-test-status" style="font-size: 0.82rem; font-weight: 500;"></span>
+            </div>
+
+            <div style="margin-top: 14px; font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; background: rgba(255,255,255,0.7); padding: 10px 14px; border-radius: 8px;">
+              ℹ️ <strong>Как настроить за 1 минуту:</strong><br>
+              1. Откройте в Telegram бота <a href="https://t.me/BotFather" target="_blank" style="text-decoration: underline; color: var(--accent-sage);">@BotFather</a> и отправьте команду <code>/newbot</code>, задайте имя и скопируйте токен.<br>
+              2. Чтобы узнать свой Chat ID, отправьте любое сообщение боту <a href="https://t.me/userinfobot" target="_blank" style="text-decoration: underline; color: var(--accent-sage);">@userinfobot</a> (он напишет ваш ID).<br>
+              3. Нажмите <code>/start</code> в вашем новом боте, вставьте токен и ID сюда и нажмите кнопку проверки.
+            </div>
+          </div>
+
+          <h2 class="font-serif" style="font-size: 1.6rem; margin-bottom: 8px;">Реквизиты для оплаты (СБП и QR)</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 24px;">
+            Эти данные автоматически генерируют QR-код и форму оплаты для покупателей:
+          </p>
+
+          <form id="form-admin-settings">
+            <div class="form-group">
+              <label class="form-label">Номер телефона для СБП *</label>
+              <input type="text" id="set-phone" class="form-input" placeholder="+7 (921) 000-00-00" required>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div class="form-group">
+                <label class="form-label">Основной банк получателя *</label>
+                <select id="set-bank" class="form-select">
+                  <option value="Т-Банк">Т-Банк (Тинькофф)</option>
+                  <option value="Сбербанк">Сбербанк (Сбер)</option>
+                  <option value="Альфа-Банк">Альфа-Банк</option>
+                  <option value="ВТБ">ВТБ</option>
+                  <option value="Другой банк РФ">Другой банк (СБП)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">ФИО / Имя получателя *</label>
+                <input type="text" id="set-recipient" class="form-input" placeholder="Екатерина М. (Катерина)" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ваш юзернейм в Telegram для связи (без @)</label>
+              <input type="text" id="set-tg-user" class="form-input" placeholder="layra_ms">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Персональная ссылка/QR СБП из приложения банка (необязательно)</label>
+              <input type="text" id="set-sbp-custom-link" class="form-input" placeholder="https://t-bank.ru/cf/... или https://qr.nspk.ru/...">
+              <small style="font-size: 0.76rem; color: var(--text-muted); display: block; margin-top: 4px;">
+                Если скопируете ссылку на сбор денег из Т-Банка или Сбера, QR-код будет вести точно на неё. Иначе система автоматически сформирует перевод по вашему номеру.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Количество изделий на странице каталога (Пагинация)</label>
+              <select id="set-items-per-page" class="form-select">
+                <option value="6">По 6 изделий на страницу</option>
+                <option value="8">По 8 изделий на страницу</option>
+                <option value="12">По 12 изделий на страницу</option>
+                <option value="24">По 24 изделия на страницу</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">PIN-код для входа в этот кабинет</label>
+              <input type="password" id="set-pin" class="form-input" placeholder="Новый PIN-код">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
+              💾 Сохранить настройки и реквизиты
+            </button>
+          </form>
+
+          <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border-light);">
+
+          <h3 class="font-serif" style="font-size: 1.3rem; margin-bottom: 8px;">Резервная копия товаров (Бэкап)</h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;">
+            Скачайте каталог в один файл на компьютер, чтобы не потерять добавленные товары:
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button id="btn-export-json" class="btn btn-outline btn-sm">
+              📥 Скачать каталог (JSON)
+            </button>
+            <button id="btn-reset-default" class="btn btn-danger btn-sm">
+              🔄 Сбросить к исходным товарам
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- МОДАЛКА: Добавить / Редактировать изделие -->
+  <div id="modal-edit-product" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h4 id="modal-product-title" class="font-serif" style="font-size: 1.3rem;">Добавить новое изделие</h4>
+        <button id="btn-close-edit-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-edit-product">
+          <input type="hidden" id="edit-product-id">
+
+          <div class="form-group">
+            <label class="form-label">Название (RU)</label>
+            <input type="text" id="edit-title-ru" class="form-input" placeholder="например: Свеча «Лесной мох»" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Название (EN)</label>
+            <input type="text" id="edit-title-en" class="form-input" placeholder="e.g. Forest Moss Candle">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Категории изделия (отметьте одну или несколько)</label>
+            <div id="edit-categories-group" class="categories-checkbox-grid"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">🎉 Праздничные поводы (подборки для вкладки «Сезонное»)</label>
+            <div id="edit-holidays-group" class="categories-checkbox-grid">
+              <label class="cat-checkbox-item">
+                <input type="checkbox" name="product-holiday" value="ny">
+                <span>🎄 Новый Год & Рождество</span>
+              </label>
+              <label class="cat-checkbox-item">
+                <input type="checkbox" name="product-holiday" value="feb14">
+                <span>💖 14 Февраля</span>
+              </label>
+              <label class="cat-checkbox-item">
+                <input type="checkbox" name="product-holiday" value="mar8">
+                <span>💐 8 Марта</span>
+              </label>
+              <label class="cat-checkbox-item">
+                <input type="checkbox" name="product-holiday" value="teacher">
+                <span>📚 День Учителя / 1 Сентября</span>
+              </label>
+              <label class="cat-checkbox-item">
+                <input type="checkbox" name="product-holiday" value="autumn">
+                <span>🎃 Хэллоуин & Осень</span>
+              </label>
+              <label class="cat-checkbox-item">
+                <input type="checkbox" name="product-holiday" value="bday">
+                <span>🎂 День Рождения</span>
+              </label>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Цена (₽)</label>
+              <input type="number" id="edit-price" class="form-input" placeholder="1500" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Статус наличия</label>
+              <select id="edit-status" class="form-select">
+                <option value="in-stock">В наличии</option>
+                <option value="preorder">Под заказ (3-7 дней)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ароматическая композиция (RU)</label>
+            <input type="text" id="edit-scent-ru" class="form-input" placeholder="Хвоя, кедр, мускат">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Scent Notes (EN)</label>
+            <input type="text" id="edit-scent-en" class="form-input" placeholder="Pine, cedar, nutmeg">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Время горения</label>
+            <input type="text" id="edit-burn" class="form-input" placeholder="25-30 ч">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Цвета гипса / воска (через запятую)</label>
+              <input type="text" id="edit-colors" class="form-input" placeholder="Натуральный белый, Теплый беж, Графит, Мрамор">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Тип покрытия / Финиш</label>
+              <select id="edit-finish" class="form-select">
+                <option value="матовый">Матовый тактильный</option>
+                <option value="полуматовый">Полуматовый шелковистый</option>
+                <option value="глянец">Глянцевый защитный</option>
+                <option value="матовый + глянец на выбор">На выбор (матовый / глянец)</option>
+                <option value="натуральный воск">Натуральный воск (без покрытия)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Описание изделия (RU)</label>
+            <textarea id="edit-desc-ru" class="form-textarea" rows="3" placeholder="Краткое душевное описание..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Фотография изделия</label>
+            <div id="edit-photo-drop" class="form-file-drop">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 6px; color: var(--accent-sage);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <div style="font-size: 0.85rem;">Нажмите, чтобы выбрать фото с телефона или компьютера</div>
+              <input type="file" id="edit-photo-file" accept="image/*" style="display: none;">
+              <img id="edit-drop-preview" class="drop-preview" alt="Preview">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+            Сохранить изделие
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОДАЛКА: Добавить / Редактировать аромат -->
+  <div id="modal-edit-scent" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-header">
+        <h4 id="modal-scent-title" class="font-serif" style="font-size: 1.3rem;">Добавить новый аромат</h4>
+        <button id="btn-close-scent-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-edit-scent">
+          <input type="hidden" id="edit-scent-id">
+
+          <div class="form-group">
+            <label class="form-label">Название аромата *</label>
+            <input type="text" id="edit-scent-name" class="form-input" placeholder="например: Французская лаванда & Шалфей" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ноты и описание аромата *</label>
+            <textarea id="edit-scent-notes" class="form-textarea" rows="3" placeholder="например: Прованская лаванда, белый шалфей, кедровые шишки, легкий мускус" required></textarea>
+          </div>
+
+          <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+            <input type="checkbox" id="edit-scent-active" checked style="width: 18px; height: 18px; accent-color: var(--accent-sage); cursor: pointer;">
+            <label for="edit-scent-active" style="font-size: 0.9rem; font-weight: 500; cursor: pointer;">
+              Активен (доступен покупателям при заказе на сайте)
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 18px;">
+            Сохранить аромат
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

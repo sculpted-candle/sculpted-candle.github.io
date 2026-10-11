@@ -1,0 +1,16 @@
+{
+  "telegram": {
+    "botToken": "8956303885:AAHQglgjEGvUA5lBJ-AvYnDv_Ya-aHHHMNk",
+    "chatId": "6634156130, 701892841",
+    "notifyOnNewOrder": true
+  },
+  "sbp": {
+    "phone": "+7 (900) 000-00-00",
+    "bank": "Альфа-Банк",
+    "recipient": "Екатерина М. (Катерина)",
+    "tgUser": "layra_ms",
+    "customLink": ""
+  },
+  "adminPin": "2026",
+  "itemsPerPage": 6
+}
