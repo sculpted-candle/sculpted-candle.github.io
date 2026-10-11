@@ -1052,7 +1052,28 @@ window.submitProductOrder = async function(event, productId) {
     console.warn('Backend order sync notice:', err);
   }
 
-  // Direct client fallback to Telegram Bot API (for GitHub Pages static hosting)
+  // Cloud relay for GitHub Pages & standalone hosting (runs via Netlify serverless in EU)
+  if (!tgSentFromBackend) {
+    try {
+      const cloudResp = await fetch('https://sculpted-candle.netlify.app/.netlify/functions/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderPayload)
+      });
+      if (cloudResp.ok) {
+        const cloudData = await cloudResp.json();
+        if (cloudData && cloudData.payUrl) {
+          payUrl = cloudData.payUrl;
+        }
+        tgSentFromBackend = true;
+        console.log('Order successfully delivered via cloud relay!');
+      }
+    } catch (cloudErr) {
+      console.warn('Cloud relay order notice:', cloudErr);
+    }
+  }
+
+  // Direct client fallback to Telegram Bot API (if VPN enabled)
   if (!tgSentFromBackend) {
     const cardMsg = `🕯 <b>НОВЫЙ ЗАКАЗ: #${orderId}</b>\n\n👤 <b>Покупатель:</b> ${customerName}\n📞 <b>Телефон / TG:</b> <code>${customerPhone}</code>\n🚚 <b>Доставка:</b> ${deliveryType} (${deliveryAddress})\n💬 <b>Пожелание:</b> ${comment || '—'}\n\n🛍 <b>Состав заказа:</b>\n• «${p.titleRu}» — ${totalAmount} ₽\n  🌸 <i>Аромат:</i> ${selectedScent}\n  🎨 <i>Цвет/покрытие:</i> ${colorsVal}, ${finishVal}\n\n💰 <b>ИТОГО К ОПЛАТЕ: ${totalAmount} ₽</b>\n💳 <b>Оплата:</b> Ссылка на СБП сформирована для клиента`;
     const targetChatIds = ['6634156130', '701892841'];
