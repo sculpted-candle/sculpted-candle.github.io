@@ -466,19 +466,23 @@ function setupAuth() {
 }
 
 // --- Tabs Navigation ---
+window.switchAdminTab = function(targetId) {
+  document.querySelectorAll('.admin-tab-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-tab') === targetId);
+  });
+  document.querySelectorAll('.admin-panel').forEach(p => {
+    p.classList.toggle('active', p.id === targetId);
+  });
+  if (targetId === 'tab-orders') renderAdminOrders();
+  if (targetId === 'tab-scents') renderAdminScents();
+  if (targetId === 'tab-promo') initAdminPromoForm();
+};
+
 function setupTabs() {
   document.querySelectorAll('.admin-tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-
-      btn.classList.add('active');
       const targetId = btn.getAttribute('data-tab');
-      const targetPanel = document.getElementById(targetId);
-      if (targetPanel) targetPanel.classList.add('active');
-      if (targetId === 'tab-orders') renderAdminOrders();
-      if (targetId === 'tab-scents') renderAdminScents();
-      if (targetId === 'tab-promo') initAdminPromoForm();
+      window.switchAdminTab(targetId);
     });
   });
 
@@ -592,11 +596,14 @@ async function renderAdminOrders() {
       </div>
 
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <button type="button" onclick="window.prepareAndOpenPayLink('${orderId}', ${total}, '${encodeURIComponent(title)}', '${encodeURIComponent(ord.customerName || '')}', '${encodeURIComponent(ord.customerPhone || '')}')" class="btn btn-primary btn-sm" style="background: var(--accent-sage); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Сформировать персональную ссылку на оплату для этого заказа">
+          💳 Сформировать ссылку
+        </button>
         <a href="${payUrl}" target="_blank" class="btn btn-outline btn-sm" title="Открыть персональный платежный QR-код СБП">
-          💳 Счет СБП
+          QR-код
         </a>
-        <a href="https://t.me/share/url?url=${encodeURIComponent('https://t.me/' + (s.tgUser || 'layra_ms'))}&text=${tgReplyMsg}" target="_blank" class="btn btn-primary btn-sm">
-          💬 Написать в TG
+        <a href="https://t.me/share/url?url=${encodeURIComponent('https://t.me/' + (s.tgUser || 'layra_ms'))}&text=${tgReplyMsg}" target="_blank" class="btn btn-outline btn-sm">
+          💬 В TG
         </a>
         <select onchange="window.updateOrderStatus('${orderId}', this.value)" style="padding: 4px 8px; font-size: 0.78rem; border: 1px solid var(--border-light); border-radius: 6px; background: var(--bg-subtle);">
           <option value="new" ${status === 'new' ? 'selected' : ''}>🟢 Новый</option>
@@ -1167,46 +1174,107 @@ function initPhotosManager() {
 function setupPaymentLinkGenerator() {
   const form = document.getElementById('form-admin-gen-link');
   const resultBox = document.getElementById('adm-link-result-box');
-  const resultInput = document.getElementById('adm-link-result-url');
-  const copyBtn = document.getElementById('btn-adm-copy-link');
+  const resultUrlInput = document.getElementById('adm-link-result-url');
+  const resultMsgInput = document.getElementById('adm-msg-result-text');
+  const copyMsgBtn = document.getElementById('btn-adm-copy-msg');
+  const copyLinkBtn = document.getElementById('btn-adm-copy-link');
   const openBtn = document.getElementById('btn-adm-open-link');
   const shareTgBtn = document.getElementById('btn-adm-share-tg');
 
+  if (!form) return;
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const amount = document.getElementById('adm-pay-amount').value;
-    const desc = encodeURIComponent(document.getElementById('adm-pay-desc').value || 'Изделие ручной работы');
-    const client = encodeURIComponent(document.getElementById('adm-pay-client').value || '');
-    const orderId = 'SC-' + Math.floor(100 + Math.random() * 900);
+    const orderIdInput = document.getElementById('adm-pay-order-id');
+    const orderId = (orderIdInput && orderIdInput.value.trim()) || ('SC-' + Math.floor(100 + Math.random() * 900));
+    const amount = document.getElementById('adm-pay-amount').value.trim();
+    const rawDesc = document.getElementById('adm-pay-desc').value.trim() || 'Изделие ручной работы';
+    const rawClient = document.getElementById('adm-pay-client').value.trim();
+    const rawPhone = document.getElementById('adm-pay-phone') ? document.getElementById('adm-pay-phone').value.trim() : '';
 
     const s = getSettings();
     const phone = encodeURIComponent(s.phone);
     const recipient = encodeURIComponent(s.recipient);
 
     const origin = window.location.origin + window.location.pathname.replace('admin.html', '').replace(/\/$/, '');
-    const paymentUrl = `${origin}/pay.html?order=${orderId}&amount=${amount}&desc=${desc}&client=${client}&phone=${phone}&recipient=${recipient}`;
+    const paymentUrl = `${origin}/pay.html?order=${encodeURIComponent(orderId)}&amount=${encodeURIComponent(amount)}&desc=${encodeURIComponent(rawDesc)}&client=${encodeURIComponent(rawClient)}&phone=${phone}&recipient=${recipient}`;
 
-    resultInput.value = paymentUrl;
-    openBtn.href = paymentUrl;
-    resultBox.style.display = 'block';
+    const greeting = rawClient ? `Здравствуйте, ${rawClient}!` : `Здравствуйте!`;
+    const messageText = `${greeting}\nДетали вашего заказа № ${orderId} («${rawDesc}») согласованы.\n\n` +
+      `💳 Сумма к оплате: ${amount} ₽\n` +
+      `🔗 Ссылка для безопасной оплаты через СБП (Альфа-Банк / Т-Банк):\n${paymentUrl}\n\n` +
+      `После оплаты чек сразу прикрепится к заказу, и мы приступим к изготовлению и отправке!`;
 
-    shareTgBtn.onclick = () => {
-      const shareText = encodeURIComponent(
-        `Ссылка на оплату заказа № ${orderId} (${decodeURIComponent(desc)}) на сумму ${amount} ₽:\n${paymentUrl}`
-      );
-      window.open(`https://t.me/share/url?url=${encodeURIComponent(paymentUrl)}&text=${shareText}`, '_blank');
-    };
+    if (resultUrlInput) resultUrlInput.value = paymentUrl;
+    if (resultMsgInput) resultMsgInput.value = messageText;
+    if (openBtn) openBtn.href = paymentUrl;
+    if (resultBox) resultBox.style.display = 'block';
+
+    if (shareTgBtn) {
+      shareTgBtn.onclick = () => {
+        const encodedText = encodeURIComponent(messageText);
+        let tgTargetUrl = '';
+        if (rawPhone && rawPhone.startsWith('@')) {
+          tgTargetUrl = `https://t.me/${rawPhone.replace('@', '')}?text=${encodedText}`;
+        } else {
+          tgTargetUrl = `https://t.me/share/url?url=${encodeURIComponent(paymentUrl)}&text=${encodedText}`;
+        }
+        window.open(tgTargetUrl, '_blank');
+      };
+    }
   });
 
-  copyBtn.addEventListener('click', () => {
-    resultInput.select();
-    navigator.clipboard.writeText(resultInput.value).then(() => {
-      const orig = copyBtn.textContent;
-      copyBtn.textContent = 'Скопировано!';
-      setTimeout(() => copyBtn.textContent = orig, 2000);
+  if (copyLinkBtn) {
+    copyLinkBtn.addEventListener('click', () => {
+      if (!resultUrlInput) return;
+      resultUrlInput.select();
+      navigator.clipboard.writeText(resultUrlInput.value).then(() => {
+        const orig = copyLinkBtn.textContent;
+        copyLinkBtn.textContent = 'Скопировано!';
+        setTimeout(() => copyLinkBtn.textContent = orig, 2000);
+      });
     });
-  });
+  }
+
+  if (copyMsgBtn) {
+    copyMsgBtn.addEventListener('click', () => {
+      if (!resultMsgInput) return;
+      resultMsgInput.select();
+      navigator.clipboard.writeText(resultMsgInput.value).then(() => {
+        const orig = copyMsgBtn.textContent;
+        copyMsgBtn.textContent = 'Текст сообщения скопирован!';
+        setTimeout(() => copyMsgBtn.textContent = orig, 2000);
+      });
+    });
+  }
 }
+
+// --- Global helper to prepare and open pay link generator from orders tab ---
+window.prepareAndOpenPayLink = function(orderId, amount, encTitle, encClient, encPhone) {
+  const title = decodeURIComponent(encTitle || '');
+  const client = decodeURIComponent(encClient || '');
+  const phone = decodeURIComponent(encPhone || '');
+
+  if (typeof window.switchAdminTab === 'function') {
+    window.switchAdminTab('tab-paylinks');
+  }
+
+  if (document.getElementById('adm-pay-order-id')) document.getElementById('adm-pay-order-id').value = orderId || '';
+  if (document.getElementById('adm-pay-amount')) document.getElementById('adm-pay-amount').value = amount || '';
+  if (document.getElementById('adm-pay-desc')) document.getElementById('adm-pay-desc').value = title || 'Свеча ручной работы';
+  if (document.getElementById('adm-pay-client')) document.getElementById('adm-pay-client').value = client || '';
+  if (document.getElementById('adm-pay-phone')) document.getElementById('adm-pay-phone').value = phone || '';
+
+  const form = document.getElementById('form-admin-gen-link');
+  if (form) {
+    form.dispatchEvent(new Event('submit', { cancelable: true }));
+  }
+
+  setTimeout(() => {
+    const resBox = document.getElementById('adm-link-result-box');
+    if (resBox) resBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+};
 
 // --- Settings Form Logic ---
 function initSettingsForm() {

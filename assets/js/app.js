@@ -943,18 +943,27 @@ window.openQuickView = function(id) {
               </button>
             </form>
 
-            <div id="order-success-msg" class="order-success-banner" style="display: none;">
-              <div style="font-size: 1.15rem; font-weight: 600; color: var(--accent-sage); margin-bottom: 6px;">🎉 Заказ принят!</div>
-              <p id="order-success-text" style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
-                Спасибо! Заказ на «${title}» оформлен. Перенаправляем на страницу оплаты с QR-кодом СБП...
+            <div id="order-success-msg" class="order-success-banner" style="display: none; text-align: left; background: #F4F7F5; border: 1.5px solid var(--accent-sage); border-radius: 12px; padding: 20px;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span style="font-size: 1.3rem;">🎉</span>
+                <span style="font-size: 1.15rem; font-weight: 700; color: var(--accent-sage-dark);" id="order-success-title">Заявка принята!</span>
+              </div>
+              <p id="order-success-text" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55; margin-bottom: 14px;">
+                Спасибо! Заявка на «${title}» успешно отправлена мастеру.
               </p>
+              <div style="background: #FFFFFF; border-left: 3px solid var(--accent-sage); padding: 12px 14px; border-radius: 6px; font-size: 0.84rem; color: #2D3748; line-height: 1.5; margin-bottom: 16px;">
+                <strong>Что будет дальше:</strong><br>
+                Мастер Катерина свяжется с вами для уточнения деталей, оттенка и адреса доставки СДЭК.<br>
+                <span style="color: var(--accent-sage-dark); font-weight: 600;">Персональную ссылку на безопасную оплату через СБП Катерина направит вам напрямую в диалоге после согласования!</span>
+              </div>
               <div style="display: flex; flex-direction: column; gap: 8px;">
-                <a id="order-pay-direct-link" href="#" class="btn btn-primary btn-sm" style="width: 100%; text-align: center; background: #FFDD2D; color: #1E201D; border: none; font-weight: 600;">
-                  💳 Перейти к оплате СБП (QR-код)
+                <a id="order-tg-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; padding: 11px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.75-.56 2.95-1.29 4.92-2.14 5.92-2.57 2.82-1.21 3.4-1.42 3.79-1.42.09 0 .28.02.4.12.1.08.13.19.14.27-.01.07.01.21 0 .36z"/></svg>
+                  <span>Написать Катерине в Telegram</span>
                 </a>
-                <a id="order-tg-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="width: 100%; text-align: center;">
-                  💬 Написать Катерине в Telegram
-                </a>
+                <button type="button" class="btn btn-outline" onclick="closeQuickView()" style="width: 100%; text-align: center; padding: 10px;">
+                  Понятно, спасибо
+                </button>
               </div>
             </div>
           </div>
@@ -1075,7 +1084,7 @@ window.submitProductOrder = async function(event, productId) {
 
   // Direct client fallback to Telegram Bot API (if VPN enabled)
   if (!tgSentFromBackend) {
-    const cardMsg = `🕯 <b>НОВЫЙ ЗАКАЗ: #${orderId}</b>\n\n👤 <b>Покупатель:</b> ${customerName}\n📞 <b>Телефон / TG:</b> <code>${customerPhone}</code>\n🚚 <b>Доставка:</b> ${deliveryType} (${deliveryAddress})\n💬 <b>Пожелание:</b> ${comment || '—'}\n\n🛍 <b>Состав заказа:</b>\n• «${p.titleRu}» — ${totalAmount} ₽\n  🌸 <i>Аромат:</i> ${selectedScent}\n  🎨 <i>Цвет/покрытие:</i> ${colorsVal}, ${finishVal}\n\n💰 <b>ИТОГО К ОПЛАТЕ: ${totalAmount} ₽</b>\n💳 <b>Оплата:</b> Ссылка на СБП сформирована для клиента`;
+    const cardMsg = `🕯 <b>НОВАЯ ЗАЯВКА НА ИЗДЕЛИЕ: #${orderId}</b>\n\n👤 <b>Покупатель:</b> ${customerName}\n📞 <b>Телефон / TG:</b> <code>${customerPhone}</code>\n🚚 <b>Доставка:</b> ${deliveryType} (${deliveryAddress})\n💬 <b>Пожелание:</b> ${comment || '—'}\n\n🛍 <b>Состав:</b>\n• «${p.titleRu}» — ${totalAmount} ₽\n  🌸 <i>Аромат:</i> ${selectedScent}\n  🎨 <i>Цвет/покрытие:</i> ${colorsVal}, ${finishVal}\n\n💰 <b>ИТОГО К ОПЛАТЕ: ${totalAmount} ₽</b>\n⏳ <b>Статус:</b> Ожидает согласования мастером (ссылку на СБП направит Катерина)`;
     const targetChatIds = ['6634156130', '701892841'];
     try {
       const tgPromises = targetChatIds.map(cid =>
@@ -1101,21 +1110,22 @@ window.submitProductOrder = async function(event, productId) {
   );
   const directTgUrl = `https://t.me/layra_ms?text=${tgOrderText}`;
 
-  // Hide form, show confirmation banner
+  // Hide form, show confirmation banner (NO automatic redirect to payment)
   const form = document.getElementById('form-item-order');
   const successMsg = document.getElementById('order-success-msg');
-  const payLinkBtn = document.getElementById('order-pay-direct-link');
   const tgLinkBtn = document.getElementById('order-tg-direct-link');
+
+  const titleEl = document.getElementById('order-success-title');
+  if (titleEl) titleEl.textContent = `Заявка № ${orderId} принята!`;
+
+  const textEl = document.getElementById('order-success-text');
+  if (textEl) {
+    textEl.innerHTML = `Спасибо, <strong>${customerName}</strong>! Ваша заявка на «<strong>${p.titleRu}</strong>» (${totalAmount} ₽) получена мастером.`;
+  }
 
   if (form) form.style.display = 'none';
   if (successMsg) successMsg.style.display = 'block';
-  if (payLinkBtn) payLinkBtn.href = payUrl;
   if (tgLinkBtn) tgLinkBtn.href = directTgUrl;
-
-  // Seamless auto-redirect to payment page with QR code (per user preference)
-  setTimeout(() => {
-    window.location.href = payUrl;
-  }, 900);
 };
 
 // --- Language Switcher ---
