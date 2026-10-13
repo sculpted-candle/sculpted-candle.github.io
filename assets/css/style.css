@@ -1292,10 +1292,27 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.card-img-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
 }
 
 .product-card:hover .card-img {
+  transform: scale(1.05);
+}
+
+.product-card:hover .card-img-hover {
+  opacity: 1;
   transform: scale(1.05);
 }
 
@@ -1672,6 +1689,77 @@ a {
   height: 380px;
   object-fit: cover;
   display: block;
+  transition: opacity 0.3s ease;
+}
+
+.quickview-thumbs-wrap {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.quickview-thumb-btn {
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  padding: 0;
+  background: var(--bg-subtle);
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.65;
+}
+
+.quickview-thumb-btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.quickview-thumb-btn.active {
+  border-color: var(--accent-sage);
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(63, 94, 77, 0.25);
+}
+
+.quickview-thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.order-promo-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.order-promo-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.order-promo-msg {
+  font-size: 0.8rem;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.order-promo-msg.success {
+  color: #15803D;
+  font-weight: 600;
+}
+
+.order-promo-msg.error {
+  color: #B91C1C;
+  font-weight: 500;
 }
 
 .quickview-info .card-badge-status {

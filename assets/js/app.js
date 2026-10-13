@@ -1,7 +1,8 @@
 /**
  * SCULPTED&CANDLE — Main Application Script
  * Scrolltide "Threshold" scroll-driven cinematic entrance,
- * multi-category filtering, i18n (RU/EN), Telegram ordering.
+ * multi-category filtering, i18n (RU/EN), Telegram ordering,
+ * 3-photo product hover & modal gallery, dynamic attributes, promocodes.
  */
 
 // --- Default Categories ---
@@ -24,7 +25,48 @@ const DEFAULT_SCENTS = [
   { id: 'scent-7', title: 'Без отдушки (чистый соевый воск)', desc: 'Натуральный деликатный аромат экологически чистого растительного воска', active: true }
 ];
 
-// --- Default Collection Promo Toast (Всплывающее предложение) ---
+// --- Default Finishes (Типы покрытия) ---
+const DEFAULT_FINISHES = [
+  'Натуральный воск (без покрытия)',
+  'Матовое защитное',
+  'Полуматовое шелковистое',
+  'Влагозащитное гидрофобное',
+  'Золотое напыление (поталь)',
+  'Серебряное напыление'
+];
+
+// --- Default Gypsum Colors (Цвета гипса) ---
+const DEFAULT_GYPSUM_COLORS = [
+  'Белоснежный гипс',
+  'Теплый беж / Айвори',
+  'Графит / Антрацит',
+  'Черный мраморный микс',
+  'Шалфей / Эвкалипт',
+  'Нежная лаванда',
+  'Пудровый терракот'
+];
+
+// --- Default Holidays (Сезонные праздники) ---
+const DEFAULT_HOLIDAYS = [
+  { id: 'all', name: 'Все коллекции', titleRu: 'Все коллекции', titleEn: 'All Collections', icon: '✨' },
+  { id: 'ny', name: 'Новый Год & Рождество', titleRu: 'Новый Год & Рождество', titleEn: 'New Year & Christmas', icon: '❄️' },
+  { id: 'feb14', name: '14 Февраля', titleRu: '14 Февраля', titleEn: "Valentine's Day", icon: '❤️' },
+  { id: 'mar8', name: '8 Марта', titleRu: '8 Марта', titleEn: "Women's Day", icon: '🌷' },
+  { id: 'easter', name: 'Пасха', titleRu: 'Пасха', titleEn: 'Easter', icon: '🐣' },
+  { id: 'teacher', name: 'День Учителя / 1 Сентября', titleRu: 'День Учителя / 1 Сентября', titleEn: "Teacher's Day", icon: '📚' },
+  { id: 'autumn', name: 'Хэллоуин & Осень', titleRu: 'Хэллоуин & Осень', titleEn: 'Halloween & Autumn', icon: '🎃' },
+  { id: 'bday', name: 'День Рождения', titleRu: 'День Рождения', titleEn: 'Birthday', icon: '🎂' },
+  { id: 'wedding', name: 'Свадьба & Годовщина', titleRu: 'Свадьба & Годовщина', titleEn: 'Wedding', icon: '💍' }
+];
+
+// --- Default Promocodes (Промокоды на скидку) ---
+const DEFAULT_PROMOCODES = [
+  { id: 'promo-1', code: 'SCULPTED10', type: 'percent', val: 10, desc: 'Скидка 10% на первый заказ', active: true },
+  { id: 'promo-2', code: 'KATERINA', type: 'fixed', val: 300, desc: 'Скидка 300 ₽ от мастера', active: true },
+  { id: 'promo-3', code: 'SPRING2026', type: 'percent', val: 15, desc: 'Весенняя скидка 15%', active: true }
+];
+
+// --- Default Collection Promo Toast ---
 const DEFAULT_PROMO = {
   enabled: true,
   badge: 'Особая коллекция',
@@ -34,201 +76,234 @@ const DEFAULT_PROMO = {
   productId: 'sc-06'
 };
 
-// --- Initial Products Catalog (with multi-category support) ---
-// --- Holiday Sub-filters Dictionary (Праздничные поводы) ---
-const HOLIDAYS = [
-  { id: 'all', titleRu: 'Все коллекции', titleEn: 'All Collections', icon: '' },
-  { id: 'ny', titleRu: 'Новый Год & Рождество', titleEn: 'New Year & Christmas', icon: '' },
-  { id: 'feb14', titleRu: '14 Февраля', titleEn: 'Valentine\'s Day', icon: '' },
-  { id: 'mar8', titleRu: '8 Марта', titleEn: 'Women\'s Day', icon: '' },
-  { id: 'teacher', titleRu: 'День Учителя / 1 Сентября', titleEn: 'Teacher\'s Day', icon: '' },
-  { id: 'autumn', titleRu: 'Хэллоуин & Осень', titleEn: 'Halloween & Autumn', icon: '' },
-  { id: 'bday', titleRu: 'День Рождения', titleEn: 'Birthday', icon: '' }
-];
-
-// --- Initial Products Catalog (with multi-category & holiday support) ---
+// --- Initial Products Catalog (10 Curated Pieces with 3 photos each, ingredients, no burnTime) ---
 const DEFAULT_PRODUCTS = [
   {
     id: 'sc-01',
     titleRu: 'Свеча «Тыковка» (Осенняя серия)',
-    titleEn: 'Pumpkin Sculpted Candle (Autumn Edition)',
     categories: ['candles', 'seasonal'],
     holidays: ['autumn'],
     price: 1200,
     status: 'in-stock',
     image: 'assets/img/product_1.jpg',
-    scentRu: 'Тыква со специями, карамель, мускат',
-    scentEn: 'Spiced pumpkin, warm caramel, nutmeg',
-    colors: 'Охра, Бежевый, Натуральный воск',
-    finish: 'натуральный воск',
+    images: ['assets/img/product_1.jpg', 'assets/img/product_8.jpg', 'assets/img/product_3.jpg'],
+    ingredients: '100% соевый воск, хлопковый фитиль, премиальные аромамасла',
+    availableScents: ['Тыква со специями & Карамель', 'Табак & Ваниль', 'Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Натуральный воск (без покрытия)', 'Матовое защитное'],
+    availableGypsumColors: ['Теплый беж / Айвори', 'Пудровый терракот', 'Белоснежный гипс'],
     descRu: 'Нежная фактурная свеча в виде спелой тыквы. Изготавливается из 100% соевого воска с хлопковым фитилем.',
-    descEn: 'Delicate textured pumpkin-shaped candle handcrafted from 100% natural soy wax.',
-    burnTime: '18-22 ч',
     size: '8 × 7 см'
   },
   {
     id: 'sc-02',
     titleRu: 'Скульптурная свеча «Анатомическое сердце»',
-    titleEn: 'Anatomical Heart Sculpted Candle',
     categories: ['candles', 'seasonal'],
     holidays: ['feb14', 'bday'],
     price: 1800,
     status: 'preorder',
     image: 'assets/img/product_4.jpg',
-    scentRu: 'Сандал, черный перец, амбра',
-    scentEn: 'Sandalwood, black pepper, warm amber',
-    colors: 'Белый, Графит, Бежевый, Винный',
-    finish: 'матовый',
+    images: ['assets/img/product_4.jpg', 'assets/img/product_6.jpg', 'assets/img/product_2.jpg'],
+    ingredients: '100% натуральный соевый воск, хлопковый фитиль, премиальные французские аромамасла',
+    availableScents: ['Сандал, Черный перец & Амбра', 'Табак & Ваниль', 'Бергамот, Инжир & Белый кедр', 'Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Матовое защитное', 'Полуматовое шелковистое', 'Золотое напыление (поталь)'],
+    availableGypsumColors: ['Белоснежный гипс', 'Графит / Антрацит', 'Теплый беж / Айвори', 'Черный мраморный микс'],
     descRu: 'Бестселлер и главный арт-объект мастерской. Невероятно детализированная ручная лепка и заливка. Время кропотливого изготовления — от 3 до 7 дней.',
-    descEn: 'Signature handcrafted art piece with hyper-realistic anatomical detailing. Made to order with meticulous attention to detail (3–7 days craftsmanship).',
-    burnTime: '25-30 ч',
     size: '11 × 8 см'
   },
   {
     id: 'sc-03',
     titleRu: 'Свеча «Карусель» (Праздничный предзаказ)',
-    titleEn: 'Carousel Festive Candle',
     categories: ['candles', 'seasonal', 'sets'],
     holidays: ['ny', 'bday'],
     price: 2100,
     status: 'preorder',
     image: 'assets/img/product_3.jpg',
-    scentRu: 'Имбирный пряник, корица, морозная хвоя',
-    scentEn: 'Gingerbread cookie, cinnamon, winter pine',
-    colors: 'Айвори, Белый, Золоченый акцент',
-    finish: 'матовый',
+    images: ['assets/img/product_3.jpg', 'assets/img/product_7.jpg', 'assets/img/product_1.jpg'],
+    ingredients: '100% растительный соевый воск, хлопковый фитиль, ароматические композиции из Граса',
+    availableScents: ['Имбирный пряник & Морозная хвоя', 'Табак & Ваниль', 'Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Матовое защитное', 'Золотое напыление (поталь)', 'Серебряное напыление'],
+    availableGypsumColors: ['Теплый беж / Айвори', 'Белоснежный гипс'],
     descRu: 'Зимняя сказка в вашем доме. Изящные лошадки карусели и теплый аромат новогодних праздников. Открыт ранний предзаказ к зимнему сезону.',
-    descEn: 'Enchanting winter fairy tale with sculpted carousel horses and festive holiday fragrance. Early preorder open for the winter season.',
-    burnTime: '30-35 ч',
     size: '12 × 10 см'
   },
   {
     id: 'sc-04',
     titleRu: 'Свеча «Крапива и Полынь» в гипсе',
-    titleEn: 'Nettle & Wormwood Candle in Gypsum Vessel',
     categories: ['candles', 'gypsum', 'seasonal'],
     holidays: ['teacher', 'mar8'],
     price: 1450,
     status: 'in-stock',
     image: 'assets/img/product_2.jpg',
-    scentRu: 'Дикие луговые травы, полынь, смола',
-    scentEn: 'Wild meadow herbs, wormwood, fresh resin',
-    colors: 'Белый гипс, Мраморная дымка, Шалфей',
-    finish: 'матовый + влагозащита',
-    descRu: 'Аромасвеча в прочном гипсовом кашпо ручной отливки с деревянным потрескивающим фитилем.',
-    descEn: 'Scented candle poured into a handcrafted plaster vessel with a crackling wooden wick reminiscent of a cozy fireplace.',
-    burnTime: '35-40 ч',
+    images: ['assets/img/product_2.jpg', 'assets/img/product_5.jpg', 'assets/img/product_4.jpg'],
+    ingredients: '100% соевый воск, натуральный деревянный потрескивающий фитиль, скульптурный гипс',
+    availableScents: ['Крапива, Полынь & Луговые травы', 'Бергамот, Инжир & Белый кедр', 'Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Матовое защитное', 'Влагозащитное гидрофобное'],
+    availableGypsumColors: ['Шалфей / Эвкалипт', 'Белоснежный гипс', 'Черный мраморный микс'],
+    descRu: 'Аромасвеча в прочном гипсовом кашпо ручной отливки с деревянным потрескивающим фитилем, напоминающим уютный камин.',
     size: '9 × 8.5 см'
   },
   {
     id: 'sc-05',
     titleRu: 'Гипсовый овальный поднос для украшений',
-    titleEn: 'Oval Plaster Tray for Jewelry & Candles',
     categories: ['gypsum', 'seasonal'],
-    holidays: ['mar8', 'bday', 'teacher'],
+    holidays: ['mar8', 'bday', 'teacher', 'wedding'],
     price: 750,
     status: 'in-stock',
     image: 'assets/img/product_5.jpg',
-    scentRu: 'Без аромата (интерьерный декор)',
-    scentEn: 'Unscented (interior decor)',
-    colors: 'Белоснежный, Теплый беж, Графит, Черный мрамор',
-    finish: 'полуматовый шелковистый (влагостойкий)',
+    images: ['assets/img/product_5.jpg', 'assets/img/product_2.jpg', 'assets/img/product_6.jpg'],
+    ingredients: 'Скульптурный гипс повышенной прочности, гидрофобная пропитка, демпферы на дне',
+    availableScents: ['Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Полуматовое шелковистое', 'Влагозащитное гидрофобное', 'Золотое напыление (поталь)'],
+    availableGypsumColors: ['Белоснежный гипс', 'Теплый беж / Айвори', 'Графит / Антрацит', 'Черный мраморный микс', 'Шалфей / Эвкалипт', 'Пудровый терракот'],
     descRu: 'Минималистичный поднос с гидрофобным защитным покрытием. Подходит для хранения украшений, духов, ключей или как подставка под свечи.',
-    descEn: 'Minimalist water-sealed gypsum tray. Ideal for rings, perfumes, keys, or as an elegant base for candles.',
-    burnTime: '—',
     size: '18 × 9.5 см'
   },
   {
     id: 'sc-06',
     titleRu: 'Подарочный сет «Тепло и Камень»',
-    titleEn: 'Gift Set «Warmth & Stone»',
     categories: ['sets', 'gypsum', 'candles', 'seasonal'],
-    holidays: ['ny', 'feb14', 'mar8', 'teacher', 'bday'],
+    holidays: ['ny', 'feb14', 'mar8', 'teacher', 'bday', 'wedding'],
     price: 2900,
     status: 'in-stock',
     image: 'assets/img/product_6.jpg',
-    scentRu: 'Бергамот, инжир, белый кедр',
-    scentEn: 'Bergamot, wild fig, white cedarwood',
-    colors: 'Комплект: на выбор (Белый / Песочный / Графит)',
-    finish: 'матовый тактильный',
+    images: ['assets/img/product_6.jpg', 'assets/img/product_5.jpg', 'assets/img/product_4.jpg'],
+    ingredients: 'Соевая свеча с деревянным фитилем, овальный поднос из гипса, спички в стекле, крафт-упаковка',
+    availableScents: ['Бергамот, Инжир & Белый кедр', 'Сандал, Черный перец & Амбра', 'Табак & Ваниль'],
+    availableFinishes: ['Матовое защитное', 'Полуматовое шелковистое'],
+    availableGypsumColors: ['Белоснежный гипс', 'Теплый беж / Айвори', 'Графит / Антрацит', 'Черный мраморный микс'],
     descRu: 'Идеальный готовый подарок в крафтовой упаковке: свеча в гипсе, овальный поднос и стильные спички в стеклянной колбе.',
-    descEn: 'A curated gift package: gypsum scented candle, matching oval tray, and luxury apothecary matches in a glass tube.',
-    burnTime: '40 ч',
     size: 'Сет 3 предмета'
   },
   {
     id: 'sc-07',
     titleRu: 'Новогодний сет «Зимняя Сказка»',
-    titleEn: 'New Year Gift Set «Winter Tale»',
     categories: ['candles', 'seasonal', 'sets'],
     holidays: ['ny'],
     price: 3200,
     status: 'preorder',
     image: 'assets/img/product_3.jpg',
-    scentRu: 'Имбирный пряник, корица, морозная хвоя',
-    scentEn: 'Gingerbread cookie, cinnamon, winter pine',
-    colors: 'Праздничный белый, Золото, Изумрудный акцент',
-    finish: 'матовый с золотым напылением',
+    images: ['assets/img/product_3.jpg', 'assets/img/product_1.jpg', 'assets/img/product_7.jpg'],
+    ingredients: '100% соевый воск, аромамасла корицы и хвои, скульптурный гипсовый декор, открытка',
+    availableScents: ['Имбирный пряник & Морозная хвоя', 'Табак & Ваниль'],
+    availableFinishes: ['Золотое напыление (поталь)', 'Матовое защитное'],
+    availableGypsumColors: ['Белоснежный гипс', 'Теплый беж / Айвори'],
     descRu: 'Праздничный набор ручной работы: скульптурная свеча, новогодний декор из гипса, аромат морозной хвои и праздничная открытка с пожеланием.',
-    descEn: 'Handcrafted holiday gift set with sculpted winter candle and festive plaster decor.',
-    burnTime: '35 ч',
     size: 'Подарочный бокс'
   },
   {
     id: 'sc-08',
     titleRu: 'Подарочный бокс «Нежность» (к 8 Марта)',
-    titleEn: 'Spring Gift Box «Tenderness» (March 8)',
     categories: ['candles', 'gypsum', 'seasonal', 'sets'],
-    holidays: ['mar8'],
+    holidays: ['mar8', 'wedding'],
     price: 2600,
     status: 'in-stock',
     image: 'assets/img/product_7.jpg',
-    scentRu: 'Бергамот, инжир, белый кедр',
-    scentEn: 'Bergamot, wild fig, white cedar',
-    colors: 'Нежная пудра, Пастельный беж, Белоснежный',
-    finish: 'шелковистый матовый',
+    images: ['assets/img/product_7.jpg', 'assets/img/product_4.jpg', 'assets/img/product_5.jpg'],
+    ingredients: 'Ароматическая свеча в кашпо из соевого воска, поднос для украшений, сухоцветы, открытка',
+    availableScents: ['Бергамот, Инжир & Белый кедр', 'Крапива, Полынь & Луговые травы'],
+    availableFinishes: ['Полуматовое шелковистое', 'Матовое защитное'],
+    availableGypsumColors: ['Нежная лаванда', 'Пудровый терракот', 'Теплый беж / Айвори', 'Белоснежный гипс'],
     descRu: 'Весенний подарочный бокс для самых любимых женщин: ароматическая свеча в кашпо из гипса, изящный поднос и деликатный цветочный комплимент.',
-    descEn: 'Spring bespoke gift box for International Women\'s Day.',
-    burnTime: '30-35 ч',
     size: 'Набор 2 предмета'
   },
   {
     id: 'sc-09',
     titleRu: 'Сет «Благодарность» (День Учителя / 1 Сентября)',
-    titleEn: 'Gratitude Gift Box (Teacher\'s Day / Sep 1)',
     categories: ['candles', 'gypsum', 'seasonal', 'sets'],
     holidays: ['teacher'],
     price: 1950,
     status: 'in-stock',
     image: 'assets/img/product_2.jpg',
-    scentRu: 'Крапива, полынь, сосновая смола',
-    scentEn: 'Wild meadow herbs, pine resin',
-    colors: 'Натуральный белый гипс, Теплый лен',
-    finish: 'матовый тактильный',
+    images: ['assets/img/product_2.jpg', 'assets/img/product_1.jpg', 'assets/img/product_6.jpg'],
+    ingredients: 'Соевый воск, деревянный фитиль, мини-поднос из гипса, крафтовая коробка с лентой',
+    availableScents: ['Крапива, Полынь & Луговые травы', 'Табак & Ваниль'],
+    availableFinishes: ['Матовое защитное'],
+    availableGypsumColors: ['Белоснежный гипс', 'Теплый беж / Айвори'],
     descRu: 'Изящный и душевный подарок преподавателю или наставнику: свеча с легким природным ароматом, мини-поднос для мелочей и крафтовая упаковка с лентой.',
-    descEn: 'Artisanal gift box expressing heartfelt gratitude for teachers and mentors.',
-    burnTime: '25-30 ч',
     size: 'Сет с открыткой'
   },
   {
     id: 'sc-10',
     titleRu: 'Подарочный сет «С Днем Рождения!»',
-    titleEn: 'Happy Birthday Handcrafted Set',
     categories: ['sets', 'seasonal'],
     holidays: ['bday'],
     price: 3100,
     status: 'in-stock',
     image: 'assets/img/product_6.jpg',
-    scentRu: 'Табак & Бурбонская ваниль',
-    scentEn: 'Spiced tobacco & bourbon vanilla',
-    colors: 'Мраморный микс, Графит, Теплый беж',
-    finish: 'полуматовый защитный',
+    images: ['assets/img/product_6.jpg', 'assets/img/product_3.jpg', 'assets/img/product_8.jpg'],
+    ingredients: 'Соевая свеча, гипсовый поднос, фирменные спички в стекле, праздничная открытка',
+    availableScents: ['Табак & Ваниль', 'Сандал, Черный перец & Амбра', 'Бергамот, Инжир & Белый кедр'],
+    availableFinishes: ['Полуматовое шелковистое', 'Золотое напыление (поталь)'],
+    availableGypsumColors: ['Графит / Антрацит', 'Черный мраморный микс', 'Белоснежный гипс', 'Теплый беж / Айвори'],
     descRu: 'Универсальный праздничный подарок на юбилей или день рождения. Авторская ручная работа из Санкт-Петербурга с персональной открыткой.',
-    descEn: 'Special festive gift set curated for birthdays and milestones.',
-    burnTime: '40 ч',
     size: 'Подарочный набор'
   }
 ];
+
+// --- Auto-translate Russian craft titles and descriptions to English ---
+function autoTranslateToEn(text) {
+  if (!text) return '';
+  const dict = [
+    [/Скульптурная свеча «Анатомическое сердце»/gi, 'Sculpted Candle «Anatomical Heart»'],
+    [/Свеча «Тыковка» \(Осенняя серия\)/gi, 'Pumpkin Candle (Autumn Edition)'],
+    [/Свеча «Карусель» \(Праздничный предзаказ\)/gi, 'Carousel Candle (Holiday Preorder)'],
+    [/Свеча «Крапива и Полынь» в гипсе/gi, 'Nettle & Wormwood Candle in Gypsum Vessel'],
+    [/Гипсовый овальный поднос для украшений/gi, 'Gypsum Oval Tray for Jewelry & Candles'],
+    [/Подарочный сет «Тепло и Камень»/gi, 'Gift Set «Warmth & Stone»'],
+    [/Новогодний сет «Зимняя Сказка»/gi, 'New Year Gift Set «Winter Tale»'],
+    [/Подарочный бокс «Нежность» \(к 8 Марта\)/gi, 'Spring Gift Box «Tenderness» (March 8)'],
+    [/Сет «Благодарность» \(День Учителя \/ 1 Сентября\)/gi, 'Gratitude Gift Box (Teacher’s Day)'],
+    [/Подарочный сет «С Днем Рождения!»/gi, 'Happy Birthday Handcrafted Set'],
+    [/100% соевый воск/gi, '100% Natural Soy Wax'],
+    [/хлопковый фитиль/gi, 'organic cotton wick'],
+    [/деревянный фитиль|деревянный потрескивающий фитиль/gi, 'crackling wooden wick'],
+    [/премиальные аромамасла|премиальные французские аромамасла/gi, 'premium French fragrance oils'],
+    [/скульптурный гипс/gi, 'high-strength sculpted gypsum'],
+    [/гидрофобная пропитка|влагозащитное покрытие/gi, 'water-resistant protective seal'],
+    [/ручной работы/gi, 'handcrafted in St. Petersburg'],
+    [/Натуральный воск \(без покрытия\)/gi, 'Natural Wax (Uncoated)'],
+    [/Матовое защитное/gi, 'Matte Protective Finish'],
+    [/Полуматовое шелковистое/gi, 'Silky Semi-Matte Finish'],
+    [/Влагозащитное гидрофобное/gi, 'Water-Repellent Hydrophobic Seal'],
+    [/Золотое напыление \(поталь\)/gi, 'Gold Leaf Accent (Potal)'],
+    [/Серебряное напыление/gi, 'Silver Leaf Accent'],
+    [/Белоснежный гипс/gi, 'Snow White Gypsum'],
+    [/Теплый беж \/ Айвори/gi, 'Warm Beige / Ivory'],
+    [/Графит \/ Антрацит/gi, 'Graphite / Anthracite'],
+    [/Черный мраморный микс/gi, 'Black Marble Mix'],
+    [/Шалфей \/ Эвкалипт/gi, 'Sage / Eucalyptus'],
+    [/Нежная лаванда/gi, 'Delicate Lavender'],
+    [/Пудровый терракот/gi, 'Powder Terracotta'],
+    [/Табак & Ваниль/gi, 'Spiced Tobacco & Vanilla'],
+    [/Сандал, Черный перец & Амбра/gi, 'Sandalwood, Black Pepper & Amber'],
+    [/Крапива, Полынь & Луговые травы/gi, 'Nettle, Wormwood & Wild Herbs'],
+    [/Тыква со специями & Карамель/gi, 'Spiced Pumpkin & Caramel'],
+    [/Имбирный пряник & Морозная хвоя/gi, 'Gingerbread & Frosty Pine'],
+    [/Бергамот, Инжир & Белый кедр/gi, 'Bergamot, Fig & White Cedar'],
+    [/Без отдушки \(чистый соевый воск\)/gi, 'Unscented (Pure Soy Wax)'],
+    [/Все изделия/gi, 'All Pieces'],
+    [/Свечи/gi, 'Candles'],
+    [/Гипс и подносы/gi, 'Plaster Decor'],
+    [/Подарочные сеты/gi, 'Gift Sets'],
+    [/Сезонное \/ Праздники/gi, 'Seasonal'],
+    [/Все коллекции/gi, 'All Collections'],
+    [/Новый Год & Рождество/gi, 'New Year & Christmas'],
+    [/14 Февраля/gi, 'Valentine\'s Day'],
+    [/8 Марта/gi, 'Women\'s Day'],
+    [/Пасха/gi, 'Easter'],
+    [/День Учителя \/ 1 Сентября/gi, 'Teacher\'s Day'],
+    [/Хэллоуин & Осень/gi, 'Halloween & Autumn'],
+    [/День Рождения/gi, 'Birthday'],
+    [/Свадьба & Годовщина/gi, 'Wedding & Anniversary'],
+    [/В наличии/gi, 'In Stock'],
+    [/Под заказ \(3-7 дней\)|Под заказ \(3-7 дн\)/gi, 'Made to Order (3-7 days)']
+  ];
+  let res = text;
+  dict.forEach(([rgx, rep]) => {
+    res = res.replace(rgx, rep);
+  });
+  return res;
+}
 
 const TRANSLATIONS = {
   ru: {
@@ -292,10 +367,10 @@ const TRANSLATIONS = {
     footerCraftLove: 'Ручная работа с любовью',
     footerMasterCabinet: 'Кабинет мастера',
     modalQuickTitle: 'Оформление заказа',
-    modalAroma: 'Ароматическая композиция:',
-    modalColors: 'Варианты оттенков:',
-    modalFinish: 'Фактура / Покрытие:',
-    modalBurn: 'Время горения:',
+    modalIngredients: 'Состав:',
+    modalAroma: 'Аромат:',
+    modalColors: 'Цвет гипса:',
+    modalFinish: 'Тип покрытия:',
     modalDimensions: 'Размеры:',
     modalDeliveryNote: 'Срок изготовления и доставка согласуются индивидуально в диалоге.'
   },
@@ -360,10 +435,10 @@ const TRANSLATIONS = {
     footerCraftLove: 'Handcrafted with love',
     footerMasterCabinet: 'Master Studio',
     modalQuickTitle: 'Order Request',
-    modalAroma: 'Fragrance Profile:',
-    modalColors: 'Color Variations:',
+    modalIngredients: 'Ingredients:',
+    modalAroma: 'Fragrance:',
+    modalColors: 'Gypsum Color:',
     modalFinish: 'Texture / Finish:',
-    modalBurn: 'Burn Time:',
     modalDimensions: 'Dimensions:',
     modalDeliveryNote: 'Production schedule and delivery terms are arranged individually in chat.'
   }
@@ -379,23 +454,24 @@ let itemsPerPage = parseInt(localStorage.getItem('sc_items_per_page') || '6', 10
 let products = [];
 let categories = [];
 let scents = [];
+let finishes = [];
+let gypsumColors = [];
+let holidays = [];
+let promocodes = [];
 let promoData = { ...DEFAULT_PROMO };
+window.currentAppliedPromo = null;
 
-// Initialize Products & Categories & Custom Photos
+// Initialize Products & Categories & Custom Attributes
 function initData() {
   // Products
   const storedProd = localStorage.getItem('sc_products');
   if (storedProd) {
     try {
       products = JSON.parse(storedProd);
-      // Migration: ensure each product has categories & holidays array
       products.forEach(p => {
-        if (!p.categories) {
-          p.categories = p.category ? [p.category] : ['candles'];
-        }
-        if (!p.holidays) {
-          p.holidays = [];
-        }
+        if (!p.categories) p.categories = p.category ? [p.category] : ['candles'];
+        if (!p.holidays) p.holidays = [];
+        if (!p.images || !p.images.length) p.images = [p.image || 'assets/img/product_1.jpg'];
       });
     } catch (e) {
       products = [...DEFAULT_PRODUCTS];
@@ -418,7 +494,7 @@ function initData() {
     localStorage.setItem('sc_categories', JSON.stringify(categories));
   }
 
-  // Scents (Ароматы для выбора при заказе)
+  // Scents
   const storedScents = localStorage.getItem('sc_scents');
   if (storedScents) {
     try {
@@ -429,6 +505,58 @@ function initData() {
   } else {
     scents = [...DEFAULT_SCENTS];
     localStorage.setItem('sc_scents', JSON.stringify(scents));
+  }
+
+  // Finishes
+  const storedFinishes = localStorage.getItem('sc_finishes');
+  if (storedFinishes) {
+    try {
+      finishes = JSON.parse(storedFinishes);
+    } catch (e) {
+      finishes = [...DEFAULT_FINISHES];
+    }
+  } else {
+    finishes = [...DEFAULT_FINISHES];
+    localStorage.setItem('sc_finishes', JSON.stringify(finishes));
+  }
+
+  // Gypsum Colors
+  const storedColors = localStorage.getItem('sc_gypsum_colors');
+  if (storedColors) {
+    try {
+      gypsumColors = JSON.parse(storedColors);
+    } catch (e) {
+      gypsumColors = [...DEFAULT_GYPSUM_COLORS];
+    }
+  } else {
+    gypsumColors = [...DEFAULT_GYPSUM_COLORS];
+    localStorage.setItem('sc_gypsum_colors', JSON.stringify(gypsumColors));
+  }
+
+  // Holidays
+  const storedHolidays = localStorage.getItem('sc_holidays');
+  if (storedHolidays) {
+    try {
+      holidays = JSON.parse(storedHolidays);
+    } catch (e) {
+      holidays = [...DEFAULT_HOLIDAYS];
+    }
+  } else {
+    holidays = [...DEFAULT_HOLIDAYS];
+    localStorage.setItem('sc_holidays', JSON.stringify(holidays));
+  }
+
+  // Promocodes
+  const storedPromos = localStorage.getItem('sc_promocodes');
+  if (storedPromos) {
+    try {
+      promocodes = JSON.parse(storedPromos);
+    } catch (e) {
+      promocodes = [...DEFAULT_PROMOCODES];
+    }
+  } else {
+    promocodes = [...DEFAULT_PROMOCODES];
+    localStorage.setItem('sc_promocodes', JSON.stringify(promocodes));
   }
 
   // Collection Promo Toast
@@ -450,78 +578,54 @@ function initData() {
     const el = document.getElementById('hero-img-display');
     if (el) el.src = heroImg;
   }
-
-  const badgeTitle = localStorage.getItem('sc_hero_badge_title');
-  if (badgeTitle) {
+  const heroBadgeTitle = localStorage.getItem('sc_hero_badge_title');
+  if (heroBadgeTitle) {
     const el = document.getElementById('hero-badge-title');
-    if (el) el.textContent = badgeTitle;
+    if (el) el.textContent = heroBadgeTitle;
   }
-
-  const badgeSub = localStorage.getItem('sc_hero_badge_sub');
-  if (badgeSub) {
+  const heroBadgeSub = localStorage.getItem('sc_hero_badge_sub');
+  if (heroBadgeSub) {
     const el = document.getElementById('hero-badge-sub');
-    if (el) el.textContent = badgeSub;
+    if (el) el.textContent = heroBadgeSub;
   }
 
+  // Apply custom About photo
   const aboutImg = localStorage.getItem('sc_about_img');
   if (aboutImg) {
     const el = document.getElementById('about-img-display');
     if (el) el.src = aboutImg;
   }
 
-  // Apply custom texts from admin panel if set
+  // Apply editable texts
   applyCustomTexts();
 }
 
+// --- Apply Custom Editable Site Texts ---
 function applyCustomTexts() {
-  const customTexts = JSON.parse(localStorage.getItem('sc_custom_texts') || '{}');
-  if (customTexts && Object.keys(customTexts).length > 0) {
-    Object.keys(customTexts).forEach(key => {
-      if (customTexts[key]) {
-        TRANSLATIONS.ru[key] = customTexts[key];
+  const textsStr = localStorage.getItem('sc_site_texts');
+  if (!textsStr) return;
+  try {
+    const texts = JSON.parse(textsStr);
+    Object.keys(texts).forEach(key => {
+      const val = texts[key];
+      if (val && typeof val === 'string') {
         const el = document.querySelector(`[data-i18n="${key}"]`);
-        if (el && currentLang === 'ru') {
-          el.textContent = customTexts[key];
+        if (el) {
+          el.textContent = val;
         }
       }
     });
-  }
-
-  // Footer tagline custom text
-  if (customTexts && customTexts.footerTagline) {
-    const ftEl = document.querySelector('.footer-tagline');
-    if (ftEl) ftEl.textContent = customTexts.footerTagline;
+  } catch (e) {
+    console.warn('Error applying custom texts', e);
   }
 }
 
-// --- Multi-Tab & Master Cabinet Live Synchronization ---
-window.addEventListener('storage', (e) => {
-  if (e.key && (e.key.startsWith('sc_') || e.key === 'sc_custom_texts')) {
-    initData();
-    setLanguage(currentLang);
-    renderCategoryTabs();
-    renderProducts();
-  }
-});
-
-try {
-  const syncChannel = new BroadcastChannel('sc_admin_sync');
-  syncChannel.onmessage = () => {
-    initData();
-    setLanguage(currentLang);
-    renderCategoryTabs();
-    renderProducts();
-  };
-} catch (e) {}
-
-// --- Central Cloud / Server Sync (Синхронизация данных для всех устройств) ---
+// --- Load Synchronized Site Data from JSON (for real Netlify / multi-device deploy) ---
 async function loadSiteData() {
   try {
     const res = await fetch('assets/data/site_data.json?v=' + Date.now(), { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
-      let updated = false;
-
       const localSavedTime = parseInt(localStorage.getItem('sc_last_local_save') || '0', 10);
       const remoteTime = data.lastUpdated ? new Date(data.lastUpdated).getTime() : 0;
       const hasLocalEdits = !!localStorage.getItem('sc_last_local_save');
@@ -531,108 +635,59 @@ async function loadSiteData() {
         if (data.products && Array.isArray(data.products) && data.products.length > 0) {
           products = data.products;
           localStorage.setItem('sc_products', JSON.stringify(products));
-          updated = true;
         }
-      }
-
-      if (!preferLocal || !localStorage.getItem('sc_categories')) {
         if (data.categories && Array.isArray(data.categories)) {
           categories = data.categories;
           localStorage.setItem('sc_categories', JSON.stringify(categories));
-          updated = true;
         }
-      }
-
-      if (!preferLocal || !localStorage.getItem('sc_scents')) {
         if (data.scents && Array.isArray(data.scents)) {
           scents = data.scents;
           localStorage.setItem('sc_scents', JSON.stringify(scents));
-          updated = true;
         }
-      }
-
-      if (!preferLocal || !localStorage.getItem('sc_custom_texts')) {
-        if (data.texts) {
-          localStorage.setItem('sc_custom_texts', JSON.stringify(data.texts));
-          applyCustomTexts();
-          setLanguage(currentLang);
-          updated = true;
+        if (data.finishes && Array.isArray(data.finishes)) {
+          finishes = data.finishes;
+          localStorage.setItem('sc_finishes', JSON.stringify(finishes));
         }
-      }
-
-      if (!preferLocal || !localStorage.getItem('sc_hero_img')) {
-        if (data.heroImg) {
-          localStorage.setItem('sc_hero_img', data.heroImg);
-          const el = document.getElementById('hero-img-display');
-          if (el) el.src = data.heroImg;
-          updated = true;
+        if (data.gypsumColors && Array.isArray(data.gypsumColors)) {
+          gypsumColors = data.gypsumColors;
+          localStorage.setItem('sc_gypsum_colors', JSON.stringify(gypsumColors));
         }
-      }
-
-      if (!preferLocal || !localStorage.getItem('sc_about_img')) {
-        if (data.aboutImg) {
-          localStorage.setItem('sc_about_img', data.aboutImg);
-          const el = document.getElementById('about-img-display');
-          if (el) el.src = data.aboutImg;
-          updated = true;
+        if (data.holidays && Array.isArray(data.holidays)) {
+          holidays = data.holidays;
+          localStorage.setItem('sc_holidays', JSON.stringify(holidays));
         }
-      }
-
-      if (data.heroBadgeTitle) {
-        localStorage.setItem('sc_hero_badge_title', data.heroBadgeTitle);
-        const el = document.getElementById('hero-badge-title');
-        if (el) el.textContent = data.heroBadgeTitle;
-        updated = true;
-      }
-
-      if (data.heroBadgeSub) {
-        localStorage.setItem('sc_hero_badge_sub', data.heroBadgeSub);
-        const el = document.getElementById('hero-badge-sub');
-        if (el) el.textContent = data.heroBadgeSub;
-        updated = true;
-      }
-
-      if (data.settings && !preferLocal) {
-        if (data.settings.phone) localStorage.setItem('sc_set_phone', data.settings.phone);
-        if (data.settings.bank) localStorage.setItem('sc_set_bank', data.settings.bank);
-        if (data.settings.recipient) localStorage.setItem('sc_set_recipient', data.settings.recipient);
-        if (data.settings.tgUser) localStorage.setItem('sc_set_tg_user', data.settings.tgUser);
-        if (data.settings.itemsPerPage) {
-          itemsPerPage = parseInt(data.settings.itemsPerPage, 10) || 6;
-          localStorage.setItem('sc_items_per_page', itemsPerPage.toString());
+        if (data.promocodes && Array.isArray(data.promocodes)) {
+          promocodes = data.promocodes;
+          localStorage.setItem('sc_promocodes', JSON.stringify(promocodes));
         }
-        updated = true;
-      }
-
-      if (updated) {
         renderCategoryTabs();
+        renderHolidayChips();
         renderProducts();
       }
     }
   } catch (err) {
-    console.warn('Central site_data sync note:', err);
+    // offline or local static mode
   }
 }
 
-// --- Render Categories Filter Tabs ---
+// --- Category Tabs Rendering ---
 function renderCategoryTabs() {
-  const bar = document.getElementById('catalog-filter-bar');
+  const bar = document.getElementById('category-filter-bar');
   if (!bar) return;
-
   bar.innerHTML = '';
+
   categories.forEach(cat => {
     const btn = document.createElement('button');
-    btn.className = `filter-btn ${cat.id === activeCategory ? 'active' : ''}`;
-    btn.dataset.cat = cat.id;
-    btn.textContent = currentLang === 'ru' ? cat.titleRu : (cat.titleEn || cat.titleRu);
+    btn.className = `cat-tab-btn ${cat.id === activeCategory ? 'active' : ''}`;
+    btn.dataset.category = cat.id;
+    btn.textContent = currentLang === 'ru' ? cat.titleRu : (cat.titleEn || autoTranslateToEn(cat.titleRu));
 
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
       activeCategory = cat.id;
-      currentPage = 1; // Reset to first page when filtering
+      currentPage = 1;
+      document.querySelectorAll('.cat-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-      // Toggle Holiday Subfilters when "Сезонное" is selected
       const holidaySubEl = document.getElementById('holiday-subfilters');
       if (holidaySubEl) {
         if (cat.id === 'seasonal') {
@@ -659,11 +714,15 @@ function renderHolidayChips() {
   const container = document.getElementById('holiday-chips-container');
   if (!container) return;
   container.innerHTML = '';
-  HOLIDAYS.forEach(h => {
+  const currentHolidays = (holidays && holidays.length ? holidays : DEFAULT_HOLIDAYS);
+  currentHolidays.forEach(h => {
     const btn = document.createElement('button');
     btn.className = `holiday-chip ${h.id === activeHoliday ? 'active' : ''}`;
     btn.dataset.holiday = h.id;
-    btn.textContent = currentLang === 'ru' ? h.titleRu : (h.titleEn || h.titleRu);
+    const displayName = currentLang === 'ru' 
+      ? (h.titleRu || h.name) 
+      : (h.titleEn || autoTranslateToEn(h.titleRu || h.name));
+    btn.textContent = `${h.icon ? h.icon + ' ' : ''}${displayName}`;
     btn.addEventListener('click', () => filterByHoliday(h.id));
     container.appendChild(btn);
   });
@@ -696,7 +755,7 @@ window.goToPage = function(page) {
   }
 };
 
-// --- Render Products Grid with Pagination & Sorting ---
+// --- Render Products Catalog ---
 function renderProducts() {
   const grid = document.getElementById('products-grid');
   const countInfo = document.getElementById('catalog-count-info');
@@ -728,8 +787,8 @@ function renderProducts() {
     if (paginationWrap) paginationWrap.innerHTML = '';
     
     const isHolidayFilter = activeCategory === 'seasonal' && activeHoliday !== 'all';
-    const holidayObj = HOLIDAYS.find(h => h.id === activeHoliday);
-    const holidayTitle = holidayObj ? holidayObj.title : '';
+    const holidayObj = (holidays && holidays.length ? holidays : DEFAULT_HOLIDAYS).find(h => h.id === activeHoliday);
+    const holidayTitle = holidayObj ? (holidayObj.titleRu || holidayObj.name) : '';
 
     grid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 50px 20px; background: var(--bg-surface); border: 1px dashed var(--border-light); border-radius: var(--radius-md);">
@@ -768,21 +827,27 @@ function renderProducts() {
       : `Showing ${startIdx + 1}–${endIdx} of ${totalItems} pieces`;
   }
 
-  // Render product cards
+  // Render product cards with 2-photo hover swap & ingredients
   paged.forEach(p => {
-    const title = currentLang === 'ru' ? p.titleRu : (p.titleEn || p.titleRu);
-    const scent = currentLang === 'ru' ? p.scentRu : (p.scentEn || p.scentRu);
-    const desc = currentLang === 'ru' ? p.descRu : (p.descEn || p.descRu);
+    const title = currentLang === 'ru' ? p.titleRu : autoTranslateToEn(p.titleRu);
+    const desc = currentLang === 'ru' ? p.descRu : autoTranslateToEn(p.descRu);
+    const ingredients = p.ingredients 
+      ? (currentLang === 'ru' ? p.ingredients : autoTranslateToEn(p.ingredients))
+      : (currentLang === 'ru' ? '100% соевый воск, хлопковый фитиль' : '100% natural soy wax, cotton wick');
     const statusText = p.status === 'in-stock' 
       ? TRANSLATIONS[currentLang].statusInStock 
       : TRANSLATIONS[currentLang].statusPreorder;
     const statusClass = p.status === 'in-stock' ? 'status-in-stock' : 'status-preorder';
 
+    const imgMain = (p.images && p.images[0]) || p.image || 'assets/img/product_1.jpg';
+    const imgHover = (p.images && p.images[1]) || (p.images && p.images[0]) || p.image;
+
     const card = document.createElement('article');
     card.className = 'product-card';
     card.innerHTML = `
       <div class="card-img-wrap" onclick="openQuickView('${p.id}')">
-        <img src="${p.image}" alt="${title}" class="card-img" loading="lazy" onerror="this.src='assets/img/product_1.jpg'">
+        <img src="${imgMain}" alt="${title}" class="card-img card-img-main" loading="lazy" onerror="this.src='assets/img/product_1.jpg'">
+        ${imgHover && imgHover !== imgMain ? `<img src="${imgHover}" alt="${title}" class="card-img-hover" loading="lazy" onerror="this.style.display='none'">` : ''}
         <span class="card-badge-status ${statusClass}">${statusText}</span>
         <div class="card-quick-view-overlay">
           <button class="btn btn-outline btn-sm" style="background: rgba(255,255,255,0.95);">${TRANSLATIONS[currentLang].btnQuickView}</button>
@@ -792,7 +857,7 @@ function renderProducts() {
         <h3 class="card-title" onclick="openQuickView('${p.id}')">${title}</h3>
         <div class="card-scent">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c0 4.5-5 7-5 11a5 5 0 0 0 10 0c0-4-5-6.5-5-11z"/></svg>
-          <span>${scent}</span>
+          <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px;">${TRANSLATIONS[currentLang].modalIngredients} ${ingredients}</span>
         </div>
         <p class="card-desc">${desc}</p>
         <div class="card-footer">
@@ -846,132 +911,257 @@ function renderProducts() {
   }
 }
 
-// --- Quick View Modal ---
+// --- Quick View Modal with 3-photo gallery, dynamic attributes & promocode ---
 window.openQuickView = function(id) {
   const p = products.find(item => item.id === id);
   if (!p) return;
 
-  const title = currentLang === 'ru' ? p.titleRu : (p.titleEn || p.titleRu);
-  const scent = currentLang === 'ru' ? p.scentRu : (p.scentEn || p.scentRu);
-  const desc = currentLang === 'ru' ? p.descRu : (p.descEn || p.descRu);
+  window.currentAppliedPromo = null;
+
+  const title = currentLang === 'ru' ? p.titleRu : autoTranslateToEn(p.titleRu);
+  const desc = currentLang === 'ru' ? p.descRu : autoTranslateToEn(p.descRu);
+  const ingredients = p.ingredients 
+    ? (currentLang === 'ru' ? p.ingredients : autoTranslateToEn(p.ingredients))
+    : (currentLang === 'ru' ? '100% натуральный соевый воск, хлопковый / деревянный фитиль, премиальные аромамасла' : '100% natural soy wax, cotton or wooden wick, fine fragrance oils');
   const statusText = p.status === 'in-stock' 
     ? TRANSLATIONS[currentLang].statusInStock 
     : TRANSLATIONS[currentLang].statusPreorder;
 
-    const colorsVal = p.colors || (currentLang === 'ru' ? 'Натуральный белый, Теплый беж' : 'Natural white, Warm beige');
-    const finishVal = p.finish || (currentLang === 'ru' ? 'матовый тактильный' : 'matte tactile');
-    const activeScents = (scents && scents.length ? scents : DEFAULT_SCENTS).filter(s => s.active !== false);
+  const images = (p.images && p.images.length > 0) ? p.images : [p.image || 'assets/img/product_1.jpg'];
 
-    const body = document.getElementById('quickview-modal-body');
-    body.innerHTML = `
-      <div class="quickview-grid">
-        <div class="quickview-img-wrap">
-          <img src="${p.image}" alt="${title}" class="quickview-img" onerror="this.src='assets/img/product_1.jpg'">
-        </div>
-        <div class="quickview-info">
-          <span class="card-badge-status ${p.status === 'in-stock' ? 'status-in-stock' : 'status-preorder'}">
-            ${statusText}
-          </span>
-          <h3 class="heading-md" style="margin: 8px 0;">${title}</h3>
-          <div class="quickview-price">
-            ${p.price.toLocaleString('ru-RU')} ₽
-          </div>
-          
-          <div class="quickview-prop-row">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c0 4.5-5 7-5 11a5 5 0 0 0 10 0c0-4-5-6.5-5-11z"/></svg>
-            <strong style="color: var(--accent-terracotta);">${TRANSLATIONS[currentLang].modalAroma}</strong> <span>${scent}</span>
-          </div>
+  // Allowed Scents
+  const allScents = (scents && scents.length ? scents : DEFAULT_SCENTS).filter(s => s.active !== false);
+  const allowedScents = (p.availableScents && p.availableScents.length > 0)
+    ? allScents.filter(s => p.availableScents.includes(s.title))
+    : allScents;
+  const finalScents = allowedScents.length > 0 ? allowedScents : allScents;
 
-          <div class="quickview-prop-row">
-            <strong style="color: var(--text-primary); font-size: 0.82rem;">${TRANSLATIONS[currentLang].modalColors}</strong>
-            <span class="quickview-prop-val">${colorsVal}</span>
-          </div>
+  // Allowed Finishes
+  const allFinishes = (finishes && finishes.length ? finishes : DEFAULT_FINISHES);
+  const allowedFinishes = (p.availableFinishes && p.availableFinishes.length > 0)
+    ? allFinishes.filter(f => p.availableFinishes.includes(f))
+    : allFinishes;
+  const finalFinishes = allowedFinishes.length > 0 ? allowedFinishes : allFinishes;
 
-          <div class="quickview-prop-row">
-            <strong style="color: var(--text-primary); font-size: 0.82rem;">${TRANSLATIONS[currentLang].modalFinish}</strong>
-            <span class="quickview-prop-val" style="text-transform: capitalize;">${finishVal}</span>
-          </div>
+  // Allowed Gypsum Colors
+  const allColors = (gypsumColors && gypsumColors.length ? gypsumColors : DEFAULT_GYPSUM_COLORS);
+  const allowedColors = (p.availableGypsumColors && p.availableGypsumColors.length > 0)
+    ? allColors.filter(c => p.availableGypsumColors.includes(c))
+    : allColors;
+  const finalColors = allowedColors.length > 0 ? allowedColors : allColors;
 
-          <div class="quickview-meta-row">
-            <span>${TRANSLATIONS[currentLang].modalBurn} ${p.burnTime || '—'}</span> • 
-            <span>${TRANSLATIONS[currentLang].modalDimensions} ${p.size || '—'}</span>
-          </div>
-          
-          <p class="quickview-desc">
-            ${desc}
-          </p>
-
-          <!-- Интерактивная форма оформления заказа -->
-          <div class="order-form-box">
-            <h4 class="order-form-title">Заявка на изготовление / покупку</h4>
-            
-            <form id="form-item-order" onsubmit="submitProductOrder(event, '${p.id}')">
-              
-              <!-- Выбор аромата из палитры мастерской -->
-              <div class="scent-picker-wrap">
-                <div class="scent-select-label">
-                  <span>Выберите аромат изделия:</span>
-                  <span style="font-size: 0.72rem; color: var(--accent-sage); font-weight: normal;">палитра мастерской</span>
-                </div>
-                <select id="order-scent-select" class="scent-select-input" onchange="window.updateScentDescPreview(this.value)">
-                  ${activeScents.map((s, idx) => `<option value="${s.title}" ${idx === 0 ? 'selected' : ''}>${s.title}</option>`).join('')}
-                </select>
-                <div class="scent-desc-box">
-                  <div class="scent-notes-title">Ноты аромата:</div>
-                  <div id="scent-notes-desc">${activeScents[0] ? activeScents[0].desc : ''}</div>
-                </div>
-              </div>
-
-              <div class="form-group" style="margin-bottom: 10px;">
-                <label class="form-label" style="font-size: 0.78rem;">Ваше имя *</label>
-                <input type="text" id="order-customer-name" class="form-input" placeholder="Как к вам обращаться?" required style="padding: 8px 12px; font-size: 0.86rem;">
-              </div>
-
-              <div class="form-group" style="margin-bottom: 12px;">
-                <label class="form-label" style="font-size: 0.78rem;">Телефон / Telegram для связи *</label>
-                <input type="tel" id="order-customer-phone" class="form-input" placeholder="+7 (999) 000-00-00 или @username" required style="padding: 8px 12px; font-size: 0.86rem;">
-              </div>
-
-              <!-- Обязательное уведомление клиенту -->
-              <div class="order-promise-note">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; color: var(--accent-sage);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                <span>С вами свяжутся для уточнения стоимости, деталей доставки и сроков.</span>
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
-                Отправить заявку
+  const body = document.getElementById('quickview-modal-body');
+  body.innerHTML = `
+    <div class="quickview-grid">
+      <div class="quickview-img-wrap">
+        <img id="quickview-active-img" src="${images[0]}" alt="${title}" class="quickview-img" onerror="this.src='assets/img/product_1.jpg'">
+        ${images.length > 1 ? `
+          <div class="quickview-thumbs-wrap">
+            ${images.map((img, idx) => `
+              <button type="button" class="quickview-thumb-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchQuickviewImg('${img}', this)">
+                <img src="${img}" alt="Фото ${idx + 1}" onerror="this.src='assets/img/product_1.jpg'">
               </button>
-            </form>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+      <div class="quickview-info">
+        <span class="card-badge-status ${p.status === 'in-stock' ? 'status-in-stock' : 'status-preorder'}">
+          ${statusText}
+        </span>
+        <h3 class="heading-md" style="margin: 8px 0;">${title}</h3>
+        <div class="quickview-price" id="quickview-price-display">
+          ${p.price.toLocaleString('ru-RU')} ₽
+        </div>
 
-            <div id="order-success-msg" class="order-success-banner" style="display: none; text-align: left; background: #F4F7F5; border: 1.5px solid var(--accent-sage); border-radius: 12px; padding: 20px;">
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                <span style="font-size: 1.3rem;">🎉</span>
-                <span style="font-size: 1.15rem; font-weight: 700; color: var(--accent-sage-dark);" id="order-success-title">Заявка принята!</span>
+        <div class="quickview-prop-row" style="margin-bottom: 8px;">
+          <strong style="color: var(--text-primary); font-size: 0.84rem;">${TRANSLATIONS[currentLang].modalIngredients}</strong>
+          <span class="quickview-prop-val" style="font-size: 0.84rem; color: var(--text-secondary);">${ingredients}</span>
+        </div>
+
+        ${p.size ? `
+          <div class="quickview-meta-row" style="margin-bottom: 12px;">
+            <span>${TRANSLATIONS[currentLang].modalDimensions} ${p.size}</span>
+          </div>
+        ` : ''}
+
+        <p class="quickview-desc" style="margin-bottom: 16px;">
+          ${desc}
+        </p>
+
+        <!-- Интерактивная форма оформления заявки -->
+        <div class="order-form-box">
+          <h4 class="order-form-title">Заявка на изготовление / покупку</h4>
+          
+          <form id="form-item-order" onsubmit="submitProductOrder(event, '${p.id}')">
+            
+            <!-- Выбор аромата из доступных для изделия -->
+            <div class="scent-picker-wrap">
+              <div class="scent-select-label">
+                <span>${TRANSLATIONS[currentLang].modalAroma}</span>
+                <span style="font-size: 0.72rem; color: var(--accent-sage); font-weight: normal;">палитра изделия</span>
               </div>
-              <p id="order-success-text" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55; margin-bottom: 14px;">
-                Спасибо! Заявка на «${title}» успешно отправлена мастеру.
-              </p>
-              <div style="background: #FFFFFF; border-left: 3px solid var(--accent-sage); padding: 12px 14px; border-radius: 6px; font-size: 0.84rem; color: #2D3748; line-height: 1.5; margin-bottom: 16px;">
-                <strong>Что будет дальше:</strong><br>
-                Мастер Катерина свяжется с вами для уточнения деталей, оттенка и адреса доставки СДЭК.<br>
-                <span style="color: var(--accent-sage-dark); font-weight: 600;">Персональную ссылку на безопасную оплату через СБП Катерина направит вам напрямую в диалоге после согласования!</span>
+              <select id="order-scent-select" class="scent-select-input" onchange="window.updateScentDescPreview(this.value)">
+                ${finalScents.map((s, idx) => `<option value="${s.title}" ${idx === 0 ? 'selected' : ''}>${s.title}</option>`).join('')}
+              </select>
+              <div class="scent-desc-box">
+                <div class="scent-notes-title">Ноты аромата:</div>
+                <div id="scent-notes-desc">${finalScents[0] ? finalScents[0].desc : ''}</div>
               </div>
-              <div style="display: flex; flex-direction: column; gap: 8px;">
-                <a id="order-tg-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; padding: 11px;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.75-.56 2.95-1.29 4.92-2.14 5.92-2.57 2.82-1.21 3.4-1.42 3.79-1.42.09 0 .28.02.4.12.1.08.13.19.14.27-.01.07.01.21 0 .36z"/></svg>
-                  <span>Написать Катерине в Telegram</span>
-                </a>
-                <button type="button" class="btn btn-outline" onclick="closeQuickView()" style="width: 100%; text-align: center; padding: 10px;">
-                  Понятно, спасибо
+            </div>
+
+            <!-- Выбор типа покрытия -->
+            <div class="form-group" style="margin-bottom: 10px;">
+              <label class="form-label" style="font-size: 0.78rem;">${TRANSLATIONS[currentLang].modalFinish}</label>
+              <select id="order-finish-select" class="scent-select-input" style="padding: 8px 12px; font-size: 0.86rem;">
+                ${finalFinishes.map((f, idx) => `<option value="${f}" ${idx === 0 ? 'selected' : ''}>${f}</option>`).join('')}
+              </select>
+            </div>
+
+            <!-- Выбор цвета гипса -->
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 0.78rem;">${TRANSLATIONS[currentLang].modalColors}</label>
+              <select id="order-color-select" class="scent-select-input" style="padding: 8px 12px; font-size: 0.86rem;">
+                ${finalColors.map((c, idx) => `<option value="${c}" ${idx === 0 ? 'selected' : ''}>${c}</option>`).join('')}
+              </select>
+            </div>
+
+            <!-- Ввод промокода на скидку -->
+            <div class="order-promo-box" style="margin-bottom: 12px; background: #FAF9F6; border: 1px solid var(--border-light); border-radius: 8px; padding: 12px;">
+              <label style="display: block; font-size: 0.76rem; font-weight: 600; color: var(--accent-sage-dark); margin-bottom: 6px;">
+                🎟️ Есть промокод на скидку?
+              </label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="order-promo-input" class="form-input" placeholder="Код (напр: SCULPTED10)" style="text-transform: uppercase; font-size: 0.85rem; padding: 8px 10px; flex: 1;">
+                <button type="button" class="btn btn-outline btn-sm" onclick="window.applyPromoCode('${p.id}')" style="white-space: nowrap; padding: 8px 14px; font-weight: 600;">
+                  Применить
                 </button>
               </div>
+              <div id="order-promo-msg" style="display: none; font-size: 0.8rem; margin-top: 8px; line-height: 1.4;"></div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 10px;">
+              <label class="form-label" style="font-size: 0.78rem;">Ваше имя *</label>
+              <input type="text" id="order-customer-name" class="form-input" placeholder="Как к вам обращаться?" required style="padding: 8px 12px; font-size: 0.86rem;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label" style="font-size: 0.78rem;">Телефон / Telegram для связи *</label>
+              <input type="tel" id="order-customer-phone" class="form-input" placeholder="+7 (999) 000-00-00 или @username" required style="padding: 8px 12px; font-size: 0.86rem;">
+            </div>
+
+            <!-- Обязательное уведомление клиенту -->
+            <div class="order-promise-note">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; color: var(--accent-sage);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>С вами свяжутся для уточнения деталей, сроков и доставки.</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600;">
+              Отправить заявку мастеру
+            </button>
+          </form>
+
+          <div id="order-success-msg" class="order-success-banner" style="display: none; text-align: left; background: #F4F7F5; border: 1.5px solid var(--accent-sage); border-radius: 12px; padding: 20px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <span style="font-size: 1.3rem;">🎉</span>
+              <span style="font-size: 1.15rem; font-weight: 700; color: var(--accent-sage-dark);" id="order-success-title">Заявка принята!</span>
+            </div>
+            <p id="order-success-text" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55; margin-bottom: 14px;">
+              Спасибо! Заявка на «${title}» успешно отправлена мастеру.
+            </p>
+            <div style="background: #FFFFFF; border-left: 3px solid var(--accent-sage); padding: 12px 14px; border-radius: 6px; font-size: 0.84rem; color: #2D3748; line-height: 1.5; margin-bottom: 16px;">
+              <strong>Что будет дальше:</strong><br>
+              Мастер Катерина свяжется с вами для уточнения деталей, оттенка и адреса доставки СДЭК.<br>
+              <span style="color: var(--accent-sage-dark); font-weight: 600;">Персональную ссылку на безопасную оплату через СБП Катерина направит вам напрямую в диалоге после согласования!</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <a id="order-tg-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; padding: 11px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.75-.56 2.95-1.29 4.92-2.14 5.92-2.57 2.82-1.21 3.4-1.42 3.79-1.42.09 0 .28.02.4.12.1.08.13.19.14.27-.01.07.01.21 0 .36z"/></svg>
+                <span>Написать Катерине в Telegram</span>
+              </a>
+              <button type="button" class="btn btn-outline" onclick="closeQuickView()" style="width: 100%; text-align: center; padding: 10px;">
+                Понятно, спасибо
+              </button>
             </div>
           </div>
         </div>
       </div>
-    `;
+    </div>
+  `;
 
   document.getElementById('modal-quickview').classList.add('active');
+};
+
+// --- Helper: Switch active Quickview Photo from Thumbnails ---
+window.switchQuickviewImg = function(url, btn) {
+  const mainImg = document.getElementById('quickview-active-img');
+  if (mainImg) {
+    mainImg.style.opacity = '0.3';
+    setTimeout(() => {
+      mainImg.src = url;
+      mainImg.style.opacity = '1';
+    }, 150);
+  }
+  document.querySelectorAll('.quickview-thumb-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+};
+
+// --- Helper: Apply Promocode ---
+window.applyPromoCode = function(productId) {
+  const input = document.getElementById('order-promo-input');
+  const msgEl = document.getElementById('order-promo-msg');
+  if (!input || !msgEl) return;
+  const code = input.value.trim().toUpperCase();
+  if (!code) {
+    msgEl.style.display = 'block';
+    msgEl.style.color = '#C53030';
+    msgEl.textContent = 'Введите промокод';
+    return;
+  }
+
+  const allPromos = JSON.parse(localStorage.getItem('sc_promocodes') || 'null') || DEFAULT_PROMOCODES;
+  const promo = allPromos.find(pr => pr.code.toUpperCase() === code && pr.active !== false);
+
+  const p = products.find(item => item.id === productId);
+  if (!p) return;
+
+  if (!promo) {
+    msgEl.style.display = 'block';
+    msgEl.style.color = '#C53030';
+    msgEl.innerHTML = '❌ Промокод не найден или срок действия истек';
+    window.currentAppliedPromo = null;
+    const priceDisplay = document.getElementById('quickview-price-display');
+    if (priceDisplay) priceDisplay.innerHTML = `${p.price.toLocaleString('ru-RU')} ₽`;
+    return;
+  }
+
+  let discount = 0;
+  if (promo.type === 'percent') {
+    discount = Math.round((p.price * promo.val) / 100);
+  } else {
+    discount = Math.min(promo.val, p.price);
+  }
+  const finalPrice = Math.max(0, p.price - discount);
+
+  window.currentAppliedPromo = {
+    code: promo.code,
+    type: promo.type,
+    val: promo.val,
+    discount: discount,
+    finalPrice: finalPrice
+  };
+
+  const priceDisplay = document.getElementById('quickview-price-display');
+  if (priceDisplay) {
+    priceDisplay.innerHTML = `
+      <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1.05rem; margin-right: 8px;">${p.price.toLocaleString('ru-RU')} ₽</span>
+      <span style="color: var(--accent-sage-dark); font-weight: 700;">${finalPrice.toLocaleString('ru-RU')} ₽</span>
+    `;
+  }
+
+  msgEl.style.display = 'block';
+  msgEl.style.color = '#2F855A';
+  msgEl.innerHTML = `✓ Промокод <strong>${promo.code}</strong> применен! Скидка ${promo.val}${promo.type === 'percent' ? '%' : ' ₽'} (-${discount.toLocaleString('ru-RU')} ₽)`;
 };
 
 // --- Helper: Update Scent Notes Preview in Modal ---
@@ -997,15 +1187,20 @@ window.submitProductOrder = async function(event, productId) {
 
   const customerName = document.getElementById('order-customer-name').value.trim();
   const customerPhone = document.getElementById('order-customer-phone').value.trim();
-  const selectedScent = document.getElementById('order-scent-select')?.value || p.scentRu || 'Стандартный';
-  const colorsVal = p.colors || 'Натуральный';
-  const finishVal = p.finish || 'матовый';
+  const selectedScent = document.getElementById('order-scent-select')?.value || 'Стандартный';
+  const selectedFinish = document.getElementById('order-finish-select')?.value || 'Матовое защитное';
+  const selectedColor = document.getElementById('order-color-select')?.value || 'Белоснежный гипс';
 
   const orderId = 'SC-' + Math.floor(100 + Math.random() * 900);
-  const totalAmount = p.price;
+  const appliedPromo = window.currentAppliedPromo;
+  const totalAmount = appliedPromo ? appliedPromo.finalPrice : p.price;
   const deliveryType = 'СДЭК / Почта РФ';
   const deliveryAddress = 'г. Санкт-Петербург (уточняется)';
-  const comment = `Аромат: ${selectedScent}, цвет: ${colorsVal}, покрытие: ${finishVal}`;
+
+  let comment = `Аромат: ${selectedScent}, цвет: ${selectedColor}, покрытие: ${selectedFinish}`;
+  if (appliedPromo) {
+    comment += ` | Промокод: ${appliedPromo.code} (скидка -${appliedPromo.discount} ₽)`;
+  }
 
   const orderPayload = {
     orderId,
@@ -1015,14 +1210,17 @@ window.submitProductOrder = async function(event, productId) {
     productId: p.id,
     productTitle: p.titleRu,
     total: totalAmount,
+    originalPrice: p.price,
+    promoCode: appliedPromo ? appliedPromo.code : null,
+    discountAmount: appliedPromo ? appliedPromo.discount : 0,
     items: [
       {
         id: p.id,
         title: p.titleRu,
         price: totalAmount,
         scent: selectedScent,
-        colors: colorsVal,
-        finish: finishVal
+        colors: selectedColor,
+        finish: selectedFinish
       }
     ],
     deliveryType,
@@ -1061,7 +1259,7 @@ window.submitProductOrder = async function(event, productId) {
     console.warn('Backend order sync notice:', err);
   }
 
-  // Cloud relay for GitHub Pages & standalone hosting (runs via Netlify serverless in EU)
+  // Cloud relay for GitHub Pages & standalone hosting (runs via Netlify serverless)
   if (!tgSentFromBackend) {
     try {
       const cloudResp = await fetch('https://sculpted-candle.netlify.app/.netlify/functions/order', {
@@ -1074,49 +1272,22 @@ window.submitProductOrder = async function(event, productId) {
         if (cloudData && cloudData.payUrl) {
           payUrl = cloudData.payUrl;
         }
-        tgSentFromBackend = true;
-        console.log('Order successfully delivered via cloud relay!');
       }
-    } catch (cloudErr) {
-      console.warn('Cloud relay order notice:', cloudErr);
+    } catch (netErr) {
+      console.warn('Netlify cloud relay notice:', netErr);
     }
   }
 
-  // Direct client fallback to Telegram Bot API (if VPN enabled)
-  if (!tgSentFromBackend) {
-    const cardMsg = `🕯 <b>НОВАЯ ЗАЯВКА НА ИЗДЕЛИЕ: #${orderId}</b>\n\n👤 <b>Покупатель:</b> ${customerName}\n📞 <b>Телефон / TG:</b> <code>${customerPhone}</code>\n🚚 <b>Доставка:</b> ${deliveryType} (${deliveryAddress})\n💬 <b>Пожелание:</b> ${comment || '—'}\n\n🛍 <b>Состав:</b>\n• «${p.titleRu}» — ${totalAmount} ₽\n  🌸 <i>Аромат:</i> ${selectedScent}\n  🎨 <i>Цвет/покрытие:</i> ${colorsVal}, ${finishVal}\n\n💰 <b>ИТОГО К ОПЛАТЕ: ${totalAmount} ₽</b>\n⏳ <b>Статус:</b> Ожидает согласования мастером (ссылку на СБП направит Катерина)`;
-    const targetChatIds = ['6634156130', '701892841'];
-    try {
-      const tgPromises = targetChatIds.map(cid =>
-        fetch('https://api.telegram.org/bot8956303885:AAHQglgjEGvUA5lBJ-AvYnDv_Ya-aHHHMNk/sendMessage', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: cid, text: cardMsg, parse_mode: 'HTML', disable_web_page_preview: true }),
-          keepalive: true
-        }).catch(err => console.warn('TG direct send warning:', err))
-      );
-      await Promise.race([
-        Promise.all(tgPromises),
-        new Promise(resolve => setTimeout(resolve, 600))
-      ]);
-    } catch (tgErr) {
-      console.warn('TG dispatch error:', tgErr);
-    }
-  }
-
-  // Pre-filled Telegram message for customer
-  const tgOrderText = encodeURIComponent(
-    `Здравствуйте, Катерина! Я оформил(а) заказ № ${orderId} на сайте на «${p.titleRu}» (${totalAmount} ₽).\n🌸 Выбранный аромат: ${selectedScent}\nИмя: ${customerName}\nКонтакты: ${customerPhone}\nЦвет: ${colorsVal}, покрытие: ${finishVal}.`
-  );
-  const directTgUrl = `https://t.me/layra_ms?text=${tgOrderText}`;
-
-  // Hide form, show confirmation banner (NO automatic redirect to payment)
+  // 3. Update Quick View modal state
   const form = document.getElementById('form-item-order');
   const successMsg = document.getElementById('order-success-msg');
   const tgLinkBtn = document.getElementById('order-tg-direct-link');
 
-  const titleEl = document.getElementById('order-success-title');
-  if (titleEl) titleEl.textContent = `Заявка № ${orderId} принята!`;
+  let directTgText = `Здравствуйте, Катерина! Я хочу заказать изделие «${p.titleRu}» (${totalAmount} ₽).\nМое имя: ${customerName}\nКонтакты: ${customerPhone}\nАромат: ${selectedScent}\nПокрытие: ${selectedFinish}\nЦвет: ${selectedColor}`;
+  if (appliedPromo) {
+    directTgText += `\nПромокод: ${appliedPromo.code} (скидка -${appliedPromo.discount} ₽)`;
+  }
+  const directTgUrl = `https://t.me/layra_ms?text=${encodeURIComponent(directTgText)}`;
 
   const textEl = document.getElementById('order-success-text');
   if (textEl) {
@@ -1170,7 +1341,6 @@ function setupEditorialEntrance() {
       const target = document.getElementById('delivery');
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        // Subtle visual flash highlight on delivery block
         target.classList.add('highlight-flash');
         setTimeout(() => target.classList.remove('highlight-flash'), 2000);
       }
@@ -1196,30 +1366,10 @@ function setupModalCloseListeners() {
   });
 }
 
-// --- Initialization ---
-document.addEventListener('DOMContentLoaded', () => {
-  initData();
-  setupEditorialEntrance();
-  renderCategoryTabs();
-  renderProducts();
-  setupModalCloseListeners();
-
-  // Load fresh synchronized data from server/Netlify for multi-device sync
-  loadSiteData();
-
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-  });
-
-  setLanguage(currentLang);
-
-  // Deep linking to product modal (e.g. ?product=sc-02)
-  const urlParams = new URLSearchParams(window.location.search);
-  const openProd = urlParams.get('product');
-  if (openProd) {
-    openQuickView(openProd);
-  }
-});
+window.closeQuickView = function() {
+  const modal = document.getElementById('modal-quickview');
+  if (modal) modal.classList.remove('active');
+};
 
 // --- Scroll Reveal (IntersectionObserver) ---
 function initScrollReveal() {
@@ -1259,11 +1409,7 @@ function initScrollTopBtn() {
   }, { passive: true });
 }
 
-// --- Collection Promo Toast (Disabled) ---
-function initPromoToast() {}
-function dismissPromoToast() {}
-
-// --- Magic Sparks Particle Engine (Warm golden fireflies and candle embers) ---
+// --- Magic Sparks Particle Engine ---
 function initMagicSparks() {
   const canvases = document.querySelectorAll('.hero-sparks-canvas, .about-sparks-canvas');
   canvases.forEach(canvas => {
@@ -1298,40 +1444,37 @@ function initMagicSparks() {
         this.size = Math.random() * 2.4 + 0.8;
         this.speedY = -(Math.random() * 0.7 + 0.35);
         this.speedX = (Math.random() - 0.5) * 0.5;
-        this.opacity = initial ? Math.random() * 0.8 + 0.2 : 0;
-        this.maxOpacity = Math.random() * 0.65 + 0.35;
-        this.fadeSpeed = Math.random() * 0.015 + 0.008;
-        this.state = 'fade-in';
-        this.hue = Math.random() > 0.3 ? 38 + Math.random() * 14 : 28 + Math.random() * 8; // Warm amber-gold
-        this.wobble = Math.random() * Math.PI * 2;
-        this.wobbleSpeed = Math.random() * 0.04 + 0.02;
+        this.life = 0;
+        this.maxLife = Math.random() * 180 + 100;
+        this.baseAlpha = Math.random() * 0.55 + 0.25;
+        this.hue = Math.random() > 0.4 ? 42 : 32;
       }
 
       update() {
-        this.wobble += this.wobbleSpeed;
-        this.x += this.speedX + Math.sin(this.wobble) * 0.45;
+        this.life++;
+        this.x += this.speedX + Math.sin(this.life * 0.04) * 0.35;
         this.y += this.speedY;
 
-        if (this.state === 'fade-in') {
-          this.opacity += this.fadeSpeed;
-          if (this.opacity >= this.maxOpacity) {
-            this.state = 'fade-out';
-          }
-        } else {
-          this.opacity -= this.fadeSpeed * 0.8;
-          if (this.opacity <= 0 || this.y < 0) {
-            this.reset(false);
-          }
+        if (this.life >= this.maxLife || this.y < -10 || this.x < -10 || this.x > width + 10) {
+          this.reset();
         }
       }
 
       draw() {
+        const progress = this.life / this.maxLife;
+        let alpha = this.baseAlpha;
+        if (progress < 0.2) {
+          alpha = this.baseAlpha * (progress / 0.2);
+        } else if (progress > 0.7) {
+          alpha = this.baseAlpha * ((1 - progress) / 0.3);
+        }
+
         ctx.save();
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 95%, 68%, ${this.opacity})`;
-        ctx.shadowColor = `hsla(${this.hue}, 100%, 60%, 0.8)`;
-        ctx.shadowBlur = this.size * 5;
+        ctx.fillStyle = `hsla(${this.hue}, 90%, 65%, ${alpha})`;
+        ctx.shadowColor = `hsla(${this.hue}, 100%, 60%, ${alpha * 0.8})`;
+        ctx.shadowBlur = this.size * 3.5;
         ctx.fill();
         ctx.restore();
       }
@@ -1342,35 +1485,30 @@ function initMagicSparks() {
     }
 
     function animate() {
-      if (!isVisible) {
-        animationFrameId = requestAnimationFrame(animate);
-        return;
-      }
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
+      if (isVisible) {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
       }
       animationFrameId = requestAnimationFrame(animate);
     }
 
-    animate();
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        isVisible = entry.isIntersecting;
-      });
+    const obs = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
     }, { threshold: 0.05 });
-    observer.observe(canvas);
+    obs.observe(canvas);
+
+    animate();
   });
 }
 
-// --- Interactive 3D Card Parallax & Hearth Lighting ---
+// --- Dynamic 3D Hero Card Tilt ---
 function initMagicHeroCard() {
-  if (window.innerWidth <= 768) return;
-  const cards = document.querySelectorAll('.magic-hero-card, .magic-avatar-frame');
+  const cards = document.querySelectorAll('.hero-visual-card');
   cards.forEach(card => {
-    const flameGlow = card.querySelector('.craft-candle-flame') || card.querySelector('.magic-living-candle-flame');
+    const flameGlow = card.querySelector('.hero-flame-glow');
 
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -1434,8 +1572,27 @@ function initMobileBottomNav() {
   }, { passive: true });
 }
 
-// Init all features on DOM ready
+// --- Initialize App ---
 document.addEventListener('DOMContentLoaded', () => {
+  initData();
+  setupEditorialEntrance();
+  renderCategoryTabs();
+  renderProducts();
+  setupModalCloseListeners();
+  loadSiteData();
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+  });
+
+  setLanguage(currentLang);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const openProd = urlParams.get('product');
+  if (openProd) {
+    openQuickView(openProd);
+  }
+
   initScrollReveal();
   initScrollTopBtn();
   initMagicSparks();

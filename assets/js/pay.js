@@ -113,40 +113,61 @@ document.addEventListener('DOMContentLoaded', async () => {
     else if (dbLow.includes('т-банк') || dbLow.includes('тинькофф')) currentBank = 'tbank';
   }
 
+  // Check if master configured a custom SBP / T-Bank collection link
+  let customSbpLink = urlParams.get('custom_link') || '';
+  if (!customSbpLink) {
+    try {
+      const localSet = JSON.parse(localStorage.getItem('sc_settings') || '{}');
+      customSbpLink = localSet.sbpCustomLink || '';
+    } catch (e) {}
+  }
+
   function getBankPayload(bankType) {
-    const commentEnc = encodeURIComponent(`Заказ ${orderId}`);
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    // If master has a direct personal SBP collection link (e.g. from T-Bank or Sber)
+    if (customSbpLink && customSbpLink.startsWith('http')) {
+      return {
+        qrText: customSbpLink,
+        appUrl: customSbpLink,
+        btnText: `Перейти к оплате через СБП`,
+        btnClass: 'pay-app-btn-sbp',
+        bankLabel: 'СБП (Прямая ссылка)'
+      };
+    }
+
+    // Reliable mobile deep links that launch bank apps directly without 404
     if (bankType === 'alfa') {
       return {
-        qrText: `https://alfa.me/transfer?phone=${cleanPhone}&amount=${rawAmount}&comment=${commentEnc}`,
-        appUrl: `https://alfa.me/transfer?phone=${cleanPhone}&amount=${rawAmount}&comment=${commentEnc}`,
-        btnText: `Оплатить ${formattedAmount} в Альфа-Банке`,
+        qrText: window.location.href,
+        appUrl: isMobile ? 'alfabank://' : `tel:${cleanPhone}`,
+        btnText: `Открыть Альфа-Банк (${cleanPhone})`,
         btnClass: 'pay-app-btn-alfa',
-        bankLabel: 'Альфа-Банк (СБП)'
+        bankLabel: 'Альфа-Банк (СБП 0%)'
       };
     } else if (bankType === 'tbank') {
       return {
-        qrText: `https://www.tbank.ru/rm/phone_transfer/?phone=${cleanPhone}&amount=${rawAmount}&comment=${commentEnc}`,
-        appUrl: `https://www.tbank.ru/rm/phone_transfer/?phone=${cleanPhone}&amount=${rawAmount}&comment=${commentEnc}`,
-        btnText: `Оплатить ${formattedAmount} в Т-Банке`,
+        qrText: window.location.href,
+        appUrl: isMobile ? 'tinkoffbank://' : `tel:${cleanPhone}`,
+        btnText: `Открыть Т-Банк (${cleanPhone})`,
         btnClass: 'pay-app-btn-tbank',
-        bankLabel: 'Т-Банк (СБП)'
+        bankLabel: 'Т-Банк (СБП 0%)'
       };
     } else if (bankType === 'sber') {
       return {
-        qrText: `https://www.sberbank.com/sms/pbp.html?requisiteNumber=${cleanPhone}&amount=${rawAmount}`,
-        appUrl: `https://www.sberbank.com/sms/pbp.html?requisiteNumber=${cleanPhone}&amount=${rawAmount}`,
-        btnText: `Оплатить ${formattedAmount} в СберБанк Онлайн`,
+        qrText: window.location.href,
+        appUrl: isMobile ? 'sberbankonline://' : `tel:${cleanPhone}`,
+        btnText: `Открыть СберБанк (${cleanPhone})`,
         btnClass: 'pay-app-btn-sber',
-        bankLabel: 'Сбербанк (СБП)'
+        bankLabel: 'Сбербанк (СБП 0%)'
       };
     } else {
-      // Universal SBP
       return {
-        qrText: `https://alfa.me/transfer?phone=${cleanPhone}&amount=${rawAmount}&comment=${commentEnc}`,
-        appUrl: `https://alfa.me/transfer?phone=${cleanPhone}&amount=${rawAmount}&comment=${commentEnc}`,
-        btnText: `Оплатить ${formattedAmount} через СБП`,
+        qrText: window.location.href,
+        appUrl: isMobile ? 'tinkoffbank://' : `tel:${cleanPhone}`,
+        btnText: `Перевести через СБП (${cleanPhone})`,
         btnClass: 'pay-app-btn-sbp',
-        bankLabel: 'СБП (Любой банк РФ)'
+        bankLabel: 'СБП (Любой банк РФ 0%)'
       };
     }
   }
@@ -170,6 +191,19 @@ document.addEventListener('DOMContentLoaded', async () => {
       appBtn.href = config.appUrl;
       appBtnText.textContent = config.btnText;
       appBtn.className = `pay-app-btn ${config.btnClass}`;
+      
+      // On click, also copy clean phone to clipboard so user can just paste it in bank app!
+      appBtn.onclick = (e) => {
+        if (!config.appUrl.startsWith('http')) {
+          e.preventDefault();
+          navigator.clipboard.writeText(cleanPhone).then(() => {
+            alert(`Номер ${phone} скопирован в буфер обмена!\n\nОткройте ваш банк и вставьте номер в поле «Перевод по СБП».`);
+            window.location.href = config.appUrl;
+          }).catch(() => {
+            window.location.href = config.appUrl;
+          });
+        }
+      };
     }
 
     // Render or Update QR Code

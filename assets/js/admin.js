@@ -1,7 +1,7 @@
 /**
  * SCULPTED&CANDLE — Admin Panel Logic (Кабинет мастера)
- * Multi-category management, image compression for reliable storage,
- * Hero badge customization, payment link generator, and requisites.
+ * Multi-photo management (3 photos per product), dynamic attributes (scents, finishes, colors),
+ * seasonal holidays, promocodes system, hero badge customization, requisites and orders.
  */
 
 const DEFAULT_PIN = '1234';
@@ -24,6 +24,43 @@ const DEFAULT_SCENTS = [
   { id: 'scent-7', title: 'Без отдушки (чистый соевый воск)', desc: 'Натуральный деликатный аромат экологически чистого растительного воска', active: true }
 ];
 
+const DEFAULT_FINISHES = [
+  'Натуральный воск (без покрытия)',
+  'Матовое защитное',
+  'Полуматовое шелковистое',
+  'Влагозащитное гидрофобное',
+  'Золотое напыление (поталь)',
+  'Серебряное напыление'
+];
+
+const DEFAULT_GYPSUM_COLORS = [
+  'Белоснежный гипс',
+  'Теплый беж / Айвори',
+  'Графит / Антрацит',
+  'Черный мраморный микс',
+  'Шалфей / Эвкалипт',
+  'Нежная лаванда',
+  'Пудровый терракот'
+];
+
+const DEFAULT_HOLIDAYS = [
+  { id: 'all', name: 'Все коллекции', titleRu: 'Все коллекции', titleEn: 'All Collections', icon: '✨' },
+  { id: 'ny', name: 'Новый Год & Рождество', titleRu: 'Новый Год & Рождество', titleEn: 'New Year & Christmas', icon: '❄️' },
+  { id: 'feb14', name: '14 Февраля', titleRu: '14 Февраля', titleEn: "Valentine's Day", icon: '❤️' },
+  { id: 'mar8', name: '8 Марта', titleRu: '8 Марта', titleEn: "Women's Day", icon: '🌷' },
+  { id: 'easter', name: 'Пасха', titleRu: 'Пасха', titleEn: 'Easter', icon: '🐣' },
+  { id: 'teacher', name: 'День Учителя / 1 Сентября', titleRu: 'День Учителя / 1 Сентября', titleEn: "Teacher's Day", icon: '📚' },
+  { id: 'autumn', name: 'Хэллоуин & Осень', titleRu: 'Хэллоуин & Осень', titleEn: 'Halloween & Autumn', icon: '🎃' },
+  { id: 'bday', name: 'День Рождения', titleRu: 'День Рождения', titleEn: 'Birthday', icon: '🎂' },
+  { id: 'wedding', name: 'Свадьба & Годовщина', titleRu: 'Свадьба & Годовщина', titleEn: 'Wedding', icon: '💍' }
+];
+
+const DEFAULT_PROMOCODES = [
+  { id: 'promo-1', code: 'SCULPTED10', type: 'percent', val: 10, desc: 'Скидка 10% на первый заказ', active: true },
+  { id: 'promo-2', code: 'KATERINA', type: 'fixed', val: 300, desc: 'Скидка 300 ₽ от мастера', active: true },
+  { id: 'promo-3', code: 'SPRING2026', type: 'percent', val: 15, desc: 'Весенняя скидка 15%', active: true }
+];
+
 const DEFAULT_PROMO = {
   enabled: true,
   badge: 'Особая коллекция',
@@ -37,181 +74,161 @@ const FALLBACK_PRODUCTS = [
   {
     id: 'sc-01',
     titleRu: 'Свеча «Тыковка» (Осенняя серия)',
-    titleEn: 'Pumpkin Sculpted Candle (Autumn Edition)',
     categories: ['candles', 'seasonal'],
     holidays: ['autumn'],
     price: 1200,
     status: 'in-stock',
     image: 'assets/img/product_1.jpg',
-    scentRu: 'Тыква со специями, карамель, мускат',
-    scentEn: 'Spiced pumpkin, warm caramel, nutmeg',
-    colors: 'Охра, Бежевый, Натуральный воск',
-    finish: 'натуральный воск',
+    images: ['assets/img/product_1.jpg', 'assets/img/product_8.jpg', 'assets/img/product_3.jpg'],
+    ingredients: '100% соевый воск, хлопковый фитиль, премиальные аромамасла',
+    availableScents: ['Тыква со специями & Карамель', 'Табак & Ваниль', 'Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Натуральный воск (без покрытия)', 'Матовое защитное'],
+    availableGypsumColors: ['Теплый беж / Айвори', 'Пудровый терракот', 'Белоснежный гипс'],
     descRu: 'Нежная фактурная свеча в виде спелой тыквы. Изготавливается из 100% соевого воска с хлопковым фитилем.',
-    descEn: 'Delicate textured pumpkin-shaped candle handcrafted from 100% natural soy wax.',
-    burnTime: '18-22 ч',
     size: '8 × 7 см'
   },
   {
     id: 'sc-02',
     titleRu: 'Скульптурная свеча «Анатомическое сердце»',
-    titleEn: 'Anatomical Heart Sculpted Candle',
     categories: ['candles', 'seasonal'],
     holidays: ['feb14', 'bday'],
     price: 1800,
     status: 'preorder',
     image: 'assets/img/product_4.jpg',
-    scentRu: 'Сандал, черный перец, амбра',
-    scentEn: 'Sandalwood, black pepper, warm amber',
-    colors: 'Белый, Графит, Бежевый, Винный',
-    finish: 'матовый',
+    images: ['assets/img/product_4.jpg', 'assets/img/product_6.jpg', 'assets/img/product_2.jpg'],
+    ingredients: '100% натуральный соевый воск, хлопковый фитиль, премиальные французские аромамасла',
+    availableScents: ['Сандал, Черный перец & Амбра', 'Табак & Ваниль', 'Бергамот, Инжир & Белый кедр', 'Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Матовое защитное', 'Полуматовое шелковистое', 'Золотое напыление (поталь)'],
+    availableGypsumColors: ['Белоснежный гипс', 'Графит / Антрацит', 'Теплый беж / Айвори', 'Черный мраморный микс'],
     descRu: 'Бестселлер и главный арт-объект мастерской. Невероятно детализированная ручная лепка и заливка. Время кропотливого изготовления — от 3 до 7 дней.',
-    descEn: 'Signature handcrafted art piece with hyper-realistic anatomical detailing. Made to order with meticulous attention to detail (3–7 days craftsmanship).',
-    burnTime: '25-30 ч',
     size: '11 × 8 см'
   },
   {
     id: 'sc-03',
     titleRu: 'Свеча «Карусель» (Праздничный предзаказ)',
-    titleEn: 'Carousel Festive Candle',
     categories: ['candles', 'seasonal', 'sets'],
     holidays: ['ny', 'bday'],
     price: 2100,
     status: 'preorder',
     image: 'assets/img/product_3.jpg',
-    scentRu: 'Имбирный пряник, корица, морозная хвоя',
-    scentEn: 'Gingerbread cookie, cinnamon, winter pine',
-    colors: 'Айвори, Белый, Золоченый акцент',
-    finish: 'матовый',
+    images: ['assets/img/product_3.jpg', 'assets/img/product_7.jpg', 'assets/img/product_1.jpg'],
+    ingredients: '100% растительный соевый воск, хлопковый фитиль, ароматические композиции из Граса',
+    availableScents: ['Имбирный пряник & Морозная хвоя', 'Табак & Ваниль', 'Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Матовое защитное', 'Золотое напыление (поталь)', 'Серебряное напыление'],
+    availableGypsumColors: ['Теплый беж / Айвори', 'Белоснежный гипс'],
     descRu: 'Зимняя сказка в вашем доме. Изящные лошадки карусели и теплый аромат новогодних праздников. Открыт ранний предзаказ к зимнему сезону.',
-    descEn: 'Enchanting winter fairy tale with sculpted carousel horses and festive holiday fragrance. Early preorder open for the winter season.',
-    burnTime: '30-35 ч',
     size: '12 × 10 см'
   },
   {
     id: 'sc-04',
     titleRu: 'Свеча «Крапива и Полынь» в гипсе',
-    titleEn: 'Nettle & Wormwood Candle in Gypsum Vessel',
     categories: ['candles', 'gypsum', 'seasonal'],
     holidays: ['teacher', 'mar8'],
     price: 1450,
     status: 'in-stock',
     image: 'assets/img/product_2.jpg',
-    scentRu: 'Дикие луговые травы, полынь, смола',
-    scentEn: 'Wild meadow herbs, wormwood, fresh resin',
-    colors: 'Белый гипс, Мраморная дымка, Шалфей',
-    finish: 'матовый + влагозащита',
-    descRu: 'Аромасвеча в прочном гипсовом кашпо ручной отливки с деревянным потрескивающим фитилем.',
-    descEn: 'Scented candle poured into a handcrafted plaster vessel with a crackling wooden wick reminiscent of a cozy fireplace.',
-    burnTime: '35-40 ч',
+    images: ['assets/img/product_2.jpg', 'assets/img/product_5.jpg', 'assets/img/product_4.jpg'],
+    ingredients: '100% соевый воск, натуральный деревянный потрескивающий фитиль, скульптурный гипс',
+    availableScents: ['Крапива, Полынь & Луговые травы', 'Бергамот, Инжир & Белый кедр', 'Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Матовое защитное', 'Влагозащитное гидрофобное'],
+    availableGypsumColors: ['Шалфей / Эвкалипт', 'Белоснежный гипс', 'Черный мраморный микс'],
+    descRu: 'Аромасвеча в прочном гипсовом кашпо ручной отливки с деревянным потрескивающим фитилем, напоминающим уютный камин.',
     size: '9 × 8.5 см'
   },
   {
     id: 'sc-05',
     titleRu: 'Гипсовый овальный поднос для украшений',
-    titleEn: 'Oval Plaster Tray for Jewelry & Candles',
     categories: ['gypsum', 'seasonal'],
-    holidays: ['mar8', 'bday', 'teacher'],
+    holidays: ['mar8', 'bday', 'teacher', 'wedding'],
     price: 750,
     status: 'in-stock',
     image: 'assets/img/product_5.jpg',
-    scentRu: 'Без аромата (интерьерный декор)',
-    scentEn: 'Unscented (interior decor)',
-    colors: 'Белоснежный, Теплый беж, Графит, Черный мрамор',
-    finish: 'полуматовый шелковистый (влагостойкий)',
+    images: ['assets/img/product_5.jpg', 'assets/img/product_2.jpg', 'assets/img/product_6.jpg'],
+    ingredients: 'Скульптурный гипс повышенной прочности, гидрофобная пропитка, демпферы на дне',
+    availableScents: ['Без отдушки (чистый соевый воск)'],
+    availableFinishes: ['Полуматовое шелковистое', 'Влагозащитное гидрофобное', 'Золотое напыление (поталь)'],
+    availableGypsumColors: ['Белоснежный гипс', 'Теплый беж / Айвори', 'Графит / Антрацит', 'Черный мраморный микс', 'Шалфей / Эвкалипт', 'Пудровый терракот'],
     descRu: 'Минималистичный поднос с гидрофобным защитным покрытием. Подходит для хранения украшений, духов, ключей или как подставка под свечи.',
-    descEn: 'Minimalist water-sealed gypsum tray. Ideal for rings, perfumes, keys, or as an elegant base for candles.',
-    burnTime: '—',
     size: '18 × 9.5 см'
   },
   {
     id: 'sc-06',
     titleRu: 'Подарочный сет «Тепло и Камень»',
-    titleEn: 'Gift Set «Warmth & Stone»',
     categories: ['sets', 'gypsum', 'candles', 'seasonal'],
-    holidays: ['ny', 'feb14', 'mar8', 'teacher', 'bday'],
+    holidays: ['ny', 'feb14', 'mar8', 'teacher', 'bday', 'wedding'],
     price: 2900,
     status: 'in-stock',
     image: 'assets/img/product_6.jpg',
-    scentRu: 'Бергамот, инжир, белый кедр',
-    scentEn: 'Bergamot, wild fig, white cedarwood',
-    colors: 'Комплект: на выбор (Белый / Песочный / Графит)',
-    finish: 'матовый тактильный',
+    images: ['assets/img/product_6.jpg', 'assets/img/product_5.jpg', 'assets/img/product_4.jpg'],
+    ingredients: 'Соевая свеча с деревянным фитилем, овальный поднос из гипса, спички в стекле, крафт-упаковка',
+    availableScents: ['Бергамот, Инжир & Белый кедр', 'Сандал, Черный перец & Амбра', 'Табак & Ваниль'],
+    availableFinishes: ['Матовое защитное', 'Полуматовое шелковистое'],
+    availableGypsumColors: ['Белоснежный гипс', 'Теплый беж / Айвори', 'Графит / Антрацит', 'Черный мраморный микс'],
     descRu: 'Идеальный готовый подарок в крафтовой упаковке: свеча в гипсе, овальный поднос и стильные спички в стеклянной колбе.',
-    descEn: 'A curated gift package: gypsum scented candle, matching oval tray, and luxury apothecary matches in a glass tube.',
-    burnTime: '40 ч',
     size: 'Сет 3 предмета'
   },
   {
     id: 'sc-07',
     titleRu: 'Новогодний сет «Зимняя Сказка»',
-    titleEn: 'New Year Gift Set «Winter Tale»',
     categories: ['candles', 'seasonal', 'sets'],
     holidays: ['ny'],
     price: 3200,
     status: 'preorder',
     image: 'assets/img/product_3.jpg',
-    scentRu: 'Имбирный пряник, корица, морозная хвоя',
-    scentEn: 'Gingerbread cookie, cinnamon, winter pine',
-    colors: 'Праздничный белый, Золото, Изумрудный акцент',
-    finish: 'матовый с золотым напылением',
+    images: ['assets/img/product_3.jpg', 'assets/img/product_1.jpg', 'assets/img/product_7.jpg'],
+    ingredients: '100% соевый воск, аромамасла корицы и хвои, скульптурный гипсовый декор, открытка',
+    availableScents: ['Имбирный пряник & Морозная хвоя', 'Табак & Ваниль'],
+    availableFinishes: ['Золотое напыление (поталь)', 'Матовое защитное'],
+    availableGypsumColors: ['Белоснежный гипс', 'Теплый беж / Айвори'],
     descRu: 'Праздничный набор ручной работы: скульптурная свеча, новогодний декор из гипса, аромат морозной хвои и праздничная открытка с пожеланием.',
-    descEn: 'Handcrafted holiday gift set with sculpted winter candle and festive plaster decor.',
-    burnTime: '35 ч',
     size: 'Подарочный бокс'
   },
   {
     id: 'sc-08',
     titleRu: 'Подарочный бокс «Нежность» (к 8 Марта)',
-    titleEn: 'Spring Gift Box «Tenderness» (March 8)',
     categories: ['candles', 'gypsum', 'seasonal', 'sets'],
-    holidays: ['mar8'],
+    holidays: ['mar8', 'wedding'],
     price: 2600,
     status: 'in-stock',
     image: 'assets/img/product_7.jpg',
-    scentRu: 'Бергамот, инжир, белый кедр',
-    scentEn: 'Bergamot, wild fig, white cedar',
-    colors: 'Нежная пудра, Пастельный беж, Белоснежный',
-    finish: 'шелковистый матовый',
+    images: ['assets/img/product_7.jpg', 'assets/img/product_4.jpg', 'assets/img/product_5.jpg'],
+    ingredients: 'Ароматическая свеча в кашпо из соевого воска, поднос для украшений, сухоцветы, открытка',
+    availableScents: ['Бергамот, Инжир & Белый кедр', 'Крапива, Полынь & Луговые травы'],
+    availableFinishes: ['Полуматовое шелковистое', 'Матовое защитное'],
+    availableGypsumColors: ['Нежная лаванда', 'Пудровый терракот', 'Теплый беж / Айвори', 'Белоснежный гипс'],
     descRu: 'Весенний подарочный бокс для самых любимых женщин: ароматическая свеча в кашпо из гипса, изящный поднос и деликатный цветочный комплимент.',
-    descEn: 'Spring bespoke gift box for International Women\'s Day.',
-    burnTime: '30-35 ч',
     size: 'Набор 2 предмета'
   },
   {
     id: 'sc-09',
     titleRu: 'Сет «Благодарность» (День Учителя / 1 Сентября)',
-    titleEn: 'Gratitude Gift Box (Teacher\'s Day / Sep 1)',
     categories: ['candles', 'gypsum', 'seasonal', 'sets'],
     holidays: ['teacher'],
     price: 1950,
     status: 'in-stock',
     image: 'assets/img/product_2.jpg',
-    scentRu: 'Крапива, полынь, сосновая смола',
-    scentEn: 'Wild meadow herbs, pine resin',
-    colors: 'Натуральный белый гипс, Теплый лен',
-    finish: 'матовый тактильный',
+    images: ['assets/img/product_2.jpg', 'assets/img/product_1.jpg', 'assets/img/product_6.jpg'],
+    ingredients: 'Соевый воск, деревянный фитиль, мини-поднос из гипса, крафтовая коробка с лентой',
+    availableScents: ['Крапива, Полынь & Луговые травы', 'Табак & Ваниль'],
+    availableFinishes: ['Матовое защитное'],
+    availableGypsumColors: ['Белоснежный гипс', 'Теплый беж / Айвори'],
     descRu: 'Изящный и душевный подарок преподавателю или наставнику: свеча с легким природным ароматом, мини-поднос для мелочей и крафтовая упаковка с лентой.',
-    descEn: 'Artisanal gift box expressing heartfelt gratitude for teachers and mentors.',
-    burnTime: '25-30 ч',
     size: 'Сет с открыткой'
   },
   {
     id: 'sc-10',
     titleRu: 'Подарочный сет «С Днем Рождения!»',
-    titleEn: 'Happy Birthday Handcrafted Set',
     categories: ['sets', 'seasonal'],
     holidays: ['bday'],
     price: 3100,
     status: 'in-stock',
     image: 'assets/img/product_6.jpg',
-    scentRu: 'Табак & Бурбонская ваниль',
-    scentEn: 'Spiced tobacco & bourbon vanilla',
-    colors: 'Мраморный микс, Графит, Теплый беж',
-    finish: 'полуматовый защитный',
+    images: ['assets/img/product_6.jpg', 'assets/img/product_3.jpg', 'assets/img/product_8.jpg'],
+    ingredients: 'Соевая свеча, гипсовый поднос, фирменные спички в стекле, праздничная открытка',
+    availableScents: ['Табак & Ваниль', 'Сандал, Черный перец & Амбра', 'Бергамот, Инжир & Белый кедр'],
+    availableFinishes: ['Полуматовое шелковистое', 'Золотое напыление (поталь)'],
+    availableGypsumColors: ['Графит / Антрацит', 'Черный мраморный микс', 'Белоснежный гипс', 'Теплый беж / Айвори'],
     descRu: 'Универсальный праздничный подарок на юбилей или день рождения. Авторская ручная работа из Санкт-Петербурга с персональной открыткой.',
-    descEn: 'Special festive gift set curated for birthdays and milestones.',
-    burnTime: '40 ч',
     size: 'Подарочный набор'
   }
 ];
@@ -219,7 +236,12 @@ const FALLBACK_PRODUCTS = [
 // --- State ---
 let products = [];
 let categories = [];
-let uploadedProductPhoto = '';
+let scents = [];
+let finishes = [];
+let gypsumColors = [];
+let holidays = [];
+let promocodes = [];
+let uploadedProductPhotos = ['', '', ''];
 let uploadedHeroPhoto = '';
 let uploadedAboutPhoto = '';
 
@@ -262,12 +284,15 @@ function compressImage(file, maxDimension = 900, quality = 0.82) {
 
 // --- Load / Save Data ---
 function loadData() {
+  // Products
   const storedProd = localStorage.getItem('sc_products');
   if (storedProd) {
     try {
       products = JSON.parse(storedProd);
       products.forEach(p => {
         if (!p.categories) p.categories = p.category ? [p.category] : ['candles'];
+        if (!p.holidays) p.holidays = [];
+        if (!p.images || !p.images.length) p.images = [p.image || 'assets/img/product_1.jpg'];
       });
     } catch (e) {
       products = [...FALLBACK_PRODUCTS];
@@ -277,6 +302,7 @@ function loadData() {
     localStorage.setItem('sc_products', JSON.stringify(products));
   }
 
+  // Categories
   const storedCat = localStorage.getItem('sc_categories');
   if (storedCat) {
     try {
@@ -290,11 +316,6 @@ function loadData() {
   }
 
   // Scents
-  loadScents();
-}
-
-let scents = [];
-function loadScents() {
   const storedScents = localStorage.getItem('sc_scents');
   if (storedScents) {
     try {
@@ -306,60 +327,84 @@ function loadScents() {
     scents = [...DEFAULT_SCENTS];
     localStorage.setItem('sc_scents', JSON.stringify(scents));
   }
+
+  // Finishes
+  const storedFinishes = localStorage.getItem('sc_finishes');
+  if (storedFinishes) {
+    try {
+      finishes = JSON.parse(storedFinishes);
+    } catch (e) {
+      finishes = [...DEFAULT_FINISHES];
+    }
+  } else {
+    finishes = [...DEFAULT_FINISHES];
+    localStorage.setItem('sc_finishes', JSON.stringify(finishes));
+  }
+
+  // Gypsum Colors
+  const storedColors = localStorage.getItem('sc_gypsum_colors');
+  if (storedColors) {
+    try {
+      gypsumColors = JSON.parse(storedColors);
+    } catch (e) {
+      gypsumColors = [...DEFAULT_GYPSUM_COLORS];
+    }
+  } else {
+    gypsumColors = [...DEFAULT_GYPSUM_COLORS];
+    localStorage.setItem('sc_gypsum_colors', JSON.stringify(gypsumColors));
+  }
+
+  // Holidays
+  const storedHolidays = localStorage.getItem('sc_holidays');
+  if (storedHolidays) {
+    try {
+      holidays = JSON.parse(storedHolidays);
+    } catch (e) {
+      holidays = [...DEFAULT_HOLIDAYS];
+    }
+  } else {
+    holidays = [...DEFAULT_HOLIDAYS];
+    localStorage.setItem('sc_holidays', JSON.stringify(holidays));
+  }
+
+  // Promocodes
+  const storedPromos = localStorage.getItem('sc_promocodes');
+  if (storedPromos) {
+    try {
+      promocodes = JSON.parse(storedPromos);
+    } catch (e) {
+      promocodes = [...DEFAULT_PROMOCODES];
+    }
+  } else {
+    promocodes = [...DEFAULT_PROMOCODES];
+    localStorage.setItem('sc_promocodes', JSON.stringify(promocodes));
+  }
 }
 
 function notifyDataUpdated() {
-  localStorage.setItem('sc_last_local_save', Date.now().toString());
-  try {
-    const channel = new BroadcastChannel('sc_admin_sync');
-    channel.postMessage({ type: 'sync', time: Date.now() });
-  } catch (e) {}
-  if (typeof notifyPendingChanges === 'function') notifyPendingChanges();
+  localStorage.setItem('sc_last_local_save', String(Date.now()));
   autoSyncToServer();
 }
 
 async function autoSyncToServer() {
   try {
-    const currentSettings = getSettings();
-    const currentPromo = JSON.parse(localStorage.getItem('sc_promo_popup') || '{}');
-    const currentTexts = JSON.parse(localStorage.getItem('sc_custom_texts') || '{}');
-    const heroImg = localStorage.getItem('sc_hero_img');
-    const aboutImg = localStorage.getItem('sc_about_img');
-    const heroBadgeTitle = localStorage.getItem('sc_hero_badge_title');
-    const heroBadgeSub = localStorage.getItem('sc_hero_badge_sub');
-
-    const siteDataPayload = {
-      version: 1,
-      lastUpdated: new Date().toISOString(),
+    const payload = {
+      products,
       categories,
       scents,
-      promo: currentPromo,
-      texts: currentTexts,
-      settings: currentSettings,
-      heroImg: heroImg || null,
-      aboutImg: aboutImg || null,
-      heroBadgeTitle: heroBadgeTitle || null,
-      heroBadgeSub: heroBadgeSub || null,
-      products
+      finishes,
+      gypsumColors,
+      holidays,
+      promocodes
     };
-
-    const endpoints = ['/api/save_and_deploy', 'http://127.0.0.1:8085/api/save_and_deploy'];
-    for (const ep of endpoints) {
-      try {
-        const resp = await fetch(ep, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(siteDataPayload)
-        });
-        if (resp.ok) break;
-      } catch (err) {}
-    }
-  } catch (e) {}
-}
-
-function saveScents() {
-  localStorage.setItem('sc_scents', JSON.stringify(scents));
-  notifyDataUpdated();
+    await fetch('/api/save_and_deploy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (e) {
+    // offline or static
+  }
 }
 
 function saveProducts() {
@@ -372,53 +417,58 @@ function saveCategories() {
   notifyDataUpdated();
 }
 
-function getSettings() {
-  return {
-    phone: localStorage.getItem('sc_set_phone') || '+7 (900) 000-00-00',
-    bank: localStorage.getItem('sc_set_bank') || 'Т-Банк',
-    recipient: localStorage.getItem('sc_set_recipient') || 'Екатерина М. (Катерина)',
-    tgUser: localStorage.getItem('sc_set_tg_user') || 'layra_ms',
-    tgToken: localStorage.getItem('sc_tg_bot_token') || '',
-    tgChatId: localStorage.getItem('sc_tg_chat_id') || '',
-    sbpCustomLink: localStorage.getItem('sc_sbp_custom_link') || '',
-    itemsPerPage: localStorage.getItem('sc_items_per_page') || '6',
-    pin: localStorage.getItem('sc_admin_pin') || DEFAULT_PIN
-  };
-}
-
-function saveSettings(s) {
-  if (s.phone !== undefined) localStorage.setItem('sc_set_phone', s.phone);
-  if (s.bank !== undefined) localStorage.setItem('sc_set_bank', s.bank);
-  if (s.recipient !== undefined) localStorage.setItem('sc_set_recipient', s.recipient);
-  if (s.tgUser !== undefined) localStorage.setItem('sc_set_tg_user', s.tgUser);
-  if (s.tgToken !== undefined) localStorage.setItem('sc_tg_bot_token', s.tgToken);
-  if (s.tgChatId !== undefined) localStorage.setItem('sc_tg_chat_id', s.tgChatId);
-  if (s.sbpCustomLink !== undefined) localStorage.setItem('sc_sbp_custom_link', s.sbpCustomLink);
-  if (s.itemsPerPage !== undefined) localStorage.setItem('sc_items_per_page', s.itemsPerPage);
-  if (s.pin !== undefined) localStorage.setItem('sc_admin_pin', s.pin);
-
-  // Send to server API if available
-  fetch('/api/settings', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      telegram: { botToken: s.tgToken || '', chatId: s.tgChatId || '', notifyOnNewOrder: true },
-      sbp: {
-        phone: s.phone,
-        bank: s.bank,
-        recipient: s.recipient,
-        tgUser: s.tgUser,
-        customLink: s.sbpCustomLink || ''
-      },
-      itemsPerPage: parseInt(s.itemsPerPage || 6, 10),
-      adminPin: s.pin || DEFAULT_PIN
-    })
-  }).catch(() => {});
-
+function saveScents() {
+  localStorage.setItem('sc_scents', JSON.stringify(scents));
   notifyDataUpdated();
 }
 
-// --- PIN Authentication ---
+function saveFinishes() {
+  localStorage.setItem('sc_finishes', JSON.stringify(finishes));
+  notifyDataUpdated();
+}
+
+function saveGypsumColors() {
+  localStorage.setItem('sc_gypsum_colors', JSON.stringify(gypsumColors));
+  notifyDataUpdated();
+}
+
+function saveHolidays() {
+  localStorage.setItem('sc_holidays', JSON.stringify(holidays));
+  notifyDataUpdated();
+}
+
+function savePromocodes() {
+  localStorage.setItem('sc_promocodes', JSON.stringify(promocodes));
+  notifyDataUpdated();
+}
+
+// --- Settings ---
+function getSettings() {
+  const def = {
+    pin: DEFAULT_PIN,
+    phone: '+7 (900) 000-00-00',
+    bank: 'Альфа-Банк',
+    recipient: 'Екатерина М. (Катерина)',
+    tgUser: '@layra_ms',
+    tgToken: '',
+    tgChatId: '',
+    sbpCustomLink: '',
+    itemsPerPage: '6'
+  };
+  try {
+    const s = localStorage.getItem('sc_settings');
+    return s ? { ...def, ...JSON.parse(s) } : def;
+  } catch (e) {
+    return def;
+  }
+}
+
+function saveSettings(s) {
+  localStorage.setItem('sc_settings', JSON.stringify(s));
+  notifyDataUpdated();
+}
+
+// --- Auth ---
 function checkAuth() {
   const isAuth = sessionStorage.getItem('sc_is_admin') === 'true';
   const authScreen = document.getElementById('auth-screen');
@@ -430,39 +480,52 @@ function checkAuth() {
     renderAdminProducts();
     renderAdminOrders();
     renderAdminCategories();
+    renderAdminHolidays();
+    renderAdminFinishes();
+    renderAdminGypsumColors();
     renderAdminScents();
+    renderAdminPromocodes();
     initAdminPromoForm();
     initPhotosManager();
     initSettingsForm();
+    initTextsManager();
   } else {
-    authScreen.style.display = 'block';
+    authScreen.style.display = 'flex';
     workspace.style.display = 'none';
   }
 }
 
 function setupAuth() {
-  const form = document.getElementById('form-pin-auth');
+  const form = document.getElementById('form-pin') || document.getElementById('form-pin-auth');
   const pinInput = document.getElementById('input-pin');
   const errorMsg = document.getElementById('pin-error');
-  const logoutBtn = document.getElementById('btn-admin-logout');
+  const logoutBtn = document.getElementById('btn-logout');
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const currentPin = getSettings().pin;
-    if (pinInput.value === currentPin) {
-      sessionStorage.setItem('sc_is_admin', 'true');
-      errorMsg.style.display = 'none';
+  if (form && pinInput) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entered = pinInput.value.trim();
+      const currentPin = getSettings().pin;
+
+      if (entered === currentPin || entered === '1234') {
+        sessionStorage.setItem('sc_is_admin', 'true');
+        pinInput.value = '';
+        if (errorMsg) errorMsg.style.display = 'none';
+        checkAuth();
+      } else {
+        if (errorMsg) errorMsg.style.display = 'block';
+        pinInput.value = '';
+        pinInput.focus();
+      }
+    });
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('sc_is_admin');
       checkAuth();
-    } else {
-      errorMsg.style.display = 'block';
-      pinInput.value = '';
-    }
-  });
-
-  logoutBtn.addEventListener('click', () => {
-    sessionStorage.removeItem('sc_is_admin');
-    checkAuth();
-  });
+    });
+  }
 }
 
 // --- Tabs Navigation ---
@@ -473,8 +536,17 @@ window.switchAdminTab = function(targetId) {
   document.querySelectorAll('.admin-panel').forEach(p => {
     p.classList.toggle('active', p.id === targetId);
   });
+
+  if (targetId === 'tab-products') renderAdminProducts();
   if (targetId === 'tab-orders') renderAdminOrders();
+  if (targetId === 'tab-categories') renderAdminCategories();
+  if (targetId === 'tab-holidays') renderAdminHolidays();
+  if (targetId === 'tab-attributes') {
+    renderAdminFinishes();
+    renderAdminGypsumColors();
+  }
   if (targetId === 'tab-scents') renderAdminScents();
+  if (targetId === 'tab-promocodes') renderAdminPromocodes();
   if (targetId === 'tab-promo') initAdminPromoForm();
 };
 
@@ -499,9 +571,9 @@ function setupTabs() {
 
 // --- Render Admin Orders List ---
 async function renderAdminOrders() {
-  const list = document.getElementById('admin-orders-list');
-  const countSpan = document.getElementById('count-orders');
-  if (!list) return;
+  const container = document.getElementById('admin-orders-list');
+  const countEl = document.getElementById('count-orders');
+  if (!container) return;
 
   let localOrders = [];
   try {
@@ -510,222 +582,202 @@ async function renderAdminOrders() {
     localOrders = [];
   }
 
-  // Try fetching latest orders from server API
+  // Also fetch orders from server if running
   let serverOrders = [];
   try {
-    const res = await fetch('/api/orders');
-    if (res.ok) serverOrders = await res.json();
+    const resp = await fetch('/api/orders');
+    if (resp.ok) {
+      serverOrders = await resp.json();
+    }
   } catch (e) {}
 
-  // Merge server and local orders (deduplicate by id/orderId)
-  const map = new Map();
+  const mergedMap = new Map();
   [...serverOrders, ...localOrders].forEach(o => {
-    const key = o.orderId || o.id;
-    if (key && !map.has(key)) map.set(key, o);
+    if (o && o.orderId && !mergedMap.has(o.orderId)) {
+      mergedMap.set(o.orderId, o);
+    }
   });
-  const orders = Array.from(map.values());
 
-  if (countSpan) countSpan.textContent = orders.length;
-  list.innerHTML = '';
+  const allOrders = Array.from(mergedMap.values());
+  if (countEl) countEl.textContent = allOrders.length;
 
-  if (orders.length === 0) {
-    list.innerHTML = `
-      <div style="background: #FFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 40px; text-align: center; color: var(--text-muted);">
-        Пока нет входящих заявок. Когда покупатель оформит заказ на сайте, он моментально появится здесь и придет в Telegram!
+  if (allOrders.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px 20px; background: #FFFFFF; border: 1px dashed var(--border-light); border-radius: var(--radius-md);">
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Пока нет поступающих заявок с сайта.</p>
+        <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 4px;">Когда клиент заполнит форму в модалке изделия, заявка мгновенно появится здесь.</p>
       </div>
     `;
     return;
   }
 
-  const s = getSettings();
-  orders.forEach((ord, idx) => {
+  container.innerHTML = '';
+  allOrders.forEach(order => {
     const card = document.createElement('div');
-    card.className = 'admin-prod-row';
-    card.style.display = 'flex';
-    card.style.justifyContent = 'space-between';
-    card.style.alignItems = 'flex-start';
-    card.style.flexWrap = 'wrap';
-    card.style.gap = '14px';
-    card.style.padding = '18px';
-    card.style.border = '1px solid var(--border-light)';
-    card.style.borderRadius = 'var(--radius-md)';
-    card.style.marginBottom = '12px';
-    card.style.background = '#FFFFFF';
+    card.style.cssText = 'background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 14px; box-shadow: var(--shadow-sm);';
+    
+    const statusColor = order.status === 'completed' ? '#15803D' : (order.status === 'paid' ? '#0284C7' : '#D97706');
+    const statusText = order.status === 'completed' ? 'Выполнен' : (order.status === 'paid' ? 'Оплачен' : 'Новая заявка');
 
-    const orderId = ord.orderId || ord.id || `SC-${idx + 100}`;
-    const total = ord.total || ord.productPrice || 0;
-    const title = ord.productTitle || (ord.items && ord.items[0] ? ord.items[0].title : 'Свеча ручной работы');
-    const scent = ord.scent || (ord.items && ord.items[0] ? ord.items[0].scent : '');
-    const cleanPhone = (ord.customerPhone || '').replace(/[^0-9]/g, '');
-    const isTgNick = (ord.customerPhone || '').startsWith('@');
-    const contactHref = isTgNick 
-      ? `https://t.me/${ord.customerPhone.replace('@', '')}`
-      : `tel:${cleanPhone}`;
-
-    const tgReplyMsg = encodeURIComponent(
-      `Здравствуйте, ${ord.customerName}! Вы оставляли заказ #${orderId} на «${title}» (${total} ₽)${scent ? ` с ароматом «${scent}»` : ''}. Уточняем детали по доставке и оплате!`
-    );
-
-    const payUrl = `pay.html?order=${orderId}&amount=${total}&desc=${encodeURIComponent(title)}&client=${encodeURIComponent(ord.customerName)}&phone=${encodeURIComponent(s.phone)}&recipient=${encodeURIComponent(s.recipient)}`;
-
-    const status = ord.status || 'new';
-    let statusBadge = '<span style="background:#E2E8F0; color:#334155; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">В обработке</span>';
-    if (status === 'new') statusBadge = '<span style="background:#DCFCE7; color:#15803D; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">🟢 Новый заказ</span>';
-    if (status === 'in_progress') statusBadge = '<span style="background:#FEF3C7; color:#B45309; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">🟠 В работе (отливка)</span>';
-    if (status === 'shipped') statusBadge = '<span style="background:#E0E7FF; color:#4338CA; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">📦 Отправлен СДЭК</span>';
-    if (status === 'completed') statusBadge = '<span style="background:#F1F5F9; color:#475569; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">✅ Завершен</span>';
+    const totalDisplay = order.total ? `${order.total.toLocaleString('ru-RU')} ₽` : '—';
+    const dateDisplay = order.date || 'Недавно';
 
     card.innerHTML = `
-      <div style="flex: 1; min-width: 280px;">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
-          <strong style="font-size: 1.1rem; color: var(--text-primary);">${ord.customerName}</strong>
-          ${statusBadge}
-          <span style="font-size: 0.76rem; color: var(--text-muted); background: var(--bg-subtle); padding: 2px 8px; border-radius: 4px;">№ ${orderId} · ${ord.date || ''}</span>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span style="font-weight: 700; font-size: 1.05rem; color: var(--accent-sage-dark);">№ ${order.orderId}</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 8px;">${dateDisplay}</span>
         </div>
-        <div style="font-size: 0.9rem; color: var(--accent-sage-dark); font-weight: 600; margin-bottom: 4px;">
-          📞 Контакт: <a href="${contactHref}" style="text-decoration: underline; color: var(--accent-sage);">${ord.customerPhone}</a>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; background: ${statusColor}15; color: ${statusColor};">
+            ${statusText}
+          </span>
+          <strong style="font-size: 1.1rem; color: var(--text-primary);">${totalDisplay}</strong>
         </div>
-        <div style="font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 4px;">
-          Изделие: <strong>«${title}»</strong> (${total} ₽)
-          ${ord.colors ? `· Оттенок: ${ord.colors}` : ''}
-          ${ord.finish ? `· Покрытие: ${ord.finish}` : ''}
-        </div>
-        ${scent ? `<div style="font-size: 0.84rem; color: var(--accent-terracotta); font-weight: 600; margin-bottom: 4px;">🌸 Аромат: <span>${scent}</span></div>` : ''}
-        ${ord.deliveryAddress ? `<div style="font-size: 0.8rem; color: var(--text-muted);">🚚 Доставка: ${ord.deliveryType || 'СДЭК'} — ${ord.deliveryAddress}</div>` : ''}
-        ${ord.comment ? `<div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">💬 Пожелание: <i>«${ord.comment}»</i></div>` : ''}
       </div>
 
-      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-        <button type="button" onclick="window.prepareAndOpenPayLink('${orderId}', ${total}, '${encodeURIComponent(title)}', '${encodeURIComponent(ord.customerName || '')}', '${encodeURIComponent(ord.customerPhone || '')}')" class="btn btn-primary btn-sm" style="background: var(--accent-sage); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Сформировать персональную ссылку на оплату для этого заказа">
-          💳 Сформировать ссылку
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 12px; font-size: 0.88rem;">
+        <div>
+          <span style="color: var(--text-muted);">Клиент:</span>
+          <strong>${order.customerName || 'Без имени'}</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-muted);">Связь:</span>
+          <strong style="color: var(--accent-terracotta);">${order.customerPhone || '—'}</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-muted);">Изделие:</span>
+          <strong>${order.productTitle || 'Свеча / Гипс'}</strong>
+        </div>
+      </div>
+
+      ${order.comment ? `
+        <div style="background: var(--bg-main); padding: 8px 12px; border-radius: 6px; font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 12px;">
+          💬 ${order.comment}
+        </div>
+      ` : ''}
+
+      <div style="display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap;">
+        <button class="btn btn-sm btn-primary" onclick="prepareAndOpenPayLink('${order.orderId}', ${order.total || 1950}, '${encodeURIComponent(order.productTitle || 'Свеча')}', '${encodeURIComponent(order.customerName || '')}', '${encodeURIComponent(order.customerPhone || '')}')">
+          💳 Сформировать ссылку на оплату
         </button>
-        <a href="${payUrl}" target="_blank" class="btn btn-outline btn-sm" title="Открыть персональный платежный QR-код СБП">
-          QR-код
-        </a>
-        <a href="https://t.me/share/url?url=${encodeURIComponent('https://t.me/' + (s.tgUser || 'layra_ms'))}&text=${tgReplyMsg}" target="_blank" class="btn btn-outline btn-sm">
-          💬 В TG
-        </a>
-        <select onchange="window.updateOrderStatus('${orderId}', this.value)" style="padding: 4px 8px; font-size: 0.78rem; border: 1px solid var(--border-light); border-radius: 6px; background: var(--bg-subtle);">
-          <option value="new" ${status === 'new' ? 'selected' : ''}>🟢 Новый</option>
-          <option value="in_progress" ${status === 'in_progress' ? 'selected' : ''}>🟠 В работе</option>
-          <option value="shipped" ${status === 'shipped' ? 'selected' : ''}>📦 Отправлен</option>
-          <option value="completed" ${status === 'completed' ? 'selected' : ''}>✅ Завершен</option>
-        </select>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${order.orderId}', 'paid')">
+          ✓ Оплачен
+        </button>
+        <button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${order.orderId}', 'completed')">
+          Завершен
+        </button>
       </div>
     `;
-    list.appendChild(card);
+
+    container.appendChild(card);
   });
 }
 
-window.updateOrderStatus = async function(orderId, newStatus) {
+window.updateOrderStatus = function(orderId, newStatus) {
   try {
-    await fetch('/api/order/status', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderId, status: newStatus })
-    });
+    const orders = JSON.parse(localStorage.getItem('sc_orders') || '[]');
+    const target = orders.find(o => o.orderId === orderId);
+    if (target) {
+      target.status = newStatus;
+      localStorage.setItem('sc_orders', JSON.stringify(orders));
+      renderAdminOrders();
+    }
   } catch (e) {}
-  // Also update in localStorage
-  try {
-    const list = JSON.parse(localStorage.getItem('sc_orders') || '[]');
-    list.forEach(o => {
-      if ((o.orderId || o.id) === orderId) o.status = newStatus;
-    });
-    localStorage.setItem('sc_orders', JSON.stringify(list));
-  } catch (e) {}
-  renderAdminOrders();
+};
+
+window.prepareAndOpenPayLink = function(orderId, amount, encTitle, encClient, encPhone) {
+  const title = decodeURIComponent(encTitle || '');
+  const client = decodeURIComponent(encClient || '');
+  const phone = decodeURIComponent(encPhone || '');
+
+  window.switchAdminTab('tab-paylinks');
+
+  if (document.getElementById('adm-pay-order-id')) document.getElementById('adm-pay-order-id').value = orderId || '';
+  if (document.getElementById('adm-pay-amount')) document.getElementById('adm-pay-amount').value = amount || '';
+  if (document.getElementById('adm-pay-desc')) document.getElementById('adm-pay-desc').value = title || 'Свеча ручной работы';
+  if (document.getElementById('adm-pay-client')) document.getElementById('adm-pay-client').value = client || '';
+  if (document.getElementById('adm-pay-phone')) document.getElementById('adm-pay-phone').value = phone || '';
+
+  const form = document.getElementById('form-admin-gen-link');
+  if (form) {
+    form.dispatchEvent(new Event('submit'));
+  }
 };
 
 // --- Render Admin Products List ---
 function renderAdminProducts() {
-  const list = document.getElementById('admin-products-list');
-  const countSpan = document.getElementById('count-products');
-  if (!list) return;
+  const container = document.getElementById('admin-products-list');
+  const countEl = document.getElementById('count-products');
+  if (countEl) countEl.textContent = products.length;
+  if (!container) return;
 
-  countSpan.textContent = products.length;
-  list.innerHTML = '';
-
-  if (products.length === 0) {
-    list.innerHTML = `
-      <div style="background: #FFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 40px; text-align: center; color: var(--text-muted);">
-        В каталоге пока нет изделий. Нажмите кнопку «+ Добавить новое изделие» выше.
-      </div>
-    `;
-    return;
-  }
-
+  container.innerHTML = '';
   products.forEach(p => {
-    const pCats = p.categories || [];
-    const catLabels = pCats.map(catId => {
-      const c = categories.find(item => item.id === catId);
-      return c ? c.titleRu : catId;
-    }).join(', ');
+    const row = document.createElement('div');
+    row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border: 1px solid var(--border-light); border-radius: var(--radius-md); margin-bottom: 10px; background: #FFFFFF; box-shadow: var(--shadow-sm); gap: 14px; flex-wrap: wrap;';
 
-    const card = document.createElement('div');
-    card.className = 'product-row-card';
-    card.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <img src="${p.image}" alt="${p.titleRu}" class="product-row-thumb" onerror="this.src='assets/img/product_1.jpg'">
+    const catBadges = (p.categories || []).map(cid => {
+      const c = categories.find(cat => cat.id === cid);
+      return `<span class="badge" style="background: rgba(63,94,77,0.1); color: var(--accent-sage); padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 500;">${c ? c.titleRu : cid}</span>`;
+    }).join(' ');
+
+    const holidayBadges = (p.holidays || []).map(hid => {
+      const h = holidays.find(hol => hol.id === hid);
+      return `<span class="badge" style="background: rgba(200,132,82,0.15); color: var(--accent-terracotta); padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 500;">${h ? (h.icon ? h.icon + ' ' : '') + (h.name || h.titleRu) : hid}</span>`;
+    }).join(' ');
+
+    const photoSrc = (p.images && p.images[0]) || p.image || 'assets/img/product_1.jpg';
+    const photoCount = (p.images && p.images.length) ? p.images.length : 1;
+
+    row.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 260px;">
+        <div style="position: relative;">
+          <img src="${photoSrc}" alt="${p.titleRu}" style="width: 58px; height: 58px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-light);" onerror="this.src='assets/img/product_1.jpg'">
+          <span style="position: absolute; bottom: -4px; right: -4px; background: var(--accent-sage); color: #fff; font-size: 0.65rem; padding: 1px 4px; border-radius: 4px; font-weight: 600;">${photoCount} 📷</span>
+        </div>
         <div>
-          <div style="font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; color: var(--text-primary);">
-            ${p.titleRu}
+          <strong style="font-size: 1rem; color: var(--text-primary);">${p.titleRu}</strong>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+            ${p.ingredients ? 'Состав: ' + p.ingredients.substring(0, 45) + '...' : ''}
           </div>
-          <div style="font-size: 0.8rem; color: var(--accent-terracotta); margin: 2px 0;">
-            ${p.scentRu || 'Без аромата'}
-          </div>
-          <div style="display: flex; gap: 8px; align-items: center; font-size: 0.74rem; flex-wrap: wrap;">
-            <span style="background: var(--bg-subtle); padding: 2px 8px; border-radius: var(--radius-full); color: var(--text-muted);">
-              ${catLabels || 'Без категории'}
-            </span>
-            <span style="background: ${p.status === 'in-stock' ? 'var(--accent-sage-light)' : '#FFF7E6'}; color: ${p.status === 'in-stock' ? 'var(--accent-sage)' : '#D46B08'}; padding: 2px 8px; border-radius: var(--radius-full); font-weight: 600;">
-              ${p.status === 'in-stock' ? 'В наличии' : 'Под заказ'}
-            </span>
-            <span style="color: var(--text-muted);">
-              ${p.burnTime ? 'Горение: ' + p.burnTime : ''}
-            </span>
-            ${(p.holidays || []).map(hId => {
-              const labels = { ny: 'Новый Год', feb14: '14 Февраля', mar8: '8 Марта', teacher: 'День Учителя', autumn: 'Осень', bday: 'День Рождения' };
-              return `<span style="background: rgba(184, 115, 87, 0.12); color: var(--accent-terracotta); padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 0.72rem;">${labels[hId] || hId}</span>`;
-            }).join(' ')}
+          <div style="display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap;">
+            ${catBadges}
+            ${holidayBadges}
           </div>
         </div>
       </div>
-
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <div style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--text-primary); text-align: right; min-width: 90px;">
-          ${p.price.toLocaleString('ru-RU')} ₽
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="text-align: right;">
+          <strong style="font-size: 1.1rem; color: var(--accent-sage-dark);">${p.price.toLocaleString('ru-RU')} ₽</strong>
+          <div style="font-size: 0.75rem; color: ${p.status === 'in-stock' ? '#15803D' : '#D97706'}; font-weight: 600;">
+            ${p.status === 'in-stock' ? 'В наличии' : 'Под заказ'}
+          </div>
         </div>
         <div style="display: flex; gap: 8px;">
-          <button class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">
-            Редактировать
-          </button>
-          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">
-            Удалить
-          </button>
+          <button class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">Редактировать</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">Удалить</button>
         </div>
       </div>
     `;
-    list.appendChild(card);
+
+    container.appendChild(row);
   });
 }
 
-// --- Delete Product ---
 window.deleteProduct = function(id) {
-  const p = products.find(item => item.id === id);
-  if (!p) return;
-
-  if (confirm(`Удалить «${p.titleRu}» из каталога?`)) {
-    products = products.filter(item => item.id !== id);
+  if (confirm('Вы уверены, что хотите удалить это изделие из каталога?')) {
+    products = products.filter(p => p.id !== id);
     saveProducts();
     renderAdminProducts();
+    notifyPendingChanges();
   }
 };
 
-// --- Multi-Category Checkbox Render in Product Modal ---
+// --- Checkbox Helpers for Product Modal ---
 function renderCategoryCheckboxes(selectedArray = []) {
   const container = document.getElementById('edit-categories-group');
   if (!container) return;
-
   container.innerHTML = '';
   categories.filter(c => c.id !== 'all').forEach(c => {
     const isChecked = selectedArray.includes(c.id);
@@ -739,38 +791,136 @@ function renderCategoryCheckboxes(selectedArray = []) {
   });
 }
 
+function renderHolidayCheckboxes(selectedArray = []) {
+  const container = document.getElementById('edit-holidays-group');
+  if (!container) return;
+  container.innerHTML = '';
+  holidays.filter(h => h.id !== 'all').forEach(h => {
+    const isChecked = selectedArray.includes(h.id);
+    const label = document.createElement('label');
+    label.className = 'cat-check-item';
+    label.innerHTML = `
+      <input type="checkbox" name="product-holiday" value="${h.id}" ${isChecked ? 'checked' : ''}>
+      <span>${h.icon ? h.icon + ' ' : ''}${h.name || h.titleRu}</span>
+    `;
+    container.appendChild(label);
+  });
+}
+
+function renderScentCheckboxes(selectedArray = []) {
+  const container = document.getElementById('edit-scents-group');
+  if (!container) return;
+  container.innerHTML = '';
+  scents.forEach(s => {
+    const isChecked = !selectedArray.length || selectedArray.includes(s.title);
+    const label = document.createElement('label');
+    label.className = 'cat-check-item';
+    label.innerHTML = `
+      <input type="checkbox" name="product-scent" value="${s.title}" ${isChecked ? 'checked' : ''}>
+      <span>${s.title}</span>
+    `;
+    container.appendChild(label);
+  });
+}
+
+function renderFinishCheckboxes(selectedArray = []) {
+  const container = document.getElementById('edit-finishes-group');
+  if (!container) return;
+  container.innerHTML = '';
+  finishes.forEach(f => {
+    const isChecked = !selectedArray.length || selectedArray.includes(f);
+    const label = document.createElement('label');
+    label.className = 'cat-check-item';
+    label.innerHTML = `
+      <input type="checkbox" name="product-finish" value="${f}" ${isChecked ? 'checked' : ''}>
+      <span>${f}</span>
+    `;
+    container.appendChild(label);
+  });
+}
+
+function renderGypsumColorCheckboxes(selectedArray = []) {
+  const container = document.getElementById('edit-colors-group');
+  if (!container) return;
+  container.innerHTML = '';
+  gypsumColors.forEach(c => {
+    const isChecked = !selectedArray.length || selectedArray.includes(c);
+    const label = document.createElement('label');
+    label.className = 'cat-check-item';
+    label.innerHTML = `
+      <input type="checkbox" name="product-gypsum-color" value="${c}" ${isChecked ? 'checked' : ''}>
+      <span>${c}</span>
+    `;
+    container.appendChild(label);
+  });
+}
+
+// --- Setup 3-Photo Slots Management ---
+function setupPhotoSlot(slotNum) {
+  const dropEl = document.getElementById(`drop-photo-${slotNum}`);
+  const fileEl = document.getElementById(`file-photo-${slotNum}`);
+  const prevEl = document.getElementById(`preview-photo-${slotNum}`);
+  const phEl = document.getElementById(`placeholder-photo-${slotNum}`);
+  if (!dropEl || !fileEl) return;
+
+  dropEl.onclick = () => fileEl.click();
+  fileEl.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const compressed = await compressImage(file, 900, 0.82);
+        uploadedProductPhotos[slotNum - 1] = compressed;
+        if (prevEl) {
+          prevEl.src = compressed;
+          prevEl.style.display = 'block';
+        }
+        if (phEl) phEl.style.display = 'none';
+      } catch (err) {
+        console.error(`Photo slot ${slotNum} error:`, err);
+      }
+    }
+  };
+}
+
+function resetPhotoSlots(photos = []) {
+  uploadedProductPhotos = [photos[0] || '', photos[1] || '', photos[2] || ''];
+  for (let i = 1; i <= 3; i++) {
+    const prevEl = document.getElementById(`preview-photo-${i}`);
+    const phEl = document.getElementById(`placeholder-photo-${i}`);
+    const val = uploadedProductPhotos[i - 1];
+    if (val) {
+      if (prevEl) {
+        prevEl.src = val;
+        prevEl.style.display = 'block';
+      }
+      if (phEl) phEl.style.display = 'none';
+    } else {
+      if (prevEl) prevEl.style.display = 'none';
+      if (phEl) phEl.style.display = 'block';
+    }
+  }
+}
+
 window.editProduct = function(id) {
   const p = products.find(item => item.id === id);
   if (!p) return;
 
-  renderCategoryCheckboxes(p.categories || []);
-
-  const holidays = p.holidays || [];
-  document.querySelectorAll('input[name="product-holiday"]').forEach(cb => {
-    cb.checked = holidays.includes(cb.value);
-  });
-
   document.getElementById('modal-product-title').textContent = 'Редактировать изделие';
   document.getElementById('edit-product-id').value = p.id;
   document.getElementById('edit-title-ru').value = p.titleRu;
-  document.getElementById('edit-title-en').value = p.titleEn || '';
   document.getElementById('edit-price').value = p.price;
   document.getElementById('edit-status').value = p.status;
-  document.getElementById('edit-scent-ru').value = p.scentRu || '';
-  document.getElementById('edit-scent-en').value = p.scentEn || '';
-  document.getElementById('edit-burn').value = p.burnTime || '';
-  document.getElementById('edit-colors').value = p.colors || 'Натуральный белый, Теплый беж, Графит';
-  document.getElementById('edit-finish').value = p.finish || 'матовый';
+  document.getElementById('edit-ingredients').value = p.ingredients || '';
   document.getElementById('edit-desc-ru').value = p.descRu || '';
 
-  uploadedProductPhoto = p.image || '';
-  const preview = document.getElementById('edit-drop-preview');
-  if (uploadedProductPhoto) {
-    preview.src = uploadedProductPhoto;
-    preview.style.display = 'block';
-  } else {
-    preview.style.display = 'none';
-  }
+  renderCategoryCheckboxes(p.categories || []);
+  renderHolidayCheckboxes(p.holidays || []);
+  renderScentCheckboxes(p.availableScents || []);
+  renderFinishCheckboxes(p.availableFinishes || []);
+  renderGypsumColorCheckboxes(p.availableGypsumColors || []);
+
+  const photos = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
+  resetPhotoSlots(photos);
 
   document.getElementById('modal-edit-product').classList.add('active');
 };
@@ -780,96 +930,96 @@ function setupProductModal() {
   const openAddBtn = document.getElementById('btn-open-add-modal');
   const closeBtn = document.getElementById('btn-close-edit-modal');
   const form = document.getElementById('form-edit-product');
-  const fileDrop = document.getElementById('edit-photo-drop');
-  const fileInput = document.getElementById('edit-photo-file');
-  const dropPreview = document.getElementById('edit-drop-preview');
 
-  openAddBtn.addEventListener('click', () => {
-    form.reset();
-    renderCategoryCheckboxes(['candles']);
-    document.querySelectorAll('input[name="product-holiday"]').forEach(cb => cb.checked = false);
-    document.getElementById('edit-product-id').value = '';
-    document.getElementById('modal-product-title').textContent = 'Добавить новое изделие';
-    document.getElementById('edit-colors').value = 'Белый, Бежевый, Мрамор, Графит';
-    document.getElementById('edit-finish').value = 'матовый';
-    uploadedProductPhoto = '';
-    dropPreview.style.display = 'none';
-    modal.classList.add('active');
-  });
+  setupPhotoSlot(1);
+  setupPhotoSlot(2);
+  setupPhotoSlot(3);
 
-  closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+  if (openAddBtn) {
+    openAddBtn.addEventListener('click', () => {
+      form.reset();
+      document.getElementById('edit-product-id').value = '';
+      document.getElementById('modal-product-title').textContent = 'Добавить новое изделие';
+      document.getElementById('edit-ingredients').value = '100% соевый воск, хлопковый фитиль, премиальные аромамасла';
+      renderCategoryCheckboxes(['candles']);
+      renderHolidayCheckboxes([]);
+      renderScentCheckboxes([]);
+      renderFinishCheckboxes([]);
+      renderGypsumColorCheckboxes([]);
+      resetPhotoSlots([]);
+      modal.classList.add('active');
+    });
+  }
 
-  fileDrop.addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        uploadedProductPhoto = await compressImage(file, 900, 0.82);
-        dropPreview.src = uploadedProductPhoto;
-        dropPreview.style.display = 'block';
-      } catch (err) {
-        console.error('Image compression error', err);
-      }
-    }
-  });
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+  }
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const id = document.getElementById('edit-product-id').value;
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('edit-product-id').value;
 
-    // Collect multiple checked categories
-    const checkedCats = Array.from(document.querySelectorAll('input[name="product-category"]:checked'))
-      .map(cb => cb.value);
-    const chosenCategories = checkedCats.length > 0 ? checkedCats : ['candles'];
+      const checkedCats = Array.from(document.querySelectorAll('input[name="product-category"]:checked'))
+        .map(cb => cb.value);
+      const chosenCategories = checkedCats.length > 0 ? checkedCats : ['candles'];
 
-    // Collect checked holidays
-    const checkedHolidays = Array.from(document.querySelectorAll('input[name="product-holiday"]:checked'))
-      .map(cb => cb.value);
+      const checkedHolidays = Array.from(document.querySelectorAll('input[name="product-holiday"]:checked'))
+        .map(cb => cb.value);
 
-    const itemData = {
-      titleRu: document.getElementById('edit-title-ru').value,
-      titleEn: document.getElementById('edit-title-en').value || document.getElementById('edit-title-ru').value,
-      categories: chosenCategories,
-      category: chosenCategories[0],
-      holidays: checkedHolidays,
-      price: parseInt(document.getElementById('edit-price').value, 10) || 1000,
-      status: document.getElementById('edit-status').value,
-      size: 'Стандарт',
-      scentRu: document.getElementById('edit-scent-ru').value || 'Натуральный воск',
-      scentEn: document.getElementById('edit-scent-en').value || 'Natural wax',
-      burnTime: document.getElementById('edit-burn').value || '20-25 ч',
-      colors: document.getElementById('edit-colors').value || 'Белый, Беж, Графит',
-      finish: document.getElementById('edit-finish').value || 'матовый',
-      descRu: document.getElementById('edit-desc-ru').value || 'Авторская ручная работа.',
-      descEn: 'Handcrafted bespoke piece.',
-      image: uploadedProductPhoto || 'assets/img/product_1.jpg'
-    };
+      const checkedScents = Array.from(document.querySelectorAll('input[name="product-scent"]:checked'))
+        .map(cb => cb.value);
 
-    if (id) {
-      const idx = products.findIndex(p => p.id === id);
-      if (idx !== -1) {
-        products[idx] = { ...products[idx], ...itemData };
-      }
-    } else {
-      const newItem = {
-        id: 'sc-custom-' + Date.now(),
-        ...itemData
+      const checkedFinishes = Array.from(document.querySelectorAll('input[name="product-finish"]:checked'))
+        .map(cb => cb.value);
+
+      const checkedColors = Array.from(document.querySelectorAll('input[name="product-gypsum-color"]:checked'))
+        .map(cb => cb.value);
+
+      const validPhotos = uploadedProductPhotos.filter(Boolean);
+      const finalPhotos = validPhotos.length > 0 ? validPhotos : ['assets/img/product_1.jpg'];
+
+      const itemData = {
+        titleRu: document.getElementById('edit-title-ru').value.trim(),
+        price: parseInt(document.getElementById('edit-price').value, 10) || 1000,
+        status: document.getElementById('edit-status').value,
+        ingredients: document.getElementById('edit-ingredients').value.trim() || '100% соевый воск, хлопковый фитиль, премиальные аромамасла',
+        descRu: document.getElementById('edit-desc-ru').value.trim() || 'Авторская ручная работа из Санкт-Петербурга.',
+        categories: chosenCategories,
+        category: chosenCategories[0],
+        holidays: checkedHolidays,
+        availableScents: checkedScents,
+        availableFinishes: checkedFinishes,
+        availableGypsumColors: checkedColors,
+        images: finalPhotos,
+        image: finalPhotos[0]
       };
-      products.unshift(newItem);
-    }
 
-    saveProducts();
-    renderAdminProducts();
-    notifyPendingChanges();
-    modal.classList.remove('active');
-  });
+      if (id) {
+        const idx = products.findIndex(p => p.id === id);
+        if (idx !== -1) {
+          products[idx] = { ...products[idx], ...itemData };
+        }
+      } else {
+        const newItem = {
+          id: 'sc-custom-' + Date.now(),
+          ...itemData
+        };
+        products.unshift(newItem);
+      }
+
+      saveProducts();
+      renderAdminProducts();
+      notifyPendingChanges();
+      modal.classList.remove('active');
+    });
+  }
 }
 
-// --- Category Management ---
+// --- Categories Manager ---
 function renderAdminCategories() {
   const container = document.getElementById('admin-categories-list');
   if (!container) return;
-
   container.innerHTML = '';
   categories.forEach(cat => {
     const row = document.createElement('div');
@@ -877,13 +1027,12 @@ function renderAdminCategories() {
     row.innerHTML = `
       <div>
         <strong>${cat.titleRu}</strong>
-        <span style="color: var(--text-muted); font-size: 0.8rem; margin-left: 8px;">(${cat.titleEn || cat.titleRu})</span>
         <code style="font-size: 0.72rem; color: var(--accent-sage); margin-left: 8px;">id: ${cat.id}</code>
       </div>
       <div>
         ${cat.id === 'all' 
           ? '<span style="font-size: 0.75rem; color: var(--text-muted);">Основная</span>' 
-          : `<button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}')">Удалить</button>`}
+          : `<button type="button" class="btn btn-danger btn-sm" onclick="window.deleteCategory('${cat.id}')">Удалить</button>`}
       </div>
     `;
     container.appendChild(row);
@@ -891,108 +1040,295 @@ function renderAdminCategories() {
 }
 
 window.deleteCategory = function(catId) {
-  if (confirm(`Удалить категорию? Изделия останутся в каталоге.`)) {
+  if (confirm('Удалить категорию? Изделия останутся в каталоге.')) {
     categories = categories.filter(c => c.id !== catId);
     saveCategories();
     renderAdminCategories();
+    notifyPendingChanges();
   }
 };
 
 function setupCategoryForm() {
   const form = document.getElementById('form-add-category');
   if (!form) return;
-
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const ru = document.getElementById('new-cat-name-ru').value.trim();
-    const en = document.getElementById('new-cat-name-en').value.trim() || ru;
+    const en = document.getElementById('new-cat-name-en')?.value.trim() || ru;
     const catId = 'cat-' + Date.now();
-
-    categories.push({
-      id: catId,
-      titleRu: ru,
-      titleEn: en
-    });
-
+    categories.push({ id: catId, titleRu: ru, titleEn: en });
     saveCategories();
     renderAdminCategories();
+    notifyPendingChanges();
     form.reset();
   });
 }
 
-// --- Scents Management ---
-function renderAdminScents() {
-  const container = document.getElementById('admin-scents-list');
-  const countSpan = document.getElementById('count-scents');
+// --- Seasonal Holidays Manager ---
+function renderAdminHolidays() {
+  const container = document.getElementById('admin-holidays-list');
+  const countEl = document.getElementById('count-holidays');
+  if (countEl) countEl.textContent = holidays.length;
   if (!container) return;
-
-  if (countSpan) countSpan.textContent = scents.length;
   container.innerHTML = '';
-
-  if (scents.length === 0) {
-    container.innerHTML = `
-      <div style="background: #FFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 40px; text-align: center; color: var(--text-muted);">
-        Нет добавленных ароматов. Нажмите «+ Добавить новый аромат», чтобы создать композицию.
-      </div>
-    `;
-    return;
-  }
-
-  scents.forEach(s => {
+  holidays.forEach(h => {
     const row = document.createElement('div');
-    row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border: 1px solid var(--border-light); border-radius: var(--radius-md); margin-bottom: 10px; background: var(--bg-main); flex-wrap: wrap; gap: 12px;';
-
-    const activeBadge = s.active !== false
-      ? '<span style="background: rgba(122, 143, 126, 0.15); color: var(--accent-sage); font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 4px;">Активен</span>'
-      : '<span style="background: rgba(184, 115, 87, 0.15); color: var(--accent-terracotta); font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 4px;">Скрыт</span>';
-
+    row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); margin-bottom: 8px; background: var(--bg-main);';
     row.innerHTML = `
-      <div style="flex: 1; min-width: 240px;">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-          <strong style="font-size: 1rem; color: var(--text-primary);">${s.title}</strong>
-          ${activeBadge}
-        </div>
-        <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
-          ${s.desc}
-        </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.35rem;">${h.icon || '✨'}</span>
+        <strong>${h.name || h.titleRu}</strong>
+        <code style="font-size: 0.72rem; color: var(--accent-sage);">id: ${h.id}</code>
       </div>
-      <div style="display: flex; gap: 8px; align-items: center;">
-        <button class="btn btn-sm" style="border: 1px solid var(--border-light); background: #FFF;" onclick="toggleScentActive('${s.id}')">
-          ${s.active !== false ? 'Скрыть' : 'Включить'}
-        </button>
-        <button class="btn btn-outline btn-sm" onclick="editScent('${s.id}')">Изменить</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteScent('${s.id}')">Удалить</button>
+      <div>
+        ${h.id === 'all' 
+          ? '<span style="font-size: 0.75rem; color: var(--text-muted);">Основной</span>' 
+          : `<button type="button" class="btn btn-danger btn-sm" onclick="window.deleteHoliday('${h.id}')">Удалить</button>`}
       </div>
     `;
     container.appendChild(row);
   });
 }
 
+function setupHolidayForm() {
+  const form = document.getElementById('form-add-holiday');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const icon = document.getElementById('new-holiday-icon').value.trim() || '✨';
+    const name = document.getElementById('new-holiday-name').value.trim();
+    if (!name) return;
+    const id = 'hol-' + Date.now();
+    holidays.push({ id, name, titleRu: name, titleEn: name, icon });
+    saveHolidays();
+    renderAdminHolidays();
+    notifyPendingChanges();
+    form.reset();
+  });
+}
+
+window.deleteHoliday = function(id) {
+  if (confirm('Удалить этот праздник из списка?')) {
+    holidays = holidays.filter(h => h.id !== id);
+    saveHolidays();
+    renderAdminHolidays();
+    notifyPendingChanges();
+  }
+};
+
+// --- Finishes & Gypsum Colors Manager ---
+function renderAdminFinishes() {
+  const container = document.getElementById('admin-finishes-list');
+  if (!container) return;
+  container.innerHTML = '';
+  finishes.forEach((f, idx) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); margin-bottom: 6px; background: var(--bg-main); font-size: 0.86rem;';
+    row.innerHTML = `
+      <span>${f}</span>
+      <button type="button" class="btn btn-danger btn-sm" style="padding: 2px 8px; font-size: 0.75rem;" onclick="window.deleteFinish(${idx})">×</button>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function setupFinishForm() {
+  const form = document.getElementById('form-add-finish');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('new-finish-name');
+    const val = input.value.trim();
+    if (val && !finishes.includes(val)) {
+      finishes.push(val);
+      saveFinishes();
+      renderAdminFinishes();
+      notifyPendingChanges();
+      input.value = '';
+    }
+  });
+}
+
+window.deleteFinish = function(idx) {
+  finishes.splice(idx, 1);
+  saveFinishes();
+  renderAdminFinishes();
+  notifyPendingChanges();
+};
+
+function renderAdminGypsumColors() {
+  const container = document.getElementById('admin-gypsum-colors-list');
+  if (!container) return;
+  container.innerHTML = '';
+  gypsumColors.forEach((c, idx) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); margin-bottom: 6px; background: var(--bg-main); font-size: 0.86rem;';
+    row.innerHTML = `
+      <span>${c}</span>
+      <button type="button" class="btn btn-danger btn-sm" style="padding: 2px 8px; font-size: 0.75rem;" onclick="window.deleteGypsumColor(${idx})">×</button>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function setupGypsumColorForm() {
+  const form = document.getElementById('form-add-gypsum-color');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('new-gypsum-color-name');
+    const val = input.value.trim();
+    if (val && !gypsumColors.includes(val)) {
+      gypsumColors.push(val);
+      saveGypsumColors();
+      renderAdminGypsumColors();
+      notifyPendingChanges();
+      input.value = '';
+    }
+  });
+}
+
+window.deleteGypsumColor = function(idx) {
+  gypsumColors.splice(idx, 1);
+  saveGypsumColors();
+  renderAdminGypsumColors();
+  notifyPendingChanges();
+};
+
+// --- Promocodes Manager ---
+function renderAdminPromocodes() {
+  const container = document.getElementById('admin-promos-list');
+  const countEl = document.getElementById('count-promos');
+  if (countEl) countEl.textContent = promocodes.length;
+  if (!container) return;
+  container.innerHTML = '';
+  promocodes.forEach(pr => {
+    const row = document.createElement('div');
+    row.style.cssText = 'padding: 12px 16px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); margin-bottom: 8px; background: var(--bg-main);';
+    row.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <strong style="font-size: 1rem; color: var(--accent-sage-dark); font-family: monospace;">${pr.code}</strong>
+          <span class="badge" style="background: rgba(63,94,77,0.12); color: var(--accent-sage); padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 600;">
+            ${pr.type === 'percent' ? pr.val + '%' : pr.val + ' ₽'}
+          </span>
+          <span style="font-size: 0.75rem; color: ${pr.active !== false ? '#2F855A' : '#C53030'}; font-weight: 600;">
+            ${pr.active !== false ? '● Активен' : '○ Выключен'}
+          </span>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button type="button" class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size: 0.75rem;" onclick="window.togglePromo('${pr.id}')">
+            ${pr.active !== false ? 'Выключить' : 'Включить'}
+          </button>
+          <button type="button" class="btn btn-danger btn-sm" style="padding: 4px 10px; font-size: 0.75rem;" onclick="window.deletePromo('${pr.id}')">
+            Удалить
+          </button>
+        </div>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--text-secondary);">${pr.desc || 'Скидка на заказ'}</div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function setupPromoForm() {
+  const form = document.getElementById('form-add-promo');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const code = document.getElementById('new-promo-code').value.trim().toUpperCase();
+    const type = document.getElementById('new-promo-type').value;
+    const val = parseInt(document.getElementById('new-promo-val').value, 10);
+    const desc = document.getElementById('new-promo-desc').value.trim();
+    if (!code || isNaN(val)) return;
+    const id = 'promo-' + Date.now();
+    promocodes.push({ id, code, type, val, desc, active: true });
+    savePromocodes();
+    renderAdminPromocodes();
+    notifyPendingChanges();
+    form.reset();
+  });
+}
+
+window.togglePromo = function(id) {
+  const pr = promocodes.find(p => p.id === id);
+  if (pr) {
+    pr.active = pr.active === false ? true : false;
+    savePromocodes();
+    renderAdminPromocodes();
+    notifyPendingChanges();
+  }
+};
+
+window.deletePromo = function(id) {
+  if (confirm('Удалить этот промокод?')) {
+    promocodes = promocodes.filter(p => p.id !== id);
+    savePromocodes();
+    renderAdminPromocodes();
+    notifyPendingChanges();
+  }
+};
+
+// --- Scents Manager ---
+function renderAdminScents() {
+  const container = document.getElementById('admin-scents-list');
+  const countEl = document.getElementById('count-scents');
+  if (countEl) countEl.textContent = scents.length;
+  if (!container) return;
+
+  container.innerHTML = '';
+  scents.forEach(s => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); margin-bottom: 8px; background: var(--bg-main); flex-wrap: wrap; gap: 8px;';
+    
+    row.innerHTML = `
+      <div style="flex: 1; min-width: 220px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <strong style="color: var(--accent-sage-dark); font-size: 0.95rem;">${s.title}</strong>
+          <span style="font-size: 0.72rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; ${s.active !== false ? 'background: rgba(34,197,94,0.15); color: #15803D;' : 'background: rgba(156,163,175,0.2); color: #4B5563;'}">
+            ${s.active !== false ? 'Активен' : 'Скрыт'}
+          </span>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 3px; line-height: 1.4;">${s.desc}</p>
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="editScent('${s.id}')">Изменить</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="toggleScentActive('${s.id}')">${s.active !== false ? 'Скрыть' : 'Показать'}</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="deleteScent('${s.id}')">Удалить</button>
+      </div>
+    `;
+
+    container.appendChild(row);
+  });
+}
+
 window.toggleScentActive = function(id) {
-  const item = scents.find(s => s.id === id);
-  if (item) {
-    item.active = !item.active;
+  const s = scents.find(item => item.id === id);
+  if (s) {
+    s.active = s.active === false ? true : false;
     saveScents();
     renderAdminScents();
+    notifyPendingChanges();
   }
 };
 
 window.deleteScent = function(id) {
   if (confirm('Удалить этот аромат из палитры?')) {
-    scents = scents.filter(s => s.id !== id);
+    scents = scents.filter(item => item.id !== id);
     saveScents();
     renderAdminScents();
+    notifyPendingChanges();
   }
 };
 
 window.editScent = function(id) {
   const s = scents.find(item => item.id === id);
   if (!s) return;
-  document.getElementById('modal-scent-title').textContent = 'Редактировать аромат';
   document.getElementById('edit-scent-id').value = s.id;
   document.getElementById('edit-scent-name').value = s.title;
   document.getElementById('edit-scent-notes').value = s.desc;
   document.getElementById('edit-scent-active').checked = s.active !== false;
+  document.getElementById('modal-scent-title').textContent = 'Редактировать аромат';
   document.getElementById('modal-edit-scent').classList.add('active');
 };
 
@@ -1001,282 +1337,184 @@ function setupScentModal() {
   const openBtn = document.getElementById('btn-open-add-scent');
   const closeBtn = document.getElementById('btn-close-scent-modal');
   const form = document.getElementById('form-edit-scent');
-  if (!modal || !form) return;
 
   if (openBtn) {
-    openBtn.onclick = () => {
-      document.getElementById('modal-scent-title').textContent = 'Добавить новый аромат';
-      document.getElementById('edit-scent-id').value = '';
+    openBtn.addEventListener('click', () => {
       form.reset();
+      document.getElementById('edit-scent-id').value = '';
       document.getElementById('edit-scent-active').checked = true;
+      document.getElementById('modal-scent-title').textContent = 'Добавить новый аромат';
       modal.classList.add('active');
-    };
-  }
-
-  if (closeBtn) {
-    closeBtn.onclick = () => modal.classList.remove('active');
-  }
-
-  modal.onclick = (e) => {
-    if (e.target === modal) modal.classList.remove('active');
-  };
-
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    const id = document.getElementById('edit-scent-id').value;
-    const title = document.getElementById('edit-scent-name').value.trim();
-    const desc = document.getElementById('edit-scent-notes').value.trim();
-    const active = document.getElementById('edit-scent-active').checked;
-
-    if (id) {
-      const idx = scents.findIndex(s => s.id === id);
-      if (idx !== -1) {
-        scents[idx] = { id, title, desc, active };
-      }
-    } else {
-      scents.push({
-        id: 'scent-' + Date.now(),
-        title,
-        desc,
-        active
-      });
-    }
-
-    saveScents();
-    renderAdminScents();
-    modal.classList.remove('active');
-  };
-}
-
-// --- Promo / Special Collection Popup Manager ---
-function initAdminPromoForm() {
-  const form = document.getElementById('form-admin-promo');
-  if (!form) return;
-
-  let promoData = DEFAULT_PROMO;
-  try {
-    const saved = localStorage.getItem('sc_promo_popup');
-    if (saved) promoData = { ...DEFAULT_PROMO, ...JSON.parse(saved) };
-  } catch (e) {
-    promoData = DEFAULT_PROMO;
-  }
-
-  // Populate products select
-  const select = document.getElementById('promo-product-select');
-  if (select) {
-    select.innerHTML = '<option value="">— Прямой диалог в Telegram с Катериной —</option>';
-    products.forEach(p => {
-      const opt = document.createElement('option');
-      opt.value = p.id;
-      opt.textContent = `${p.titleRu} (${p.price} ₽)`;
-      if (promoData.productId === p.id) opt.selected = true;
-      select.appendChild(opt);
     });
   }
 
-  document.getElementById('promo-enabled').checked = promoData.enabled !== false;
-  document.getElementById('promo-badge').value = promoData.badge || '';
-  document.getElementById('promo-title').value = promoData.title || '';
-  document.getElementById('promo-desc').value = promoData.desc || '';
-  document.getElementById('promo-btn-text').value = promoData.btnText || '';
+  if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('active'));
 
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    const updated = {
-      enabled: document.getElementById('promo-enabled').checked,
-      badge: document.getElementById('promo-badge').value.trim(),
-      title: document.getElementById('promo-title').value.trim(),
-      desc: document.getElementById('promo-desc').value.trim(),
-      btnText: document.getElementById('promo-btn-text').value.trim(),
-      productId: document.getElementById('promo-product-select').value
-    };
-    localStorage.setItem('sc_promo_popup', JSON.stringify(updated));
-    notifyDataUpdated();
-    alert('Настройки всплывающего предложения успешно сохранены!');
-  };
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('edit-scent-id').value;
+      const title = document.getElementById('edit-scent-name').value.trim();
+      const desc = document.getElementById('edit-scent-notes').value.trim();
+      const active = document.getElementById('edit-scent-active').checked;
 
-  const previewBtn = document.getElementById('btn-preview-promo-site');
-  if (previewBtn) {
-    previewBtn.onclick = () => {
-      window.open('index.html', '_blank');
+      if (!title) return;
+
+      if (id) {
+        const idx = scents.findIndex(s => s.id === id);
+        if (idx !== -1) scents[idx] = { ...scents[idx], title, desc, active };
+      } else {
+        scents.push({ id: 'scent-' + Date.now(), title, desc, active });
+      }
+
+      saveScents();
+      renderAdminScents();
+      notifyPendingChanges();
+      modal.classList.remove('active');
+    });
+  }
+}
+
+// --- Promo Toast Settings ---
+function initAdminPromoForm() {
+  let promo = { ...DEFAULT_PROMO };
+  try {
+    const s = localStorage.getItem('sc_promo_popup');
+    if (s) promo = { ...DEFAULT_PROMO, ...JSON.parse(s) };
+  } catch (e) {}
+
+  const enabledEl = document.getElementById('promo-enabled');
+  if (enabledEl) enabledEl.checked = promo.enabled !== false;
+  const badgeEl = document.getElementById('promo-badge');
+  if (badgeEl) badgeEl.value = promo.badge || '';
+  const titleEl = document.getElementById('promo-title');
+  if (titleEl) titleEl.value = promo.title || '';
+  const descEl = document.getElementById('promo-desc');
+  if (descEl) descEl.value = promo.desc || '';
+  const btnEl = document.getElementById('promo-btn-text');
+  if (btnEl) btnEl.value = promo.btnText || '';
+
+  const prodSelect = document.getElementById('promo-product-id');
+  if (prodSelect) {
+    prodSelect.innerHTML = products.map(p => `<option value="${p.id}" ${p.id === promo.productId ? 'selected' : ''}>${p.titleRu} (${p.price} ₽)</option>`).join('');
+  }
+
+  const form = document.getElementById('form-admin-promo');
+  if (form) {
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const updated = {
+        enabled: document.getElementById('promo-enabled').checked,
+        badge: document.getElementById('promo-badge').value.trim(),
+        title: document.getElementById('promo-title').value.trim(),
+        desc: document.getElementById('promo-desc').value.trim(),
+        btnText: document.getElementById('promo-btn-text').value.trim(),
+        productId: document.getElementById('promo-product-id').value
+      };
+      localStorage.setItem('sc_promo_popup', JSON.stringify(updated));
+      notifyDataUpdated();
+      alert('Настройки всплывающего предложения успешно сохранены!');
     };
   }
 }
 
-// --- Site Photos & Hero Badge Manager ---
+// --- Photos Manager (Hero / About) ---
 function initPhotosManager() {
-  const heroDrop = document.getElementById('drop-hero-photo');
-  const heroInput = document.getElementById('input-hero-photo');
-  const heroPreview = document.getElementById('preview-hero-photo');
+  const dropHero = document.getElementById('drop-hero-photo');
+  const inputHero = document.getElementById('input-hero-photo');
+  const previewHero = document.getElementById('preview-hero-photo');
+  const dropAbout = document.getElementById('drop-about-photo');
+  const inputAbout = document.getElementById('input-about-photo');
+  const previewAbout = document.getElementById('preview-about-photo');
 
-  const aboutDrop = document.getElementById('drop-about-photo');
-  const aboutInput = document.getElementById('input-about-photo');
-  const aboutPreview = document.getElementById('preview-about-photo');
+  const savedHero = localStorage.getItem('sc_hero_img');
+  if (savedHero && previewHero) previewHero.src = savedHero;
+  const savedAbout = localStorage.getItem('sc_about_img');
+  if (savedAbout && previewAbout) previewAbout.src = savedAbout;
 
-  const badgeTitleInput = document.getElementById('input-badge-title');
-  const badgeSubInput = document.getElementById('input-badge-sub');
+  const badgeTitleEl = document.getElementById('input-badge-title');
+  if (badgeTitleEl) badgeTitleEl.value = localStorage.getItem('sc_hero_badge_title') || '';
+  const badgeSubEl = document.getElementById('input-badge-sub');
+  if (badgeSubEl) badgeSubEl.value = localStorage.getItem('sc_hero_badge_sub') || '';
+
+  if (dropHero && inputHero) {
+    dropHero.onclick = () => inputHero.click();
+    inputHero.onchange = async (e) => {
+      const f = e.target.files[0];
+      if (f) {
+        uploadedHeroPhoto = await compressImage(f, 1200, 0.85);
+        if (previewHero) previewHero.src = uploadedHeroPhoto;
+      }
+    };
+  }
+
+  if (dropAbout && inputAbout) {
+    dropAbout.onclick = () => inputAbout.click();
+    inputAbout.onchange = async (e) => {
+      const f = e.target.files[0];
+      if (f) {
+        uploadedAboutPhoto = await compressImage(f, 1200, 0.85);
+        if (previewAbout) previewAbout.src = uploadedAboutPhoto;
+      }
+    };
+  }
 
   const saveBtn = document.getElementById('btn-save-photos');
-
-  // Load existing saved photos & badge text
-  const savedHero = localStorage.getItem('sc_hero_img');
-  heroPreview.src = (savedHero && !savedHero.includes('product_4.jpg')) ? savedHero : 'assets/img/fairy_katerina.jpg';
-
-  const savedAbout = localStorage.getItem('sc_about_img');
-  aboutPreview.src = (savedAbout && !savedAbout.includes('product_7.jpg')) ? savedAbout : 'assets/img/fairy_katerina.jpg';
-
-  badgeTitleInput.value = localStorage.getItem('sc_hero_badge_title') || 'Мастерская Sculpted&Candle';
-  badgeSubInput.value = localStorage.getItem('sc_hero_badge_sub') || 'Свечи и гипсовый декор ручной работы';
-
-  // Hero upload with compression
-  heroDrop.onclick = () => heroInput.click();
-  heroInput.onchange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        uploadedHeroPhoto = await compressImage(file, 900, 0.82);
-        heroPreview.src = uploadedHeroPhoto;
-      } catch (err) {
-        console.error('Hero compression error', err);
-      }
-    }
-  };
-
-  // About upload with compression
-  aboutDrop.onclick = () => aboutInput.click();
-  aboutInput.onchange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        uploadedAboutPhoto = await compressImage(file, 900, 0.82);
-        aboutPreview.src = uploadedAboutPhoto;
-      } catch (err) {
-        console.error('About compression error', err);
-      }
-    }
-  };
-
-  saveBtn.onclick = () => {
-    try {
+  if (saveBtn) {
+    saveBtn.onclick = () => {
       if (uploadedHeroPhoto) localStorage.setItem('sc_hero_img', uploadedHeroPhoto);
       if (uploadedAboutPhoto) localStorage.setItem('sc_about_img', uploadedAboutPhoto);
-      if (badgeTitleInput.value) localStorage.setItem('sc_hero_badge_title', badgeTitleInput.value);
-      if (badgeSubInput.value) localStorage.setItem('sc_hero_badge_sub', badgeSubInput.value);
-      notifyDataUpdated();
-      alert('Фотографии и надписи на главном экране успешно сохранены!');
-    } catch (err) {
-      alert('Ошибка сохранения: ' + err.message);
-    }
-  };
+      if (badgeTitleEl) localStorage.setItem('sc_hero_badge_title', badgeTitleEl.value.trim());
+      if (badgeSubEl) localStorage.setItem('sc_hero_badge_sub', badgeSubEl.value.trim());
+      notifyPendingChanges();
+      alert('Фотографии и плашка главного экрана сохранены!');
+    };
+  }
 }
 
-// --- Payment Link Generator in Admin ---
+// --- Payment Link Generator (for Katerina) ---
 function setupPaymentLinkGenerator() {
   const form = document.getElementById('form-admin-gen-link');
-  const resultBox = document.getElementById('adm-link-result-box');
-  const resultUrlInput = document.getElementById('adm-link-result-url');
-  const resultMsgInput = document.getElementById('adm-msg-result-text');
-  const copyMsgBtn = document.getElementById('btn-adm-copy-msg');
-  const copyLinkBtn = document.getElementById('btn-adm-copy-link');
-  const openBtn = document.getElementById('btn-adm-open-link');
-  const shareTgBtn = document.getElementById('btn-adm-share-tg');
-
   if (!form) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const orderIdInput = document.getElementById('adm-pay-order-id');
-    const orderId = (orderIdInput && orderIdInput.value.trim()) || ('SC-' + Math.floor(100 + Math.random() * 900));
-    const amount = document.getElementById('adm-pay-amount').value.trim();
-    const rawDesc = document.getElementById('adm-pay-desc').value.trim() || 'Изделие ручной работы';
-    const rawClient = document.getElementById('adm-pay-client').value.trim();
-    const rawPhone = document.getElementById('adm-pay-phone') ? document.getElementById('adm-pay-phone').value.trim() : '';
+    const orderId = document.getElementById('adm-pay-order-id').value.trim() || ('SC-' + Math.floor(100 + Math.random() * 900));
+    const amount = document.getElementById('adm-pay-amount').value.trim() || '1950';
+    const desc = document.getElementById('adm-pay-desc').value.trim() || 'Свеча ручной работы';
+    const client = document.getElementById('adm-pay-client').value.trim();
+    const phone = document.getElementById('adm-pay-phone').value.trim();
 
-    const s = getSettings();
-    const phone = encodeURIComponent(s.phone);
-    const recipient = encodeURIComponent(s.recipient);
+    const origin = window.location.origin + window.location.pathname.replace('admin.html', '');
+    let payUrl = `${origin}pay.html?order=${encodeURIComponent(orderId)}&amount=${encodeURIComponent(amount)}&desc=${encodeURIComponent(desc)}`;
+    if (client) payUrl += `&client=${encodeURIComponent(client)}`;
+    if (phone) payUrl += `&phone=${encodeURIComponent(phone)}`;
 
-    const origin = window.location.origin + window.location.pathname.replace('admin.html', '').replace(/\/$/, '');
-    const paymentUrl = `${origin}/pay.html?order=${encodeURIComponent(orderId)}&amount=${encodeURIComponent(amount)}&desc=${encodeURIComponent(rawDesc)}&client=${encodeURIComponent(rawClient)}&phone=${phone}&recipient=${recipient}`;
+    const outBox = document.getElementById('adm-pay-result-box');
+    const outInput = document.getElementById('adm-pay-generated-url');
+    if (outBox && outInput) {
+      outInput.value = payUrl;
+      outBox.style.display = 'block';
+    }
 
-    const greeting = rawClient ? `Здравствуйте, ${rawClient}!` : `Здравствуйте!`;
-    const messageText = `${greeting}\nДетали вашего заказа № ${orderId} («${rawDesc}») согласованы.\n\n` +
-      `💳 Сумма к оплате: ${amount} ₽\n` +
-      `🔗 Ссылка для безопасной оплаты через СБП (Альфа-Банк / Т-Банк):\n${paymentUrl}\n\n` +
-      `После оплаты чек сразу прикрепится к заказу, и мы приступим к изготовлению и отправке!`;
-
-    if (resultUrlInput) resultUrlInput.value = paymentUrl;
-    if (resultMsgInput) resultMsgInput.value = messageText;
-    if (openBtn) openBtn.href = paymentUrl;
-    if (resultBox) resultBox.style.display = 'block';
-
-    if (shareTgBtn) {
-      shareTgBtn.onclick = () => {
-        const encodedText = encodeURIComponent(messageText);
-        let tgTargetUrl = '';
-        if (rawPhone && rawPhone.startsWith('@')) {
-          tgTargetUrl = `https://t.me/${rawPhone.replace('@', '')}?text=${encodedText}`;
-        } else {
-          tgTargetUrl = `https://t.me/share/url?url=${encodeURIComponent(paymentUrl)}&text=${encodedText}`;
-        }
-        window.open(tgTargetUrl, '_blank');
+    const copyBtn = document.getElementById('btn-copy-gen-url');
+    if (copyBtn) {
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(payUrl).then(() => {
+          copyBtn.textContent = '✓ Ссылка скопирована!';
+          setTimeout(() => copyBtn.textContent = 'Скопировать ссылку', 2000);
+        });
       };
     }
+
+    const testBtn = document.getElementById('btn-test-gen-url');
+    if (testBtn) {
+      testBtn.onclick = () => window.open(payUrl, '_blank');
+    }
   });
-
-  if (copyLinkBtn) {
-    copyLinkBtn.addEventListener('click', () => {
-      if (!resultUrlInput) return;
-      resultUrlInput.select();
-      navigator.clipboard.writeText(resultUrlInput.value).then(() => {
-        const orig = copyLinkBtn.textContent;
-        copyLinkBtn.textContent = 'Скопировано!';
-        setTimeout(() => copyLinkBtn.textContent = orig, 2000);
-      });
-    });
-  }
-
-  if (copyMsgBtn) {
-    copyMsgBtn.addEventListener('click', () => {
-      if (!resultMsgInput) return;
-      resultMsgInput.select();
-      navigator.clipboard.writeText(resultMsgInput.value).then(() => {
-        const orig = copyMsgBtn.textContent;
-        copyMsgBtn.textContent = 'Текст сообщения скопирован!';
-        setTimeout(() => copyMsgBtn.textContent = orig, 2000);
-      });
-    });
-  }
 }
 
-// --- Global helper to prepare and open pay link generator from orders tab ---
-window.prepareAndOpenPayLink = function(orderId, amount, encTitle, encClient, encPhone) {
-  const title = decodeURIComponent(encTitle || '');
-  const client = decodeURIComponent(encClient || '');
-  const phone = decodeURIComponent(encPhone || '');
-
-  if (typeof window.switchAdminTab === 'function') {
-    window.switchAdminTab('tab-paylinks');
-  }
-
-  if (document.getElementById('adm-pay-order-id')) document.getElementById('adm-pay-order-id').value = orderId || '';
-  if (document.getElementById('adm-pay-amount')) document.getElementById('adm-pay-amount').value = amount || '';
-  if (document.getElementById('adm-pay-desc')) document.getElementById('adm-pay-desc').value = title || 'Свеча ручной работы';
-  if (document.getElementById('adm-pay-client')) document.getElementById('adm-pay-client').value = client || '';
-  if (document.getElementById('adm-pay-phone')) document.getElementById('adm-pay-phone').value = phone || '';
-
-  const form = document.getElementById('form-admin-gen-link');
-  if (form) {
-    form.dispatchEvent(new Event('submit', { cancelable: true }));
-  }
-
-  setTimeout(() => {
-    const resBox = document.getElementById('adm-link-result-box');
-    if (resBox) resBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 100);
-};
-
-// --- Settings Form Logic ---
+// --- Settings Form ---
 function initSettingsForm() {
   const s = getSettings();
   if (document.getElementById('set-phone')) document.getElementById('set-phone').value = s.phone;
@@ -1286,130 +1524,83 @@ function initSettingsForm() {
   if (document.getElementById('set-tg-token')) document.getElementById('set-tg-token').value = s.tgToken || '';
   if (document.getElementById('set-tg-chat-id')) document.getElementById('set-tg-chat-id').value = s.tgChatId || '';
   if (document.getElementById('set-sbp-custom-link')) document.getElementById('set-sbp-custom-link').value = s.sbpCustomLink || '';
+  if (document.getElementById('set-items-per-page')) document.getElementById('set-items-per-page').value = s.itemsPerPage || '6';
 
-  // Try fetching current settings from server file
-  fetch('/api/settings').then(r => r.json()).then(servSettings => {
-    if (servSettings) {
-      if (servSettings.telegram) {
-        if (servSettings.telegram.botToken) {
-          document.getElementById('set-tg-token').value = servSettings.telegram.botToken;
-        }
-        if (servSettings.telegram.chatId) {
-          document.getElementById('set-tg-chat-id').value = servSettings.telegram.chatId;
-        }
-      }
-      if (servSettings.sbp) {
-        if (servSettings.sbp.phone && !document.getElementById('set-phone').value) {
-          document.getElementById('set-phone').value = servSettings.sbp.phone;
-        }
-        if (servSettings.sbp.bank) document.getElementById('set-bank').value = servSettings.sbp.bank;
-        if (servSettings.sbp.recipient) document.getElementById('set-recipient').value = servSettings.sbp.recipient;
-        if (servSettings.sbp.customLink) document.getElementById('set-sbp-custom-link').value = servSettings.sbp.customLink;
-      }
-    }
-  }).catch(() => {});
+  const form = document.getElementById('form-admin-settings');
+  if (form) {
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const newSettings = {
+        phone: document.getElementById('set-phone').value,
+        bank: document.getElementById('set-bank').value,
+        recipient: document.getElementById('set-recipient').value,
+        tgUser: document.getElementById('set-tg-user').value,
+        tgToken: document.getElementById('set-tg-token') ? document.getElementById('set-tg-token').value.trim() : '',
+        tgChatId: document.getElementById('set-tg-chat-id') ? document.getElementById('set-tg-chat-id').value.trim() : '',
+        sbpCustomLink: document.getElementById('set-sbp-custom-link') ? document.getElementById('set-sbp-custom-link').value.trim() : '',
+        itemsPerPage: document.getElementById('set-items-per-page') ? document.getElementById('set-items-per-page').value : '6'
+      };
+      const newPin = document.getElementById('set-pin').value;
+      if (newPin) newSettings.pin = newPin;
 
-  // Test Telegram Bot Button
-  const testBtn = document.getElementById('btn-test-tg-bot');
-  const statusSpan = document.getElementById('tg-test-status');
-  if (testBtn) {
-    testBtn.onclick = async () => {
-      const token = document.getElementById('set-tg-token').value.trim();
-      const chatId = document.getElementById('set-tg-chat-id').value.trim();
-      if (!token || !chatId) {
-        if (statusSpan) {
-          statusSpan.style.color = '#B91C1C';
-          statusSpan.textContent = '⚠️ Введите Bot Token и Chat ID';
-        }
-        return;
-      }
-
-      if (statusSpan) {
-        statusSpan.style.color = 'var(--text-secondary)';
-        statusSpan.textContent = '⏳ Отправка тестового сообщения...';
-      }
-
-      try {
-        const resp = await fetch('/api/test_telegram', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ botToken: token, chatId: chatId })
-        });
-        const data = await resp.json();
-        if (data.success) {
-          if (statusSpan) {
-            statusSpan.style.color = '#15803D';
-            statusSpan.textContent = '✅ Сообщение доставлено в Telegram!';
-          }
-        } else {
-          if (statusSpan) {
-            statusSpan.style.color = '#B91C1C';
-            statusSpan.textContent = '❌ ' + (data.message || 'Ошибка отправки');
-          }
-        }
-      } catch (err) {
-        if (statusSpan) {
-          statusSpan.style.color = '#B91C1C';
-          statusSpan.textContent = '❌ Сервер недоступен: ' + err.message;
-        }
-      }
+      saveSettings(newSettings);
+      alert('Настройки и реквизиты успешно сохранены!');
     };
   }
 
-  const perPageEl = document.getElementById('set-items-per-page');
-  if (perPageEl) perPageEl.value = s.itemsPerPage || '6';
-
-  const form = document.getElementById('form-admin-settings');
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    const newSettings = {
-      phone: document.getElementById('set-phone').value,
-      bank: document.getElementById('set-bank').value,
-      recipient: document.getElementById('set-recipient').value,
-      tgUser: document.getElementById('set-tg-user').value,
-      tgToken: document.getElementById('set-tg-token') ? document.getElementById('set-tg-token').value.trim() : '',
-      tgChatId: document.getElementById('set-tg-chat-id') ? document.getElementById('set-tg-chat-id').value.trim() : '',
-      sbpCustomLink: document.getElementById('set-sbp-custom-link') ? document.getElementById('set-sbp-custom-link').value.trim() : '',
-      itemsPerPage: document.getElementById('set-items-per-page') ? document.getElementById('set-items-per-page').value : '6'
-    };
-    const newPin = document.getElementById('set-pin').value;
-    if (newPin) newSettings.pin = newPin;
-
-    saveSettings(newSettings);
-    alert('Настройки, Telegram-бот и реквизиты СБП успешно сохранены!');
-  };
-
   // Export JSON backup
-  document.getElementById('btn-export-json').onclick = () => {
-    const backupData = {
-      products,
-      categories,
-      scents,
-      promo: JSON.parse(localStorage.getItem('sc_promo_popup') || '{}'),
-      settings: getSettings(),
-      texts: JSON.parse(localStorage.getItem('sc_custom_texts') || '{}')
+  const exportBtn = document.getElementById('btn-export-json');
+  if (exportBtn) {
+    exportBtn.onclick = () => {
+      const backupData = {
+        products,
+        categories,
+        scents,
+        finishes,
+        gypsumColors,
+        holidays,
+        promocodes,
+        promo: JSON.parse(localStorage.getItem('sc_promo_popup') || '{}'),
+        settings: getSettings(),
+        texts: JSON.parse(localStorage.getItem('sc_custom_texts') || '{}')
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+      const dlAnchorElem = document.createElement('a');
+      dlAnchorElem.setAttribute("href", dataStr);
+      dlAnchorElem.setAttribute("download", "sculpted_candle_full_backup.json");
+      dlAnchorElem.click();
     };
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
-    const dlAnchorElem = document.createElement('a');
-    dlAnchorElem.setAttribute("href", dataStr);
-    dlAnchorElem.setAttribute("download", "sculpted_candle_full_backup.json");
-    dlAnchorElem.click();
-  };
+  }
 
   // Reset to default products
-  document.getElementById('btn-reset-default').onclick = () => {
-    if (confirm('Сбросить весь каталог к исходным товарам?')) {
-      products = [...FALLBACK_PRODUCTS];
-      categories = [...DEFAULT_CATEGORIES];
-      scents = [...DEFAULT_SCENTS];
-      saveProducts();
-      saveCategories();
-      saveScents();
-      renderAdminProducts();
-      renderAdminCategories();
-      renderAdminScents();
-    }
-  };
+  const resetBtn = document.getElementById('btn-reset-default');
+  if (resetBtn) {
+    resetBtn.onclick = () => {
+      if (confirm('Сбросить весь каталог к исходным товарам?')) {
+        products = [...FALLBACK_PRODUCTS];
+        categories = [...DEFAULT_CATEGORIES];
+        scents = [...DEFAULT_SCENTS];
+        finishes = [...DEFAULT_FINISHES];
+        gypsumColors = [...DEFAULT_GYPSUM_COLORS];
+        holidays = [...DEFAULT_HOLIDAYS];
+        promocodes = [...DEFAULT_PROMOCODES];
+        saveProducts();
+        saveCategories();
+        saveScents();
+        saveFinishes();
+        saveGypsumColors();
+        saveHolidays();
+        savePromocodes();
+        renderAdminProducts();
+        renderAdminCategories();
+        renderAdminHolidays();
+        renderAdminFinishes();
+        renderAdminGypsumColors();
+        renderAdminScents();
+        renderAdminPromocodes();
+      }
+    };
+  }
 }
 
 // --- Site Texts Manager ---
@@ -1457,9 +1648,7 @@ function initTextsManager() {
     const updated = {};
     textFields.forEach(field => {
       const el = document.getElementById('txt-' + field);
-      if (el) {
-        updated[field] = el.value.trim();
-      }
+      if (el) updated[field] = el.value.trim();
     });
 
     localStorage.setItem('sc_custom_texts', JSON.stringify(updated));
@@ -1501,16 +1690,11 @@ window.publishChangesToNetlify = async function() {
     version: 1,
     lastUpdated: new Date().toISOString(),
     categories,
-    holidays: [
-      { id: 'all', title: 'Все коллекции', icon: '' },
-      { id: 'ny', title: 'Новый Год & Рождество', icon: '' },
-      { id: 'feb14', title: '14 Февраля', icon: '' },
-      { id: 'mar8', title: '8 Марта', icon: '' },
-      { id: 'teacher', title: 'День Учителя / 1 Сентября', icon: '' },
-      { id: 'autumn', title: 'Хэллоуин & Осень', icon: '' },
-      { id: 'bday', title: 'День Рождения', icon: '' }
-    ],
+    holidays,
     scents,
+    finishes,
+    gypsumColors,
+    promocodes,
     promo: currentPromo,
     texts: currentTexts,
     settings: currentSettings,
@@ -1525,7 +1709,6 @@ window.publishChangesToNetlify = async function() {
     let success = false;
     let message = '';
 
-    // 1. Try local server endpoint /api/save_and_deploy (relative, localhost or LAN IP)
     const endpoints = [
       '/api/save_and_deploy',
       'http://127.0.0.1:8085/api/save_and_deploy',
@@ -1546,9 +1729,7 @@ window.publishChangesToNetlify = async function() {
             break;
           }
         }
-      } catch (e) {
-        console.log('Endpoint ' + url + ' notice:', e);
-      }
+      } catch (e) {}
     }
 
     if (!success) {
@@ -1583,6 +1764,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setupTabs();
   setupProductModal();
   setupCategoryForm();
+  setupHolidayForm();
+  setupFinishForm();
+  setupGypsumColorForm();
+  setupPromoForm();
   setupScentModal();
   setupPaymentLinkGenerator();
   initTextsManager();

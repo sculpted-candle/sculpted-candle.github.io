@@ -182,14 +182,23 @@
         <button class="admin-tab-btn" data-tab="tab-categories">
           🏷️ Категории
         </button>
+        <button class="admin-tab-btn" data-tab="tab-holidays">
+          🎄 Праздники (<span id="count-holidays">0</span>)
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-attributes">
+          🎨 Покрытия & Гипс
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-scents">
+          🌸 Ароматы (<span id="count-scents">0</span>)
+        </button>
+        <button class="admin-tab-btn" data-tab="tab-promocodes">
+          🎟️ Промокоды (<span id="count-promos">0</span>)
+        </button>
         <button class="admin-tab-btn" data-tab="tab-photos">
           🖼️ Фото витрины
         </button>
         <button class="admin-tab-btn" data-tab="tab-texts">
           ✍️ Тексты сайта
-        </button>
-        <button class="admin-tab-btn" data-tab="tab-scents">
-          🌸 Ароматы (<span id="count-scents">0</span>)
         </button>
         <button class="admin-tab-btn" data-tab="tab-promo">
           ✨ Всплывающее окно
@@ -252,6 +261,106 @@
           </form>
 
           <div id="admin-categories-list"></div>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА: Управление сезонными праздниками -->
+      <section id="tab-holidays" class="admin-panel">
+        <div style="max-width: 680px; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+            <span style="font-size: 1.5rem;">🎄</span>
+            <h2 class="font-serif" style="font-size: 1.6rem; margin: 0;">Сезонные праздники и поводы</h2>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">
+            Управляйте списком праздничных поводов для вкладки «Сезонное» на витрине. Вы можете добавить новые праздники (Пасха, Свадьба, Хэллоуин) или удалить неактуальные:
+          </p>
+
+          <form id="form-add-holiday" style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
+            <input type="text" id="new-holiday-icon" class="form-input" placeholder="Иконка/Эмодзи (напр: 🎃)" style="width: 140px;" required>
+            <input type="text" id="new-holiday-name" class="form-input" placeholder="Название (напр: Хэллоуин & Осень)" style="flex: 1; min-width: 200px;" required>
+            <button type="submit" class="btn btn-primary btn-sm">+ Добавить праздник</button>
+          </form>
+
+          <div id="admin-holidays-list"></div>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА: Управление покрытиями и цветами гипса -->
+      <section id="tab-attributes" class="admin-panel">
+        <div style="max-width: 740px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <!-- Блок 1: Типы покрытия изделия -->
+          <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span style="font-size: 1.3rem;">✨</span>
+              <h3 class="font-serif" style="font-size: 1.3rem; margin: 0;">Типы покрытия</h3>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 16px;">
+              Общий список доступных финишей для изделий:
+            </p>
+            <form id="form-add-finish" style="display: flex; gap: 8px; margin-bottom: 16px;">
+              <input type="text" id="new-finish-name" class="form-input" placeholder="напр: Золотое напыление" required style="font-size: 0.85rem;">
+              <button type="submit" class="btn btn-primary btn-sm">+</button>
+            </form>
+            <div id="admin-finishes-list"></div>
+          </div>
+
+          <!-- Блок 2: Цвета гипса -->
+          <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span style="font-size: 1.3rem;">🎨</span>
+              <h3 class="font-serif" style="font-size: 1.3rem; margin: 0;">Цвета гипса</h3>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 16px;">
+              Общий список оттенков гипсового декора:
+            </p>
+            <form id="form-add-gypsum-color" style="display: flex; gap: 8px; margin-bottom: 16px;">
+              <input type="text" id="new-gypsum-color-name" class="form-input" placeholder="напр: Мраморный микс" required style="font-size: 0.85rem;">
+              <button type="submit" class="btn btn-primary btn-sm">+</button>
+            </form>
+            <div id="admin-gypsum-colors-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА: Управление промокодами -->
+      <section id="tab-promocodes" class="admin-panel">
+        <div style="max-width: 680px; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+            <span style="font-size: 1.5rem;">🎟️</span>
+            <h2 class="font-serif" style="font-size: 1.6rem; margin: 0;">Промокоды на скидку</h2>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">
+            Создавайте промокоды для покупателей. Клиент вводит промокод в модальном окне заказа, и сумма пересчитывается автоматически:
+          </p>
+
+          <form id="form-add-promo" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; background: var(--bg-main); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div>
+              <label class="form-label" style="font-size: 0.78rem;">Код купона *</label>
+              <input type="text" id="new-promo-code" class="form-input" placeholder="SCULPTED15" required style="text-transform: uppercase;">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div>
+                <label class="form-label" style="font-size: 0.78rem;">Тип скидки</label>
+                <select id="new-promo-type" class="form-select">
+                  <option value="percent">% Процент</option>
+                  <option value="fixed">₽ Фикс (руб)</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 0.78rem;">Размер скидки *</label>
+                <input type="number" id="new-promo-val" class="form-input" placeholder="15" required min="1">
+              </div>
+            </div>
+            <div style="grid-column: 1/-1;">
+              <label class="form-label" style="font-size: 0.78rem;">Описание (что дает промокод)</label>
+              <input type="text" id="new-promo-desc" class="form-input" placeholder="Скидка 15% на весенние заказы">
+            </div>
+            <div style="grid-column: 1/-1;">
+              <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;">+ Добавить промокод</button>
+            </div>
+          </form>
+
+          <div id="admin-promos-list"></div>
         </div>
       </section>
 
@@ -676,13 +785,9 @@
           <input type="hidden" id="edit-product-id">
 
           <div class="form-group">
-            <label class="form-label">Название (RU)</label>
+            <label class="form-label">Название изделия (RU) *</label>
             <input type="text" id="edit-title-ru" class="form-input" placeholder="например: Свеча «Лесной мох»" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Название (EN)</label>
-            <input type="text" id="edit-title-en" class="form-input" placeholder="e.g. Forest Moss Candle">
+            <small style="font-size: 0.74rem; color: var(--text-muted);">Английский перевод для иностранных гостей создается сайтом автоматически.</small>
           </div>
 
           <div class="form-group">
@@ -691,38 +796,13 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">🎉 Праздничные поводы (подборки для вкладки «Сезонное»)</label>
-            <div id="edit-holidays-group" class="categories-checkbox-grid">
-              <label class="cat-checkbox-item">
-                <input type="checkbox" name="product-holiday" value="ny">
-                <span>🎄 Новый Год & Рождество</span>
-              </label>
-              <label class="cat-checkbox-item">
-                <input type="checkbox" name="product-holiday" value="feb14">
-                <span>💖 14 Февраля</span>
-              </label>
-              <label class="cat-checkbox-item">
-                <input type="checkbox" name="product-holiday" value="mar8">
-                <span>💐 8 Марта</span>
-              </label>
-              <label class="cat-checkbox-item">
-                <input type="checkbox" name="product-holiday" value="teacher">
-                <span>📚 День Учителя / 1 Сентября</span>
-              </label>
-              <label class="cat-checkbox-item">
-                <input type="checkbox" name="product-holiday" value="autumn">
-                <span>🎃 Хэллоуин & Осень</span>
-              </label>
-              <label class="cat-checkbox-item">
-                <input type="checkbox" name="product-holiday" value="bday">
-                <span>🎂 День Рождения</span>
-              </label>
-            </div>
+            <label class="form-label">🎉 Сезонные праздники (подборки для вкладки «Сезонное»)</label>
+            <div id="edit-holidays-group" class="categories-checkbox-grid"></div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
             <div class="form-group">
-              <label class="form-label">Цена (₽)</label>
+              <label class="form-label">Цена (₽) *</label>
               <input type="number" id="edit-price" class="form-input" placeholder="1500" required>
             </div>
             <div class="form-group">
@@ -735,35 +815,35 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Ароматическая композиция (RU)</label>
-            <input type="text" id="edit-scent-ru" class="form-input" placeholder="Хвоя, кедр, мускат">
+            <label class="form-label">Состав изделия</label>
+            <input type="text" id="edit-ingredients" class="form-input" placeholder="100% соевый воск, хлопковый фитиль, премиальные аромамасла">
           </div>
 
+          <!-- Выбор доступных ароматов для изделия -->
           <div class="form-group">
-            <label class="form-label">Scent Notes (EN)</label>
-            <input type="text" id="edit-scent-en" class="form-input" placeholder="Pine, cedar, nutmeg">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+              <label class="form-label" style="margin-bottom: 0;">🌸 Доступные ароматы для этого изделия</label>
+              <span style="font-size: 0.72rem; color: var(--accent-sage);">из общего списка ароматов</span>
+            </div>
+            <div id="edit-scents-group" class="categories-checkbox-grid" style="max-height: 140px; overflow-y: auto; padding: 6px; border: 1px solid var(--border-light); border-radius: 6px; background: var(--bg-main);"></div>
           </div>
 
+          <!-- Выбор доступных покрытий для изделия -->
           <div class="form-group">
-            <label class="form-label">Время горения</label>
-            <input type="text" id="edit-burn" class="form-input" placeholder="25-30 ч">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+              <label class="form-label" style="margin-bottom: 0;">✨ Доступные типы покрытия</label>
+              <span style="font-size: 0.72rem; color: var(--accent-sage);">из общего списка покрытий</span>
+            </div>
+            <div id="edit-finishes-group" class="categories-checkbox-grid" style="max-height: 120px; overflow-y: auto; padding: 6px; border: 1px solid var(--border-light); border-radius: 6px; background: var(--bg-main);"></div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-            <div class="form-group">
-              <label class="form-label">Цвета гипса / воска (через запятую)</label>
-              <input type="text" id="edit-colors" class="form-input" placeholder="Натуральный белый, Теплый беж, Графит, Мрамор">
+          <!-- Выбор доступных цветов гипса для изделия -->
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+              <label class="form-label" style="margin-bottom: 0;">🎨 Доступные цвета гипса</label>
+              <span style="font-size: 0.72rem; color: var(--accent-sage);">из общего списка цветов</span>
             </div>
-            <div class="form-group">
-              <label class="form-label">Тип покрытия / Финиш</label>
-              <select id="edit-finish" class="form-select">
-                <option value="матовый">Матовый тактильный</option>
-                <option value="полуматовый">Полуматовый шелковистый</option>
-                <option value="глянец">Глянцевый защитный</option>
-                <option value="матовый + глянец на выбор">На выбор (матовый / глянец)</option>
-                <option value="натуральный воск">Натуральный воск (без покрытия)</option>
-              </select>
-            </div>
+            <div id="edit-colors-group" class="categories-checkbox-grid" style="max-height: 120px; overflow-y: auto; padding: 6px; border: 1px solid var(--border-light); border-radius: 6px; background: var(--bg-main);"></div>
           </div>
 
           <div class="form-group">
@@ -771,18 +851,50 @@
             <textarea id="edit-desc-ru" class="form-textarea" rows="3" placeholder="Краткое душевное описание..."></textarea>
           </div>
 
+          <!-- 3 Фотографии на 1 изделие -->
           <div class="form-group">
-            <label class="form-label">Фотография изделия</label>
-            <div id="edit-photo-drop" class="form-file-drop">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 6px; color: var(--accent-sage);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <div style="font-size: 0.85rem;">Нажмите, чтобы выбрать фото с телефона или компьютера</div>
-              <input type="file" id="edit-photo-file" accept="image/*" style="display: none;">
-              <img id="edit-drop-preview" class="drop-preview" alt="Preview">
+            <label class="form-label" style="margin-bottom: 6px;">
+              🖼️ Фотографии изделия (до 3 фото: на витрине, при наведении мыши, детали)
+            </label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+              <!-- Фото 1 -->
+              <div class="photo-slot-card">
+                <div style="font-size: 0.75rem; font-weight: 600; color: var(--accent-sage); margin-bottom: 4px;">1. Главное фото *</div>
+                <div id="drop-photo-1" class="form-file-drop" style="padding: 10px; min-height: 110px;">
+                  <img id="preview-photo-1" class="drop-preview" style="max-height: 80px; margin: 0 auto; display: none;" alt="Photo 1">
+                  <div id="placeholder-photo-1" style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.3;">
+                    📸 Выбрать<br>главное фото
+                  </div>
+                  <input type="file" id="file-photo-1" accept="image/*" style="display: none;">
+                </div>
+              </div>
+              <!-- Фото 2 -->
+              <div class="photo-slot-card">
+                <div style="font-size: 0.75rem; font-weight: 600; color: var(--accent-terracotta); margin-bottom: 4px;">2. При наведении</div>
+                <div id="drop-photo-2" class="form-file-drop" style="padding: 10px; min-height: 110px;">
+                  <img id="preview-photo-2" class="drop-preview" style="max-height: 80px; margin: 0 auto; display: none;" alt="Photo 2">
+                  <div id="placeholder-photo-2" style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.3;">
+                    🔄 Смена при<br>наведении мыши
+                  </div>
+                  <input type="file" id="file-photo-2" accept="image/*" style="display: none;">
+                </div>
+              </div>
+              <!-- Фото 3 -->
+              <div class="photo-slot-card">
+                <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px;">3. Детали / доп.</div>
+                <div id="drop-photo-3" class="form-file-drop" style="padding: 10px; min-height: 110px;">
+                  <img id="preview-photo-3" class="drop-preview" style="max-height: 80px; margin: 0 auto; display: none;" alt="Photo 3">
+                  <div id="placeholder-photo-3" style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.3;">
+                    ✨ Дополнительное<br>фото / макро
+                  </div>
+                  <input type="file" id="file-photo-3" accept="image/*" style="display: none;">
+                </div>
+              </div>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
-            Сохранить изделие
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 14px; padding: 12px; font-weight: 600;">
+            💾 Сохранить изделие
           </button>
         </form>
       </div>
