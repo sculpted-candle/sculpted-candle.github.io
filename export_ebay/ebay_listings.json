@@ -1,0 +1,226 @@
+[
+  {
+    "item_id": "sc-01",
+    "title": "Spiced Pumpkin Soy Candle with Gold Stem",
+    "category_id": "46713",
+    "category_name": "Candles",
+    "price_usd": 24.0,
+    "currency": "USD",
+    "quantity": 5,
+    "condition": "1000",
+    "format": "FixedPrice",
+    "duration": "GTC",
+    "photos": [
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/pumpkin_1.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/pumpkin_2.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/pumpkin_3.jpg"
+    ],
+    "item_specifics": {
+      "Brand": "Sculpted & Candle",
+      "Type": "Sculptural Candle / Plaster Decor",
+      "Material": "100% Organic Soy Wax, High-Density Plaster",
+      "Features": "Handmade, Scented, Decorative, Non-Toxic, Wooden/Cotton Wick",
+      "Scent": "Тыквенный крем-брюле & Пряности",
+      "Country/Region of Manufacture": "Russian Federation",
+      "Theme": "Art, Nature, Fairytale, Gothic Elegance",
+      "Shape": "8 × 7 см"
+    },
+    "description_html": "\n<div style=\"font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1c1917; line-height: 1.6;\">\n  <div style=\"text-align: center; padding: 25px 0; border-bottom: 2px solid #78350f;\">\n    <h1 style=\"font-family: Georgia, serif; font-size: 26px; color: #78350f; margin-bottom: 6px;\">SCULPTED &amp; CANDLE</h1>\n    <p style=\"font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #78716c;\">Artisanal Soy Candles &amp; Sculptural Plaster Decor</p>\n  </div>\n  <div style=\"padding: 30px 15px;\">\n    <h2 style=\"font-size: 22px; color: #1c1917; margin-bottom: 15px;\">Spiced Pumpkin Soy Candle with Gold Stem</h2>\n    <p style=\"font-size: 16px; color: #44403c; margin-bottom: 20px;\">Handcrafted sculptural pumpkin candle made from 100% pure organic soy wax with an elegant gold stem and delicate gold foil splatters. Autumn limited edition.</p>\n    \n    <div style=\"background-color: #fafaf9; border-left: 4px solid #78350f; padding: 15px 20px; margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; margin: 0 0 10px 0; color: #78350f;\">Product Specifications:</h3>\n      <ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #57534e;\">\n        <li><strong>Wax:</strong> 100% Natural Organic Soy Wax (Eco-friendly, clean burning)</li>\n        <li><strong>Vessel:</strong> Handcrafted High-Strength Sculptural Gypsum with protective coating</li>\n        <li><strong>Wick:</strong> Premium organic cotton or crackling natural wood wick</li>\n        <li><strong>Dimensions:</strong> 8 × 7 см</li>\n        <li><strong>Estimated Weight:</strong> 220 g</li>\n      </ul>\n    </div>\n\n    <div style=\"margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Available Artisan Scents:</h3>\n      <p style=\"font-size: 14px; color: #78716c;\">Тыквенный крем-брюле & Пряности, Тыква со специями & Карамель, Без отдушки (чистый соевый воск)</p>\n    </div>\n\n    <div style=\"margin: 25px 0; border-top: 1px solid #e7e5e4; padding-top: 20px;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Worldwide Shipping &amp; Careful Packaging:</h3>\n      <p style=\"font-size: 14px; color: #57534e;\">Each piece is cushioned in custom reinforced protective packaging and luxury craft wrapping, ensuring completely safe transit to your doorstep.</p>\n    </div>\n  </div>\n</div>\n"
+  },
+  {
+    "item_id": "sc-02",
+    "title": "Anatomical Heart Sculptural Soy Candle",
+    "category_id": "46713",
+    "category_name": "Candles",
+    "price_usd": 38.0,
+    "currency": "USD",
+    "quantity": 5,
+    "condition": "1000",
+    "format": "FixedPrice",
+    "duration": "GTC",
+    "photos": [
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/heart_1.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/heart_2.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/heart_3.jpg"
+    ],
+    "item_specifics": {
+      "Brand": "Sculpted & Candle",
+      "Type": "Sculptural Candle / Plaster Decor",
+      "Material": "100% Organic Soy Wax, High-Density Plaster",
+      "Features": "Handmade, Scented, Decorative, Non-Toxic, Wooden/Cotton Wick",
+      "Scent": "Вишня в коньяке",
+      "Country/Region of Manufacture": "Russian Federation",
+      "Theme": "Art, Nature, Fairytale, Gothic Elegance",
+      "Shape": "11 × 8 см"
+    },
+    "description_html": "\n<div style=\"font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1c1917; line-height: 1.6;\">\n  <div style=\"text-align: center; padding: 25px 0; border-bottom: 2px solid #78350f;\">\n    <h1 style=\"font-family: Georgia, serif; font-size: 26px; color: #78350f; margin-bottom: 6px;\">SCULPTED &amp; CANDLE</h1>\n    <p style=\"font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #78716c;\">Artisanal Soy Candles &amp; Sculptural Plaster Decor</p>\n  </div>\n  <div style=\"padding: 30px 15px;\">\n    <h2 style=\"font-size: 22px; color: #1c1917; margin-bottom: 15px;\">Anatomical Heart Sculptural Soy Candle</h2>\n    <p style=\"font-size: 16px; color: #44403c; margin-bottom: 20px;\">Intricately sculpted anatomical heart candle. Cast in ultra-high-density gypsum and poured with pure organic soy wax. A gothic, romantic statement piece.</p>\n    \n    <div style=\"background-color: #fafaf9; border-left: 4px solid #78350f; padding: 15px 20px; margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; margin: 0 0 10px 0; color: #78350f;\">Product Specifications:</h3>\n      <ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #57534e;\">\n        <li><strong>Wax:</strong> 100% Natural Organic Soy Wax (Eco-friendly, clean burning)</li>\n        <li><strong>Vessel:</strong> Handcrafted High-Strength Sculptural Gypsum with protective coating</li>\n        <li><strong>Wick:</strong> Premium organic cotton or crackling natural wood wick</li>\n        <li><strong>Dimensions:</strong> 11 × 8 см</li>\n        <li><strong>Estimated Weight:</strong> 380 g</li>\n      </ul>\n    </div>\n\n    <div style=\"margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Available Artisan Scents:</h3>\n      <p style=\"font-size: 14px; color: #78716c;\">Вишня в коньяке, Сандал, Черный перец & Амбра, Табак & Ваниль, Без отдушки (чистый соевый воск)</p>\n    </div>\n\n    <div style=\"margin: 25px 0; border-top: 1px solid #e7e5e4; padding-top: 20px;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Worldwide Shipping &amp; Careful Packaging:</h3>\n      <p style=\"font-size: 14px; color: #57534e;\">Each piece is cushioned in custom reinforced protective packaging and luxury craft wrapping, ensuring completely safe transit to your doorstep.</p>\n    </div>\n  </div>\n</div>\n"
+  },
+  {
+    "item_id": "sc-03",
+    "title": "Magic Mushrooms Glowing Forest Soy Candle",
+    "category_id": "46713",
+    "category_name": "Candles",
+    "price_usd": 48.0,
+    "currency": "USD",
+    "quantity": 5,
+    "condition": "1000",
+    "format": "FixedPrice",
+    "duration": "GTC",
+    "photos": [
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/mushrooms_1.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/mushrooms_2.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/mushrooms_3.jpg"
+    ],
+    "item_specifics": {
+      "Brand": "Sculpted & Candle",
+      "Type": "Sculptural Candle / Plaster Decor",
+      "Material": "100% Organic Soy Wax, High-Density Plaster",
+      "Features": "Handmade, Scented, Decorative, Non-Toxic, Wooden/Cotton Wick",
+      "Scent": "Лесные ягоды & Мох",
+      "Country/Region of Manufacture": "Russian Federation",
+      "Theme": "Art, Nature, Fairytale, Gothic Elegance",
+      "Shape": "12 × 9 см"
+    },
+    "description_html": "\n<div style=\"font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1c1917; line-height: 1.6;\">\n  <div style=\"text-align: center; padding: 25px 0; border-bottom: 2px solid #78350f;\">\n    <h1 style=\"font-family: Georgia, serif; font-size: 26px; color: #78350f; margin-bottom: 6px;\">SCULPTED &amp; CANDLE</h1>\n    <p style=\"font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #78716c;\">Artisanal Soy Candles &amp; Sculptural Plaster Decor</p>\n  </div>\n  <div style=\"padding: 30px 15px;\">\n    <h2 style=\"font-size: 22px; color: #1c1917; margin-bottom: 15px;\">Magic Mushrooms Glowing Forest Soy Candle</h2>\n    <p style=\"font-size: 16px; color: #44403c; margin-bottom: 20px;\">Whimsical forest agaric mushrooms cast in premium sculptural plaster and poured with 100% soy wax. The caps are hand-painted with phosphorescent pigment and glow magically in the dark.</p>\n    \n    <div style=\"background-color: #fafaf9; border-left: 4px solid #78350f; padding: 15px 20px; margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; margin: 0 0 10px 0; color: #78350f;\">Product Specifications:</h3>\n      <ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #57534e;\">\n        <li><strong>Wax:</strong> 100% Natural Organic Soy Wax (Eco-friendly, clean burning)</li>\n        <li><strong>Vessel:</strong> Handcrafted High-Strength Sculptural Gypsum with protective coating</li>\n        <li><strong>Wick:</strong> Premium organic cotton or crackling natural wood wick</li>\n        <li><strong>Dimensions:</strong> 12 × 9 см</li>\n        <li><strong>Estimated Weight:</strong> 450 g</li>\n      </ul>\n    </div>\n\n    <div style=\"margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Available Artisan Scents:</h3>\n      <p style=\"font-size: 14px; color: #78716c;\">Лесные ягоды & Мох, Морозная хвоя & Кедр, Без отдушки (чистый соевый воск)</p>\n    </div>\n\n    <div style=\"margin: 25px 0; border-top: 1px solid #e7e5e4; padding-top: 20px;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Worldwide Shipping &amp; Careful Packaging:</h3>\n      <p style=\"font-size: 14px; color: #57534e;\">Each piece is cushioned in custom reinforced protective packaging and luxury craft wrapping, ensuring completely safe transit to your doorstep.</p>\n    </div>\n  </div>\n</div>\n"
+  },
+  {
+    "item_id": "sc-04",
+    "title": "Carousel Fairytale Candle with Relief Horses",
+    "category_id": "46713",
+    "category_name": "Candles",
+    "price_usd": 42.0,
+    "currency": "USD",
+    "quantity": 5,
+    "condition": "1000",
+    "format": "FixedPrice",
+    "duration": "GTC",
+    "photos": [
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/carousel_1.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/carousel_2.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/carousel_3.jpg"
+    ],
+    "item_specifics": {
+      "Brand": "Sculpted & Candle",
+      "Type": "Sculptural Candle / Plaster Decor",
+      "Material": "100% Organic Soy Wax, High-Density Plaster",
+      "Features": "Handmade, Scented, Decorative, Non-Toxic, Wooden/Cotton Wick",
+      "Scent": "Имбирный пряник & Морозная хвоя",
+      "Country/Region of Manufacture": "Russian Federation",
+      "Theme": "Art, Nature, Fairytale, Gothic Elegance",
+      "Shape": "12 × 10 см"
+    },
+    "description_html": "\n<div style=\"font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1c1917; line-height: 1.6;\">\n  <div style=\"text-align: center; padding: 25px 0; border-bottom: 2px solid #78350f;\">\n    <h1 style=\"font-family: Georgia, serif; font-size: 26px; color: #78350f; margin-bottom: 6px;\">SCULPTED &amp; CANDLE</h1>\n    <p style=\"font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #78716c;\">Artisanal Soy Candles &amp; Sculptural Plaster Decor</p>\n  </div>\n  <div style=\"padding: 30px 15px;\">\n    <h2 style=\"font-size: 22px; color: #1c1917; margin-bottom: 15px;\">Carousel Fairytale Candle with Relief Horses</h2>\n    <p style=\"font-size: 16px; color: #44403c; margin-bottom: 20px;\">Vintage festive carousel candle holder with a sculpted dome lid featuring relief carousel horses. Reusable plaster vessel poured with soy wax.</p>\n    \n    <div style=\"background-color: #fafaf9; border-left: 4px solid #78350f; padding: 15px 20px; margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; margin: 0 0 10px 0; color: #78350f;\">Product Specifications:</h3>\n      <ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #57534e;\">\n        <li><strong>Wax:</strong> 100% Natural Organic Soy Wax (Eco-friendly, clean burning)</li>\n        <li><strong>Vessel:</strong> Handcrafted High-Strength Sculptural Gypsum with protective coating</li>\n        <li><strong>Wick:</strong> Premium organic cotton or crackling natural wood wick</li>\n        <li><strong>Dimensions:</strong> 12 × 10 см</li>\n        <li><strong>Estimated Weight:</strong> 420 g</li>\n      </ul>\n    </div>\n\n    <div style=\"margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Available Artisan Scents:</h3>\n      <p style=\"font-size: 14px; color: #78716c;\">Имбирный пряник & Морозная хвоя, Табак & Ваниль, Шампанское & Клубника, Без отдушки (чистый соевый воск)</p>\n    </div>\n\n    <div style=\"margin: 25px 0; border-top: 1px solid #e7e5e4; padding-top: 20px;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Worldwide Shipping &amp; Careful Packaging:</h3>\n      <p style=\"font-size: 14px; color: #57534e;\">Each piece is cushioned in custom reinforced protective packaging and luxury craft wrapping, ensuring completely safe transit to your doorstep.</p>\n    </div>\n  </div>\n</div>\n"
+  },
+  {
+    "item_id": "sc-05",
+    "title": "Juicy Pomegranate Soy Candle in Plaster Pot",
+    "category_id": "46713",
+    "category_name": "Candles",
+    "price_usd": 32.0,
+    "currency": "USD",
+    "quantity": 5,
+    "condition": "1000",
+    "format": "FixedPrice",
+    "duration": "GTC",
+    "photos": [
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/granat_1.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/granat_2.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/granat_3.jpg"
+    ],
+    "item_specifics": {
+      "Brand": "Sculpted & Candle",
+      "Type": "Sculptural Candle / Plaster Decor",
+      "Material": "100% Organic Soy Wax, High-Density Plaster",
+      "Features": "Handmade, Scented, Decorative, Non-Toxic, Wooden/Cotton Wick",
+      "Scent": "Игристое с кислинкой / Сочный гранат",
+      "Country/Region of Manufacture": "Russian Federation",
+      "Theme": "Art, Nature, Fairytale, Gothic Elegance",
+      "Shape": "9 × 8.5 см"
+    },
+    "description_html": "\n<div style=\"font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1c1917; line-height: 1.6;\">\n  <div style=\"text-align: center; padding: 25px 0; border-bottom: 2px solid #78350f;\">\n    <h1 style=\"font-family: Georgia, serif; font-size: 26px; color: #78350f; margin-bottom: 6px;\">SCULPTED &amp; CANDLE</h1>\n    <p style=\"font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #78716c;\">Artisanal Soy Candles &amp; Sculptural Plaster Decor</p>\n  </div>\n  <div style=\"padding: 30px 15px;\">\n    <h2 style=\"font-size: 22px; color: #1c1917; margin-bottom: 15px;\">Juicy Pomegranate Soy Candle in Plaster Pot</h2>\n    <p style=\"font-size: 16px; color: #44403c; margin-bottom: 20px;\">Vibrant sculpted ripe pomegranate candle pot. Poured with soy wax scented with champagne, sparkling strawberries, and tangy red pomegranate.</p>\n    \n    <div style=\"background-color: #fafaf9; border-left: 4px solid #78350f; padding: 15px 20px; margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; margin: 0 0 10px 0; color: #78350f;\">Product Specifications:</h3>\n      <ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #57534e;\">\n        <li><strong>Wax:</strong> 100% Natural Organic Soy Wax (Eco-friendly, clean burning)</li>\n        <li><strong>Vessel:</strong> Handcrafted High-Strength Sculptural Gypsum with protective coating</li>\n        <li><strong>Wick:</strong> Premium organic cotton or crackling natural wood wick</li>\n        <li><strong>Dimensions:</strong> 9 × 8.5 см</li>\n        <li><strong>Estimated Weight:</strong> 310 g</li>\n      </ul>\n    </div>\n\n    <div style=\"margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Available Artisan Scents:</h3>\n      <p style=\"font-size: 14px; color: #78716c;\">Игристое с кислинкой / Сочный гранат, Клубника & Гранат, Без отдушки (чистый соевый воск)</p>\n    </div>\n\n    <div style=\"margin: 25px 0; border-top: 1px solid #e7e5e4; padding-top: 20px;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Worldwide Shipping &amp; Careful Packaging:</h3>\n      <p style=\"font-size: 14px; color: #57534e;\">Each piece is cushioned in custom reinforced protective packaging and luxury craft wrapping, ensuring completely safe transit to your doorstep.</p>\n    </div>\n  </div>\n</div>\n"
+  },
+  {
+    "item_id": "sc-06",
+    "title": "Living Hyacinth Bulb & Soy Candle Gift Set",
+    "category_id": "46713",
+    "category_name": "Candles",
+    "price_usd": 45.0,
+    "currency": "USD",
+    "quantity": 5,
+    "condition": "1000",
+    "format": "FixedPrice",
+    "duration": "GTC",
+    "photos": [
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/hyacinth_1.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/hyacinth_2.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/hyacinth_3.jpg"
+    ],
+    "item_specifics": {
+      "Brand": "Sculpted & Candle",
+      "Type": "Sculptural Candle / Plaster Decor",
+      "Material": "100% Organic Soy Wax, High-Density Plaster",
+      "Features": "Handmade, Scented, Decorative, Non-Toxic, Wooden/Cotton Wick",
+      "Scent": "Яблочный штрудель & Кленовый сироп",
+      "Country/Region of Manufacture": "Russian Federation",
+      "Theme": "Art, Nature, Fairytale, Gothic Elegance",
+      "Shape": "14 × 10 см"
+    },
+    "description_html": "\n<div style=\"font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1c1917; line-height: 1.6;\">\n  <div style=\"text-align: center; padding: 25px 0; border-bottom: 2px solid #78350f;\">\n    <h1 style=\"font-family: Georgia, serif; font-size: 26px; color: #78350f; margin-bottom: 6px;\">SCULPTED &amp; CANDLE</h1>\n    <p style=\"font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #78716c;\">Artisanal Soy Candles &amp; Sculptural Plaster Decor</p>\n  </div>\n  <div style=\"padding: 30px 15px;\">\n    <h2 style=\"font-size: 22px; color: #1c1917; margin-bottom: 15px;\">Living Hyacinth Bulb & Soy Candle Gift Set</h2>\n    <p style=\"font-size: 16px; color: #44403c; margin-bottom: 20px;\">A gift that blooms! Dual handcrafted plaster planter featuring a living hyacinth flower bulb paired with a fragrant soy candle (apple strudel & maple syrup).</p>\n    \n    <div style=\"background-color: #fafaf9; border-left: 4px solid #78350f; padding: 15px 20px; margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; margin: 0 0 10px 0; color: #78350f;\">Product Specifications:</h3>\n      <ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #57534e;\">\n        <li><strong>Wax:</strong> 100% Natural Organic Soy Wax (Eco-friendly, clean burning)</li>\n        <li><strong>Vessel:</strong> Handcrafted High-Strength Sculptural Gypsum with protective coating</li>\n        <li><strong>Wick:</strong> Premium organic cotton or crackling natural wood wick</li>\n        <li><strong>Dimensions:</strong> 14 × 10 см</li>\n        <li><strong>Estimated Weight:</strong> 520 g</li>\n      </ul>\n    </div>\n\n    <div style=\"margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Available Artisan Scents:</h3>\n      <p style=\"font-size: 14px; color: #78716c;\">Яблочный штрудель & Кленовый сироп, Весенний гиацинт & Зеленый чай, Без отдушки (чистый соевый воск)</p>\n    </div>\n\n    <div style=\"margin: 25px 0; border-top: 1px solid #e7e5e4; padding-top: 20px;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Worldwide Shipping &amp; Careful Packaging:</h3>\n      <p style=\"font-size: 14px; color: #57534e;\">Each piece is cushioned in custom reinforced protective packaging and luxury craft wrapping, ensuring completely safe transit to your doorstep.</p>\n    </div>\n  </div>\n</div>\n"
+  },
+  {
+    "item_id": "sc-07",
+    "title": "Anatomical Heart Jewelry & Keepsake Box",
+    "category_id": "46713",
+    "category_name": "Candles",
+    "price_usd": 30.0,
+    "currency": "USD",
+    "quantity": 5,
+    "condition": "1000",
+    "format": "FixedPrice",
+    "duration": "GTC",
+    "photos": [
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/heart_box_1.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/heart_box_2.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/heart_box_3.jpg"
+    ],
+    "item_specifics": {
+      "Brand": "Sculpted & Candle",
+      "Type": "Sculptural Candle / Plaster Decor",
+      "Material": "100% Organic Soy Wax, High-Density Plaster",
+      "Features": "Handmade, Scented, Decorative, Non-Toxic, Wooden/Cotton Wick",
+      "Scent": "Без отдушки (чистый соевый воск)",
+      "Country/Region of Manufacture": "Russian Federation",
+      "Theme": "Art, Nature, Fairytale, Gothic Elegance",
+      "Shape": "11 × 8 см"
+    },
+    "description_html": "\n<div style=\"font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1c1917; line-height: 1.6;\">\n  <div style=\"text-align: center; padding: 25px 0; border-bottom: 2px solid #78350f;\">\n    <h1 style=\"font-family: Georgia, serif; font-size: 26px; color: #78350f; margin-bottom: 6px;\">SCULPTED &amp; CANDLE</h1>\n    <p style=\"font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #78716c;\">Artisanal Soy Candles &amp; Sculptural Plaster Decor</p>\n  </div>\n  <div style=\"padding: 30px 15px;\">\n    <h2 style=\"font-size: 22px; color: #1c1917; margin-bottom: 15px;\">Anatomical Heart Jewelry & Keepsake Box</h2>\n    <p style=\"font-size: 16px; color: #44403c; margin-bottom: 20px;\">Handcrafted plaster trinket box in the shape of a human anatomical heart. Fitted lid, velvet base feet, water-resistant finish.</p>\n    \n    <div style=\"background-color: #fafaf9; border-left: 4px solid #78350f; padding: 15px 20px; margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; margin: 0 0 10px 0; color: #78350f;\">Product Specifications:</h3>\n      <ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #57534e;\">\n        <li><strong>Wax:</strong> 100% Natural Organic Soy Wax (Eco-friendly, clean burning)</li>\n        <li><strong>Vessel:</strong> Handcrafted High-Strength Sculptural Gypsum with protective coating</li>\n        <li><strong>Wick:</strong> Premium organic cotton or crackling natural wood wick</li>\n        <li><strong>Dimensions:</strong> 11 × 8 см</li>\n        <li><strong>Estimated Weight:</strong> 340 g</li>\n      </ul>\n    </div>\n\n    <div style=\"margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Available Artisan Scents:</h3>\n      <p style=\"font-size: 14px; color: #78716c;\">Без отдушки (чистый соевый воск)</p>\n    </div>\n\n    <div style=\"margin: 25px 0; border-top: 1px solid #e7e5e4; padding-top: 20px;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Worldwide Shipping &amp; Careful Packaging:</h3>\n      <p style=\"font-size: 14px; color: #57534e;\">Each piece is cushioned in custom reinforced protective packaging and luxury craft wrapping, ensuring completely safe transit to your doorstep.</p>\n    </div>\n  </div>\n</div>\n"
+  },
+  {
+    "item_id": "sc-08",
+    "title": "Nettle & Wormwood Herbal Candle with Crackling Wood Wick",
+    "category_id": "46713",
+    "category_name": "Candles",
+    "price_usd": 29.0,
+    "currency": "USD",
+    "quantity": 5,
+    "condition": "1000",
+    "format": "FixedPrice",
+    "duration": "GTC",
+    "photos": [
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/nettle_1.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/nettle_2.jpg",
+      "https://raw.githubusercontent.com/sculpted-candle/sculpted-candle.github.io/main/assets/img/tg_catalog/nettle_3.jpg"
+    ],
+    "item_specifics": {
+      "Brand": "Sculpted & Candle",
+      "Type": "Sculptural Candle / Plaster Decor",
+      "Material": "100% Organic Soy Wax, High-Density Plaster",
+      "Features": "Handmade, Scented, Decorative, Non-Toxic, Wooden/Cotton Wick",
+      "Scent": "Крапива, Полынь & Луговые травы",
+      "Country/Region of Manufacture": "Russian Federation",
+      "Theme": "Art, Nature, Fairytale, Gothic Elegance",
+      "Shape": "9 × 8.5 см"
+    },
+    "description_html": "\n<div style=\"font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #1c1917; line-height: 1.6;\">\n  <div style=\"text-align: center; padding: 25px 0; border-bottom: 2px solid #78350f;\">\n    <h1 style=\"font-family: Georgia, serif; font-size: 26px; color: #78350f; margin-bottom: 6px;\">SCULPTED &amp; CANDLE</h1>\n    <p style=\"font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #78716c;\">Artisanal Soy Candles &amp; Sculptural Plaster Decor</p>\n  </div>\n  <div style=\"padding: 30px 15px;\">\n    <h2 style=\"font-size: 22px; color: #1c1917; margin-bottom: 15px;\">Nettle & Wormwood Herbal Candle with Crackling Wood Wick</h2>\n    <p style=\"font-size: 16px; color: #44403c; margin-bottom: 20px;\">Earthy herbal soy candle in a minimalist raw gypsum vessel with a crackling natural wood wick. Scent of wild nettle, wormwood, and summer meadow.</p>\n    \n    <div style=\"background-color: #fafaf9; border-left: 4px solid #78350f; padding: 15px 20px; margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; margin: 0 0 10px 0; color: #78350f;\">Product Specifications:</h3>\n      <ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #57534e;\">\n        <li><strong>Wax:</strong> 100% Natural Organic Soy Wax (Eco-friendly, clean burning)</li>\n        <li><strong>Vessel:</strong> Handcrafted High-Strength Sculptural Gypsum with protective coating</li>\n        <li><strong>Wick:</strong> Premium organic cotton or crackling natural wood wick</li>\n        <li><strong>Dimensions:</strong> 9 × 8.5 см</li>\n        <li><strong>Estimated Weight:</strong> 290 g</li>\n      </ul>\n    </div>\n\n    <div style=\"margin: 25px 0;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Available Artisan Scents:</h3>\n      <p style=\"font-size: 14px; color: #78716c;\">Крапива, Полынь & Луговые травы, Бергамот, Инжир & Белый кедр, Без отдушки (чистый соевый воск)</p>\n    </div>\n\n    <div style=\"margin: 25px 0; border-top: 1px solid #e7e5e4; padding-top: 20px;\">\n      <h3 style=\"font-size: 16px; color: #1c1917;\">Worldwide Shipping &amp; Careful Packaging:</h3>\n      <p style=\"font-size: 14px; color: #57534e;\">Each piece is cushioned in custom reinforced protective packaging and luxury craft wrapping, ensuring completely safe transit to your doorstep.</p>\n    </div>\n  </div>\n</div>\n"
+  }
+]
