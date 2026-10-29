@@ -3377,6 +3377,239 @@ a {
   margin-bottom: 2px;
 }
 
+/* ==========================================================================
+   DYNAMIC PHOTO GALLERY & FORMAT SWITCHER (СВЕЧА / ШКАТУЛКА)
+   ========================================================================== */
+
+/* Card Format Selector (Pills) */
+.card-format-pills {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0 8px;
+  flex-wrap: wrap;
+}
+
+.format-pill {
+  padding: 3px 9px;
+  font-size: 0.73rem;
+  border-radius: 14px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-main);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.format-pill:hover {
+  border-color: var(--accent-sage);
+  color: var(--accent-sage-dark);
+}
+
+.format-pill.active {
+  background: var(--accent-sage);
+  color: #FFFFFF;
+  border-color: var(--accent-sage);
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(63, 94, 77, 0.25);
+}
+
+/* Photo Counter on Product Card */
+.card-photo-counter {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(20, 24, 22, 0.7);
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Format Switcher (Свеча vs Шкатулка) */
+.modal-format-picker {
+  margin-bottom: 14px;
+  background: #FAF8F5;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+}
+
+.format-options-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.format-option-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border-light);
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  position: relative;
+}
+
+.format-option-btn input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.format-option-btn:hover {
+  border-color: var(--accent-sage-light, #9EABA2);
+  transform: translateY(-1px);
+}
+
+.format-option-btn.active {
+  border-color: var(--accent-sage);
+  background: rgba(63, 94, 77, 0.06);
+  box-shadow: 0 3px 10px rgba(63, 94, 77, 0.16);
+}
+
+.format-opt-title {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.format-opt-price {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--accent-sage-dark);
+}
+
+.format-opt-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Modal Gallery Image Overlay Arrows */
+.quickview-img-wrap {
+  position: relative;
+}
+
+.quickview-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: 300;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  transition: all 0.2s ease;
+  z-index: 3;
+}
+
+.quickview-nav-arrow:hover {
+  background: #FFFFFF;
+  color: var(--accent-sage-dark);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.quickview-nav-arrow.prev { left: 8px; }
+.quickview-nav-arrow.next { right: 8px; }
+
+/* Admin Dynamic Photos Grid */
+.admin-photos-dynamic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.admin-photo-card {
+  position: relative;
+  background: var(--bg-main);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  text-align: center;
+  transition: box-shadow 0.2s ease;
+}
+
+.admin-photo-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-photo-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent-sage-dark);
+  margin-bottom: 4px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.admin-photo-thumb {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--bg-subtle);
+  display: block;
+}
+
+.admin-photo-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  gap: 4px;
+}
+
+.admin-photo-btn {
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+}
+
+.admin-photo-btn:hover {
+  background: #FFFFFF;
+  color: var(--text-primary);
+}
+
+.admin-photo-btn.delete {
+  color: #C53030;
+  border-color: rgba(197, 48, 48, 0.3);
+}
+
+.admin-photo-btn.delete:hover {
+  background: #FFF5F5;
+}
+
+
 
 
 

@@ -855,51 +855,64 @@ function renderGypsumColorCheckboxes(selectedArray = []) {
   });
 }
 
-// --- Setup 3-Photo Slots Management ---
-function setupPhotoSlot(slotNum) {
-  const dropEl = document.getElementById(`drop-photo-${slotNum}`);
-  const fileEl = document.getElementById(`file-photo-${slotNum}`);
-  const prevEl = document.getElementById(`preview-photo-${slotNum}`);
-  const phEl = document.getElementById(`placeholder-photo-${slotNum}`);
-  if (!dropEl || !fileEl) return;
+// --- Setup Dynamic Photo Slots Management (Unlimited Photos) ---
+function renderAdminPhotoSlots() {
+  const container = document.getElementById('product-photos-list');
+  const countEl = document.getElementById('count-edit-photos');
+  if (countEl) countEl.textContent = uploadedProductPhotos.length;
+  if (!container) return;
 
-  dropEl.onclick = () => fileEl.click();
-  fileEl.onchange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        const compressed = await compressImage(file, 900, 0.82);
-        uploadedProductPhotos[slotNum - 1] = compressed;
-        if (prevEl) {
-          prevEl.src = compressed;
-          prevEl.style.display = 'block';
-        }
-        if (phEl) phEl.style.display = 'none';
-      } catch (err) {
-        console.error(`Photo slot ${slotNum} error:`, err);
-      }
-    }
-  };
-}
-
-function resetPhotoSlots(photos = []) {
-  uploadedProductPhotos = [photos[0] || '', photos[1] || '', photos[2] || ''];
-  for (let i = 1; i <= 3; i++) {
-    const prevEl = document.getElementById(`preview-photo-${i}`);
-    const phEl = document.getElementById(`placeholder-photo-${i}`);
-    const val = uploadedProductPhotos[i - 1];
-    if (val) {
-      if (prevEl) {
-        prevEl.src = val;
-        prevEl.style.display = 'block';
-      }
-      if (phEl) phEl.style.display = 'none';
-    } else {
-      if (prevEl) prevEl.style.display = 'none';
-      if (phEl) phEl.style.display = 'block';
-    }
+  container.innerHTML = '';
+  if (uploadedProductPhotos.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; padding: 18px; text-align: center; border: 2px dashed var(--border-light); border-radius: var(--radius-sm); color: var(--text-muted); font-size: 0.82rem;">
+        📸 Фото еще не добавлены. Нажмите «+ Добавить фото» или вставьте путь к файлу.
+      </div>
+    `;
+    return;
   }
+
+  uploadedProductPhotos.forEach((src, idx) => {
+    let badgeText = `${idx + 1}. Галерея`;
+    let badgeColor = 'var(--text-secondary)';
+    if (idx === 0) {
+      badgeText = '1. Витрина (Главное)';
+      badgeColor = 'var(--accent-sage-dark)';
+    } else if (idx === 1) {
+      badgeText = '2. При наведении (Hover)';
+      badgeColor = 'var(--accent-terracotta)';
+    }
+
+    const card = document.createElement('div');
+    card.className = 'admin-photo-card';
+    card.innerHTML = `
+      <div class="admin-photo-badge" style="color: ${badgeColor};" title="${badgeText}">${badgeText}</div>
+      <img src="${src}" class="admin-photo-thumb" alt="Фото ${idx + 1}" onerror="this.src='assets/img/product_1.jpg'">
+      <div class="admin-photo-actions">
+        <div style="display: flex; gap: 2px;">
+          ${idx > 0 ? `<button type="button" class="admin-photo-btn" title="Сдвинуть влево (выше)" onclick="window.moveAdminPhoto(${idx}, -1)">‹</button>` : ''}
+          ${idx < uploadedProductPhotos.length - 1 ? `<button type="button" class="admin-photo-btn" title="Сдвинуть вправо (ниже)" onclick="window.moveAdminPhoto(${idx}, 1)">›</button>` : ''}
+        </div>
+        <button type="button" class="admin-photo-btn delete" title="Удалить фото" onclick="window.deleteAdminPhoto(${idx})">🗑️</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
 }
+
+window.deleteAdminPhoto = function(idx) {
+  uploadedProductPhotos.splice(idx, 1);
+  renderAdminPhotoSlots();
+};
+
+window.moveAdminPhoto = function(idx, delta) {
+  const target = idx + delta;
+  if (target < 0 || target >= uploadedProductPhotos.length) return;
+  const temp = uploadedProductPhotos[idx];
+  uploadedProductPhotos[idx] = uploadedProductPhotos[target];
+  uploadedProductPhotos[target] = temp;
+  renderAdminPhotoSlots();
+};
 
 window.editProduct = function(id) {
   const p = products.find(item => item.id === id);
@@ -913,14 +926,26 @@ window.editProduct = function(id) {
   document.getElementById('edit-ingredients').value = p.ingredients || '';
   document.getElementById('edit-desc-ru').value = p.descRu || '';
 
+  // Formats: Candle and/or Box (Casket)
+  const isCandle = p.hasCandle !== false && (p.hasCandle !== undefined ? p.hasCandle : (p.categories ? p.categories.includes('candles') : true));
+  const priceCandle = p.priceCandle || p.price || 1900;
+  const isBox = !!p.hasBox || (p.categories && p.categories.includes('gypsum') && (p.titleRu.toLowerCase().includes('шкатулк') || p.titleRu.toLowerCase().includes('сердце') || p.titleRu.toLowerCase().includes('карусель') || p.titleRu.toLowerCase().includes('тыковк')));
+  const priceBox = p.priceBox || (p.titleRu.toLowerCase().includes('шкатулк') ? p.price : 1500);
+
+  document.getElementById('edit-has-candle').checked = isCandle;
+  document.getElementById('edit-price-candle').value = priceCandle;
+  document.getElementById('edit-has-box').checked = isBox;
+  document.getElementById('edit-price-box').value = priceBox;
+
   renderCategoryCheckboxes(p.categories || []);
   renderHolidayCheckboxes(p.holidays || []);
   renderScentCheckboxes(p.availableScents || []);
   renderFinishCheckboxes(p.availableFinishes || []);
   renderGypsumColorCheckboxes(p.availableGypsumColors || []);
 
-  const photos = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
-  resetPhotoSlots(photos);
+  const photos = (Array.isArray(p.images) && p.images.length) ? [...p.images] : (p.image ? [p.image] : ['assets/img/product_1.jpg']);
+  uploadedProductPhotos = photos.filter(Boolean);
+  renderAdminPhotoSlots();
 
   document.getElementById('modal-edit-product').classList.add('active');
 };
@@ -931,9 +956,38 @@ function setupProductModal() {
   const closeBtn = document.getElementById('btn-close-edit-modal');
   const form = document.getElementById('form-edit-product');
 
-  setupPhotoSlot(1);
-  setupPhotoSlot(2);
-  setupPhotoSlot(3);
+  const addPhotoBtn = document.getElementById('btn-add-product-photo');
+  const fileInput = document.getElementById('input-add-photos');
+  const addUrlBtn = document.getElementById('btn-add-photo-url');
+  const urlInput = document.getElementById('input-photo-url');
+
+  if (addPhotoBtn && fileInput) {
+    addPhotoBtn.onclick = () => fileInput.click();
+    fileInput.onchange = async (e) => {
+      const files = Array.from(e.target.files || []);
+      for (const file of files) {
+        try {
+          const compressed = await compressImage(file, 900, 0.82);
+          uploadedProductPhotos.push(compressed);
+        } catch (err) {
+          console.error('Error compressing image:', err);
+        }
+      }
+      fileInput.value = '';
+      renderAdminPhotoSlots();
+    };
+  }
+
+  if (addUrlBtn && urlInput) {
+    addUrlBtn.onclick = () => {
+      const url = urlInput.value.trim();
+      if (url) {
+        uploadedProductPhotos.push(url);
+        urlInput.value = '';
+        renderAdminPhotoSlots();
+      }
+    };
+  }
 
   if (openAddBtn) {
     openAddBtn.addEventListener('click', () => {
@@ -941,12 +995,20 @@ function setupProductModal() {
       document.getElementById('edit-product-id').value = '';
       document.getElementById('modal-product-title').textContent = 'Добавить новое изделие';
       document.getElementById('edit-ingredients').value = '100% соевый воск, хлопковый фитиль, премиальные аромамасла';
+      
+      document.getElementById('edit-has-candle').checked = true;
+      document.getElementById('edit-price-candle').value = '1800';
+      document.getElementById('edit-has-box').checked = false;
+      document.getElementById('edit-price-box').value = '1500';
+
       renderCategoryCheckboxes(['candles']);
       renderHolidayCheckboxes([]);
       renderScentCheckboxes([]);
       renderFinishCheckboxes([]);
       renderGypsumColorCheckboxes([]);
-      resetPhotoSlots([]);
+      
+      uploadedProductPhotos = ['assets/img/product_1.jpg'];
+      renderAdminPhotoSlots();
       modal.classList.add('active');
     });
   }
@@ -976,12 +1038,32 @@ function setupProductModal() {
       const checkedColors = Array.from(document.querySelectorAll('input[name="product-gypsum-color"]:checked'))
         .map(cb => cb.value);
 
+      // Formats: Candle and Box
+      const hasCandle = document.getElementById('edit-has-candle').checked;
+      const priceCandle = parseInt(document.getElementById('edit-price-candle').value, 10) || 1800;
+      const hasBox = document.getElementById('edit-has-box').checked;
+      const priceBox = parseInt(document.getElementById('edit-price-box').value, 10) || 1500;
+
+      if (!hasCandle && !hasBox) {
+        alert('Пожалуйста, отметьте хотя бы один доступный формат изделия: «Свеча» или «Шкатулка».');
+        return;
+      }
+
+      const inputBasePrice = parseInt(document.getElementById('edit-price').value, 10);
+      const finalBasePrice = !isNaN(inputBasePrice) && inputBasePrice > 0 
+        ? inputBasePrice 
+        : (hasCandle ? priceCandle : priceBox);
+
       const validPhotos = uploadedProductPhotos.filter(Boolean);
       const finalPhotos = validPhotos.length > 0 ? validPhotos : ['assets/img/product_1.jpg'];
 
       const itemData = {
         titleRu: document.getElementById('edit-title-ru').value.trim(),
-        price: parseInt(document.getElementById('edit-price').value, 10) || 1000,
+        price: finalBasePrice,
+        hasCandle: hasCandle,
+        priceCandle: priceCandle,
+        hasBox: hasBox,
+        priceBox: priceBox,
         status: document.getElementById('edit-status').value,
         ingredients: document.getElementById('edit-ingredients').value.trim() || '100% соевый воск, хлопковый фитиль, премиальные аромамасла',
         descRu: document.getElementById('edit-desc-ru').value.trim() || 'Авторская ручная работа из Санкт-Петербурга.',

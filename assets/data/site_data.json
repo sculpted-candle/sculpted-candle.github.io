@@ -40,7 +40,11 @@
       "descRu": "Фактурная авторская свеча в виде спелой тыквы с изящным золотым хвостиком и золотыми брызгами. Изготавливается из 100% соевого воска с хлопковым фитилем.",
       "descEn": "Handcrafted sculptural pumpkin candle made from 100% pure organic soy wax with an elegant gold stem and delicate gold foil splatters. Autumn limited edition.",
       "size": "8 × 7 см",
-      "weightGrams": 220
+      "weightGrams": 220,
+      "hasCandle": true,
+      "hasBox": true,
+      "priceCandle": 1200,
+      "priceBox": 900
     },
     {
       "id": "sc-02",
@@ -84,7 +88,11 @@
       "descRu": "Главный хит и арт-объект мастерской. Невероятно детализированная анатомическая форма, ручная лепка и заливка. Время изготовления — от 3 до 7 дней.",
       "descEn": "Intricately sculpted anatomical heart candle. Cast in ultra-high-density gypsum and poured with pure organic soy wax. A gothic, romantic statement piece.",
       "size": "11 × 8 см",
-      "weightGrams": 380
+      "weightGrams": 380,
+      "hasCandle": true,
+      "hasBox": true,
+      "priceCandle": 1900,
+      "priceBox": 1500
     },
     {
       "id": "sc-03",
@@ -126,7 +134,11 @@
       "descRu": "Флагманское творение мастерской: лесные мухоморчики из высокопрочного гипса, расписанные вручную. После захода солнца шляпки мягко светятся в темноте магическим светом!",
       "descEn": "Whimsical forest agaric mushrooms cast in premium sculptural plaster and poured with 100% soy wax. The caps are hand-painted with phosphorescent pigment and glow magically in the dark.",
       "size": "12 × 9 см",
-      "weightGrams": 450
+      "weightGrams": 450,
+      "hasCandle": true,
+      "hasBox": true,
+      "priceCandle": 2400,
+      "priceBox": 1800
     },
     {
       "id": "sc-04",
@@ -170,7 +182,11 @@
       "descRu": "Винтажная сказочная карусель со съемной гипсовой крышечкой с рельефными лошадками. Зимняя сказка в вашем доме и открытый ранний предзаказ.",
       "descEn": "Vintage festive carousel candle holder with a sculpted dome lid featuring relief carousel horses. Reusable plaster vessel poured with soy wax.",
       "size": "12 × 10 см",
-      "weightGrams": 420
+      "weightGrams": 420,
+      "hasCandle": true,
+      "hasBox": true,
+      "priceCandle": 2100,
+      "priceBox": 1600
     },
     {
       "id": "sc-05",
@@ -214,7 +230,11 @@
       "descRu": "Свеча в форме спелого раскрытого граната с ароматом игристого вина с кислинкой. Пирамида аромата: клубника, гранат, шампанское, ваниль.",
       "descEn": "Vibrant sculpted ripe pomegranate candle pot. Poured with soy wax scented with champagne, sparkling strawberries, and tangy red pomegranate.",
       "size": "9 × 8.5 см",
-      "weightGrams": 310
+      "weightGrams": 310,
+      "hasCandle": true,
+      "hasBox": true,
+      "priceCandle": 1600,
+      "priceBox": 1200
     },
     {
       "id": "sc-06",
@@ -258,7 +278,11 @@
       "descRu": "Подарок, который растет! Кашпо к праздникам с луковицей живого цветка и соевой свечой со сладковато-пряным ароматом яблочного штруделя.",
       "descEn": "A gift that blooms! Dual handcrafted plaster planter featuring a living hyacinth flower bulb paired with a fragrant soy candle (apple strudel & maple syrup).",
       "size": "14 × 10 см",
-      "weightGrams": 520
+      "weightGrams": 520,
+      "hasCandle": true,
+      "priceCandle": 2300,
+      "hasBox": false,
+      "priceBox": 1500
     },
     {
       "id": "sc-07",
@@ -300,7 +324,11 @@
       "descRu": "Шкатулка для колец и украшений в виде анатомического сердца с плотной крышечкой. Оригинальный дизайн и тактильная прохлада скульптурного гипса.",
       "descEn": "Handcrafted plaster trinket box in the shape of a human anatomical heart. Fitted lid, velvet base feet, water-resistant finish.",
       "size": "11 × 8 см",
-      "weightGrams": 340
+      "weightGrams": 340,
+      "hasCandle": true,
+      "hasBox": true,
+      "priceCandle": 1900,
+      "priceBox": 1500
     },
     {
       "id": "sc-08",
@@ -343,7 +371,11 @@
       "descRu": "Аромасвеча в минималистичном гипсовом горшочке с потрескивающим деревянным фитилем, напоминающим уютный вечер у камина.",
       "descEn": "Earthy herbal soy candle in a minimalist raw gypsum vessel with a crackling natural wood wick. Scent of wild nettle, wormwood, and summer meadow.",
       "size": "9 × 8.5 см",
-      "weightGrams": 290
+      "weightGrams": 290,
+      "hasCandle": true,
+      "priceCandle": 1450,
+      "hasBox": false,
+      "priceBox": 1500
     }
   ],
   "scents": [

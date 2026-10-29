@@ -875,6 +875,7 @@ function renderProducts() {
   }
 
   // Render product cards with 2-photo hover swap & ingredients
+  // Render product cards with dynamic format switch (Свеча / Шкатулка), hover swap & ingredients
   paged.forEach(p => {
     const title = currentLang === 'ru' ? p.titleRu : autoTranslateToEn(p.titleRu);
     const desc = currentLang === 'ru' ? p.descRu : autoTranslateToEn(p.descRu);
@@ -886,29 +887,55 @@ function renderProducts() {
       : TRANSLATIONS[currentLang].statusPreorder;
     const statusClass = p.status === 'in-stock' ? 'status-in-stock' : 'status-preorder';
 
-    const imgMain = (p.images && p.images[0]) || p.image || 'assets/img/product_1.jpg';
-    const imgHover = (p.images && p.images[1]) || (p.images && p.images[0]) || p.image;
+    // Formats: Candle and/or Box
+    const hasCandle = p.hasCandle !== false && (p.hasCandle !== undefined ? p.hasCandle : (p.categories ? p.categories.includes('candles') : true));
+    const priceCandle = p.priceCandle || p.price || 1800;
+    const hasBox = !!p.hasBox || (p.categories && p.categories.includes('gypsum') && (p.titleRu.toLowerCase().includes('шкатулк') || p.titleRu.toLowerCase().includes('сердце') || p.titleRu.toLowerCase().includes('карусель') || p.titleRu.toLowerCase().includes('тыковк')));
+    const priceBox = p.priceBox || (p.titleRu.toLowerCase().includes('шкатулк') ? p.price : 1500);
+
+    window.cardSelectedFormat = window.cardSelectedFormat || {};
+    const activeFormat = window.cardSelectedFormat[p.id] || (hasCandle ? 'candle' : 'box');
+    const displayPrice = (activeFormat === 'box' && hasBox) ? priceBox : priceCandle;
+
+    const images = (Array.isArray(p.images) && p.images.length > 0) ? p.images : [p.image || 'assets/img/product_1.jpg'];
+    const imgMain = images[0];
+    const imgHover = images.length > 1 ? images[1] : imgMain;
 
     const card = document.createElement('article');
     card.className = 'product-card';
+    card.id = `card-${p.id}`;
     card.innerHTML = `
       <div class="card-img-wrap" onclick="openQuickView('${p.id}')">
         <img src="${imgMain}" alt="${title}" class="card-img card-img-main" loading="lazy" onerror="this.src='assets/img/product_1.jpg'">
         ${imgHover && imgHover !== imgMain ? `<img src="${imgHover}" alt="${title}" class="card-img-hover" loading="lazy" onerror="this.style.display='none'">` : ''}
         <span class="card-badge-status ${statusClass}">${statusText}</span>
+        ${images.length > 2 ? `<span class="card-photo-counter" title="${images.length} фото">📸 ${images.length} фото</span>` : ''}
         <div class="card-quick-view-overlay">
           <button class="btn btn-outline btn-sm" style="background: rgba(255,255,255,0.95);">${TRANSLATIONS[currentLang].btnQuickView}</button>
         </div>
       </div>
       <div class="card-body">
         <h3 class="card-title" onclick="openQuickView('${p.id}')">${title}</h3>
+        
+        <!-- Переключатель формата на карточке (если доступны и Свеча, и Шкатулка) -->
+        ${(hasCandle && hasBox) ? `
+          <div class="card-format-pills">
+            <button type="button" class="format-pill ${activeFormat === 'candle' ? 'active' : ''}" onclick="event.stopPropagation(); window.switchCardFormat('${p.id}', 'candle', this)">
+              🕯️ Свеча ${priceCandle.toLocaleString('ru-RU')} ₽
+            </button>
+            <button type="button" class="format-pill ${activeFormat === 'box' ? 'active' : ''}" onclick="event.stopPropagation(); window.switchCardFormat('${p.id}', 'box', this)">
+              🎁 Шкатулка ${priceBox.toLocaleString('ru-RU')} ₽
+            </button>
+          </div>
+        ` : ''}
+
         <div class="card-scent">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c0 4.5-5 7-5 11a5 5 0 0 0 10 0c0-4-5-6.5-5-11z"/></svg>
           <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px;">${TRANSLATIONS[currentLang].modalIngredients} ${ingredients}</span>
         </div>
         <p class="card-desc">${desc}</p>
         <div class="card-footer">
-          <div class="card-price">${p.price.toLocaleString('ru-RU')} ₽</div>
+          <div class="card-price" id="card-price-${p.id}">${displayPrice.toLocaleString('ru-RU')} ₽</div>
           <button onclick="openQuickView('${p.id}')" class="btn btn-primary btn-sm btn-card-order" aria-label="Заказать ${title}">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.75-.56 2.94-1.28 4.91-2.12 5.9-2.53 2.81-1.17 3.39-1.37 3.77-1.38.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .34z"/></svg>
             <span class="btn-order-text">${TRANSLATIONS[currentLang].btnOrderTg}</span>
@@ -958,7 +985,29 @@ function renderProducts() {
   }
 }
 
-// --- Quick View Modal with 3-photo gallery, dynamic attributes & promocode ---
+// --- Dynamic Card Format Switcher ---
+window.cardSelectedFormat = window.cardSelectedFormat || {};
+window.switchCardFormat = function(productId, format, btnEl) {
+  window.cardSelectedFormat[productId] = format;
+  const p = products.find(item => item.id === productId);
+  if (!p) return;
+
+  const card = document.getElementById(`card-${productId}`) || btnEl.closest('.product-card');
+  if (card) {
+    card.querySelectorAll('.format-pill').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+
+    const price = (format === 'box' && p.priceBox) ? p.priceBox : (p.priceCandle || p.price);
+    const priceEl = document.getElementById(`card-price-${productId}`) || card.querySelector('.card-price');
+    if (priceEl) {
+      priceEl.style.transform = 'scale(1.1)';
+      priceEl.textContent = `${price.toLocaleString('ru-RU')} ₽`;
+      setTimeout(() => { priceEl.style.transform = 'scale(1)'; }, 200);
+    }
+  }
+};
+
+// --- Quick View Modal with Unlimited Photo Gallery & Format Switcher (Свеча / Шкатулка) ---
 window.openQuickView = function(id) {
   const p = products.find(item => item.id === id);
   if (!p) return;
@@ -974,7 +1023,20 @@ window.openQuickView = function(id) {
     ? TRANSLATIONS[currentLang].statusInStock 
     : TRANSLATIONS[currentLang].statusPreorder;
 
-  const images = (p.images && p.images.length > 0) ? p.images : [p.image || 'assets/img/product_1.jpg'];
+  // Unlimited photos list
+  const images = (Array.isArray(p.images) && p.images.length > 0) ? p.images : [p.image || 'assets/img/product_1.jpg'];
+  window.modalImagesList = images;
+  window.modalActiveImageIndex = 0;
+
+  // Formats: Candle and/or Box
+  const hasCandle = p.hasCandle !== false && (p.hasCandle !== undefined ? p.hasCandle : (p.categories ? p.categories.includes('candles') : true));
+  const priceCandle = p.priceCandle || p.price || 1800;
+  const hasBox = !!p.hasBox || (p.categories && p.categories.includes('gypsum') && (p.titleRu.toLowerCase().includes('шкатулк') || p.titleRu.toLowerCase().includes('сердце') || p.titleRu.toLowerCase().includes('карусель') || p.titleRu.toLowerCase().includes('тыковк')));
+  const priceBox = p.priceBox || (p.titleRu.toLowerCase().includes('шкатулк') ? p.price : 1500);
+
+  const initialFormat = window.cardSelectedFormat[p.id] || (hasCandle ? 'candle' : 'box');
+  window.modalSelectedFormat = initialFormat;
+  window.modalCurrentBasePrice = (initialFormat === 'box' && hasBox) ? priceBox : priceCandle;
 
   // Allowed Scents
   const allScents = (scents && scents.length ? scents : DEFAULT_SCENTS).filter(s => s.active !== false);
@@ -1003,9 +1065,11 @@ window.openQuickView = function(id) {
       <div class="quickview-img-wrap">
         <img id="quickview-active-img" src="${images[0]}" alt="${title}" class="quickview-img" onerror="this.src='assets/img/product_1.jpg'">
         ${images.length > 1 ? `
+          <button type="button" class="quickview-nav-arrow prev" onclick="window.navQuickviewImg(-1)" title="Предыдущее фото">‹</button>
+          <button type="button" class="quickview-nav-arrow next" onclick="window.navQuickviewImg(1)" title="Следующее фото">›</button>
           <div class="quickview-thumbs-wrap">
             ${images.map((img, idx) => `
-              <button type="button" class="quickview-thumb-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchQuickviewImg('${img}', this)">
+              <button type="button" class="quickview-thumb-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchQuickviewImg('${img}', this, ${idx})">
                 <img src="${img}" alt="Фото ${idx + 1}" onerror="this.src='assets/img/product_1.jpg'">
               </button>
             `).join('')}
@@ -1018,12 +1082,36 @@ window.openQuickView = function(id) {
         </span>
         <h3 class="heading-md" style="margin: 8px 0;">${title}</h3>
         <div class="quickview-price" id="quickview-price-display">
-          ${p.price.toLocaleString('ru-RU')} ₽
+          ${window.modalCurrentBasePrice.toLocaleString('ru-RU')} ₽
         </div>
+
+        <!-- Переключатель формата Свеча / Шкатулка -->
+        ${(hasCandle && hasBox) ? `
+          <div class="modal-format-picker">
+            <div class="scent-select-label">
+              <span>🕯️ / 🎁 Выберите формат изделия:</span>
+              <span style="font-size: 0.72rem; color: var(--accent-sage);">цена переключается автоматически</span>
+            </div>
+            <div class="format-options-row">
+              <label class="format-option-btn ${initialFormat === 'candle' ? 'active' : ''}" id="modal-opt-candle" onclick="window.updateModalFormat('${p.id}', 'candle')">
+                <input type="radio" name="modal-format-choice" value="candle" ${initialFormat === 'candle' ? 'checked' : ''}>
+                <span class="format-opt-title">🕯️ Свеча</span>
+                <span class="format-opt-price">${priceCandle.toLocaleString('ru-RU')} ₽</span>
+                <span class="format-opt-sub">с воском и ароматом</span>
+              </label>
+              <label class="format-option-btn ${initialFormat === 'box' ? 'active' : ''}" id="modal-opt-box" onclick="window.updateModalFormat('${p.id}', 'box')">
+                <input type="radio" name="modal-format-choice" value="box" ${initialFormat === 'box' ? 'checked' : ''}>
+                <span class="format-opt-title">🎁 Шкатулка</span>
+                <span class="format-opt-price">${priceBox.toLocaleString('ru-RU')} ₽</span>
+                <span class="format-opt-sub">гипсовый кашпо-бокс</span>
+              </label>
+            </div>
+          </div>
+        ` : ''}
 
         <div class="quickview-prop-row" style="margin-bottom: 8px;">
           <strong style="color: var(--text-primary); font-size: 0.84rem;">${TRANSLATIONS[currentLang].modalIngredients}</strong>
-          <span class="quickview-prop-val" style="font-size: 0.84rem; color: var(--text-secondary);">${ingredients}</span>
+          <span class="quickview-prop-val" id="quickview-ingr-val" style="font-size: 0.84rem; color: var(--text-secondary);">${ingredients}</span>
         </div>
 
         ${p.size ? `
@@ -1043,7 +1131,7 @@ window.openQuickView = function(id) {
           <form id="form-item-order" onsubmit="submitProductOrder(event, '${p.id}')">
             
             <!-- Выбор аромата из доступных для изделия -->
-            <div class="scent-picker-wrap">
+            <div class="scent-picker-wrap" id="modal-scent-section" style="${initialFormat === 'box' ? 'display: none;' : ''}">
               <div class="scent-select-label">
                 <span>${TRANSLATIONS[currentLang].modalAroma}</span>
                 <span style="font-size: 0.72rem; color: var(--accent-sage); font-weight: normal;">палитра изделия</span>
@@ -1055,6 +1143,11 @@ window.openQuickView = function(id) {
                 <div class="scent-notes-title">Ноты аромата:</div>
                 <div id="scent-notes-desc">${finalScents[0] ? finalScents[0].desc : ''}</div>
               </div>
+            </div>
+
+            <!-- Для шкатулки: пояснение вместо аромата -->
+            <div id="modal-box-info" style="${initialFormat === 'box' ? 'display: block;' : 'display: none;'} margin-bottom: 10px; padding: 10px 12px; background: rgba(63,94,77,0.06); border-radius: 6px; font-size: 0.8rem; color: var(--accent-sage-dark);">
+              🎁 <strong>Формат «Шкатулка»:</strong> Изделие выполнено как интерьерный гипсовый арт-объект с крышечкой для хранения украшений. Аромат не требуется.
             </div>
 
             <!-- Выбор типа покрытия -->
@@ -1139,18 +1232,93 @@ window.openQuickView = function(id) {
   document.getElementById('modal-quickview').classList.add('active');
 };
 
-// --- Helper: Switch active Quickview Photo from Thumbnails ---
-window.switchQuickviewImg = function(url, btn) {
+// --- Format Switcher in Modal (Свеча vs Шкатулка) ---
+window.updateModalFormat = function(productId, format) {
+  const p = products.find(item => item.id === productId);
+  if (!p) return;
+
+  window.modalSelectedFormat = format;
+  const isBox = format === 'box';
+  const price = isBox ? (p.priceBox || 1500) : (p.priceCandle || p.price);
+  window.modalCurrentBasePrice = price;
+
+  const optCandle = document.getElementById('modal-opt-candle');
+  const optBox = document.getElementById('modal-opt-box');
+  if (optCandle) optCandle.classList.toggle('active', !isBox);
+  if (optBox) optBox.classList.toggle('active', isBox);
+
+  // Update price display
+  const priceDisplay = document.getElementById('quickview-price-display');
+  if (priceDisplay) {
+    if (window.currentAppliedPromo) {
+      let discount = 0;
+      if (window.currentAppliedPromo.type === 'percent') {
+        discount = Math.round((price * window.currentAppliedPromo.val) / 100);
+      } else {
+        discount = Math.min(window.currentAppliedPromo.val, price);
+      }
+      const finalP = Math.max(0, price - discount);
+      window.currentAppliedPromo.discount = discount;
+      window.currentAppliedPromo.finalPrice = finalP;
+
+      priceDisplay.innerHTML = `
+        <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1.05rem; margin-right: 8px;">${price.toLocaleString('ru-RU')} ₽</span>
+        <span style="color: var(--accent-sage-dark); font-weight: 700;">${finalP.toLocaleString('ru-RU')} ₽</span>
+      `;
+    } else {
+      priceDisplay.textContent = `${price.toLocaleString('ru-RU')} ₽`;
+    }
+  }
+
+  // Update scent picker visibility & composition description
+  const scentSection = document.getElementById('modal-scent-section');
+  const boxInfo = document.getElementById('modal-box-info');
+  const ingrVal = document.getElementById('quickview-ingr-val');
+
+  if (isBox) {
+    if (scentSection) scentSection.style.display = 'none';
+    if (boxInfo) boxInfo.style.display = 'block';
+    if (ingrVal) ingrVal.textContent = '100% высокопрочный скульптурный гипс, влагозащитная гидрофобная пропитка, съемная крышечка';
+  } else {
+    if (scentSection) scentSection.style.display = 'block';
+    if (boxInfo) boxInfo.style.display = 'none';
+    if (ingrVal) ingrVal.textContent = p.ingredients || '100% натуральный соевый воск, хлопковый фитиль, гипс';
+  }
+};
+
+// --- Gallery Helpers: Switch & Navigate Photos ---
+window.switchQuickviewImg = function(url, btn, idx = 0) {
+  window.modalActiveImageIndex = idx;
   const mainImg = document.getElementById('quickview-active-img');
   if (mainImg) {
     mainImg.style.opacity = '0.3';
     setTimeout(() => {
       mainImg.src = url;
       mainImg.style.opacity = '1';
-    }, 150);
+    }, 120);
   }
   document.querySelectorAll('.quickview-thumb-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
+};
+
+window.navQuickviewImg = function(delta) {
+  const list = window.modalImagesList || [];
+  if (list.length <= 1) return;
+  let idx = (window.modalActiveImageIndex || 0) + delta;
+  if (idx < 0) idx = list.length - 1;
+  if (idx >= list.length) idx = 0;
+  window.modalActiveImageIndex = idx;
+  const url = list[idx];
+  const mainImg = document.getElementById('quickview-active-img');
+  if (mainImg) {
+    mainImg.style.opacity = '0.3';
+    setTimeout(() => {
+      mainImg.src = url;
+      mainImg.style.opacity = '1';
+    }, 120);
+  }
+  const thumbs = document.querySelectorAll('.quickview-thumb-btn');
+  thumbs.forEach((t, i) => t.classList.toggle('active', i === idx));
 };
 
 // --- Helper: Apply Promocode ---
@@ -1172,23 +1340,25 @@ window.applyPromoCode = function(productId) {
   const p = products.find(item => item.id === productId);
   if (!p) return;
 
+  const currentPrice = window.modalCurrentBasePrice || p.price;
+
   if (!promo) {
     msgEl.style.display = 'block';
     msgEl.style.color = '#C53030';
     msgEl.innerHTML = '❌ Промокод не найден или срок действия истек';
     window.currentAppliedPromo = null;
     const priceDisplay = document.getElementById('quickview-price-display');
-    if (priceDisplay) priceDisplay.innerHTML = `${p.price.toLocaleString('ru-RU')} ₽`;
+    if (priceDisplay) priceDisplay.innerHTML = `${currentPrice.toLocaleString('ru-RU')} ₽`;
     return;
   }
 
   let discount = 0;
   if (promo.type === 'percent') {
-    discount = Math.round((p.price * promo.val) / 100);
+    discount = Math.round((currentPrice * promo.val) / 100);
   } else {
-    discount = Math.min(promo.val, p.price);
+    discount = Math.min(promo.val, currentPrice);
   }
-  const finalPrice = Math.max(0, p.price - discount);
+  const finalPrice = Math.max(0, currentPrice - discount);
 
   window.currentAppliedPromo = {
     code: promo.code,
@@ -1201,7 +1371,7 @@ window.applyPromoCode = function(productId) {
   const priceDisplay = document.getElementById('quickview-price-display');
   if (priceDisplay) {
     priceDisplay.innerHTML = `
-      <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1.05rem; margin-right: 8px;">${p.price.toLocaleString('ru-RU')} ₽</span>
+      <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1.05rem; margin-right: 8px;">${currentPrice.toLocaleString('ru-RU')} ₽</span>
       <span style="color: var(--accent-sage-dark); font-weight: 700;">${finalPrice.toLocaleString('ru-RU')} ₽</span>
     `;
   }
@@ -1234,17 +1404,24 @@ window.submitProductOrder = async function(event, productId) {
 
   const customerName = document.getElementById('order-customer-name').value.trim();
   const customerPhone = document.getElementById('order-customer-phone').value.trim();
-  const selectedScent = document.getElementById('order-scent-select')?.value || 'Стандартный';
+  
+  const chosenFormat = window.modalSelectedFormat || 'candle';
+  const formatName = chosenFormat === 'box' ? 'Шкатулка (гипс)' : 'Свеча (соевый воск)';
+  const basePrice = window.modalCurrentBasePrice || (chosenFormat === 'box' ? (p.priceBox || 1500) : (p.priceCandle || p.price));
+
+  const selectedScent = chosenFormat === 'box' 
+    ? 'Не требуется (шкатулка)' 
+    : (document.getElementById('order-scent-select')?.value || 'Стандартный');
   const selectedFinish = document.getElementById('order-finish-select')?.value || 'Матовое защитное';
   const selectedColor = document.getElementById('order-color-select')?.value || 'Белоснежный гипс';
 
   const orderId = 'SC-' + Math.floor(100 + Math.random() * 900);
   const appliedPromo = window.currentAppliedPromo;
-  const totalAmount = appliedPromo ? appliedPromo.finalPrice : p.price;
+  const totalAmount = appliedPromo ? appliedPromo.finalPrice : basePrice;
   const deliveryType = 'СДЭК / Почта РФ';
   const deliveryAddress = 'г. Санкт-Петербург (уточняется)';
 
-  let comment = `Аромат: ${selectedScent}, цвет: ${selectedColor}, покрытие: ${selectedFinish}`;
+  let comment = `Формат: ${formatName}, аромат: ${selectedScent}, цвет гипса: ${selectedColor}, покрытие: ${selectedFinish}`;
   if (appliedPromo) {
     comment += ` | Промокод: ${appliedPromo.code} (скидка -${appliedPromo.discount} ₽)`;
   }
@@ -1255,96 +1432,81 @@ window.submitProductOrder = async function(event, productId) {
     customerName,
     customerPhone,
     productId: p.id,
-    productTitle: p.titleRu,
+    productTitle: `${p.titleRu} (${formatName})`,
+    format: formatName,
     total: totalAmount,
-    originalPrice: p.price,
+    originalPrice: basePrice,
+    discount: appliedPromo ? appliedPromo.discount : 0,
     promoCode: appliedPromo ? appliedPromo.code : null,
-    discountAmount: appliedPromo ? appliedPromo.discount : 0,
-    items: [
-      {
-        id: p.id,
-        title: p.titleRu,
-        price: totalAmount,
-        scent: selectedScent,
-        colors: selectedColor,
-        finish: selectedFinish
-      }
-    ],
+    scent: selectedScent,
+    finish: selectedFinish,
+    color: selectedColor,
     deliveryType,
     deliveryAddress,
     comment,
-    status: 'new'
+    status: 'pending'
   };
 
-  // 1. Save to local storage for Admin panel
+  // 1. Save to local orders
   try {
-    const existingOrders = JSON.parse(localStorage.getItem('sc_orders') || '[]');
-    existingOrders.unshift(orderPayload);
-    localStorage.setItem('sc_orders', JSON.stringify(existingOrders));
+    const existing = JSON.parse(localStorage.getItem('sc_orders') || '[]');
+    existing.unshift(orderPayload);
+    localStorage.setItem('sc_orders', JSON.stringify(existing));
   } catch (e) {
-    console.error('Error saving order to localStorage', e);
+    console.error('Error saving local order:', e);
   }
 
-  // 2. Client-side fallback pay URL
-  let payUrl = `pay.html?order=${orderId}&amount=${totalAmount}&desc=${encodeURIComponent(p.titleRu)}&client=${encodeURIComponent(customerName)}`;
-
-  let tgSentFromBackend = false;
+  // 2. Send order to backend / Netlify serverless function
   try {
-    const resp = await fetch('/api/order', {
+    await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderPayload)
     });
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data && data.payUrl) {
-        payUrl = data.payUrl;
-      }
-      tgSentFromBackend = true;
-    }
-  } catch (err) {
-    console.warn('Backend order sync notice:', err);
+  } catch (e) {
+    // offline or static mode fallback
   }
 
-  // Cloud relay for GitHub Pages & standalone hosting (runs via Netlify serverless)
-  if (!tgSentFromBackend) {
-    try {
-      const cloudResp = await fetch('https://sculpted-candle.netlify.app/.netlify/functions/order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderPayload)
-      });
-      if (cloudResp.ok) {
-        const cloudData = await cloudResp.json();
-        if (cloudData && cloudData.payUrl) {
-          payUrl = cloudData.payUrl;
-        }
-      }
-    } catch (netErr) {
-      console.warn('Netlify cloud relay notice:', netErr);
-    }
+  // 3. Try Netlify function
+  try {
+    await fetch('/.netlify/functions/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderPayload)
+    });
+  } catch (e) {}
+
+  // 4. Update UI to success screen
+  const formEl = document.getElementById('form-item-order');
+  const successEl = document.getElementById('order-success-msg');
+  const successText = document.getElementById('order-success-text');
+  const tgLink = document.getElementById('order-tg-direct-link');
+
+  if (formEl) formEl.style.display = 'none';
+  if (successEl) successEl.style.display = 'block';
+
+  if (successText) {
+    successText.innerHTML = `
+      Спасибо, <strong>${customerName}</strong>! Ваш заказ <strong>№${orderId}</strong> на <strong>«${p.titleRu}» (${formatName})</strong> на сумму <strong>${totalAmount.toLocaleString('ru-RU')} ₽</strong> успешно зарегистрирован.
+    `;
   }
 
-  // 3. Update Quick View modal state
-  const form = document.getElementById('form-item-order');
-  const successMsg = document.getElementById('order-success-msg');
-  const tgLinkBtn = document.getElementById('order-tg-direct-link');
-
-  let directTgText = `Здравствуйте, Катерина! Я хочу заказать изделие «${p.titleRu}» (${totalAmount} ₽).\nМое имя: ${customerName}\nКонтакты: ${customerPhone}\nАромат: ${selectedScent}\nПокрытие: ${selectedFinish}\nЦвет: ${selectedColor}`;
-  if (appliedPromo) {
-    directTgText += `\nПромокод: ${appliedPromo.code} (скидка -${appliedPromo.discount} ₽)`;
+  if (tgLink) {
+    const tgMsg = encodeURIComponent(
+      `Здравствуйте, Катерина! Оформил(а) заказ на сайте sculpted-candle:\n` +
+      `📦 Изделие: ${p.titleRu}\n` +
+      `🏷️ Формат: ${formatName}\n` +
+      `🌸 Аромат: ${selectedScent}\n` +
+      `🎨 Цвет гипса: ${selectedColor}\n` +
+      `✨ Покрытие: ${selectedFinish}\n` +
+      `💰 Сумма: ${totalAmount.toLocaleString('ru-RU')} ₽ (Заказ №${orderId})\n` +
+      `👤 Клиент: ${customerName}, тел: ${customerPhone}\n` +
+      `Жду ссылку на оплату СБП!`
+    );
+    tgLink.href = `https://t.me/layra_ms?text=${tgMsg}`;
   }
-  const directTgUrl = `https://t.me/layra_ms?text=${encodeURIComponent(directTgText)}`;
-
-  const textEl = document.getElementById('order-success-text');
-  if (textEl) {
-    textEl.innerHTML = `Спасибо, <strong>${customerName}</strong>! Ваша заявка на «<strong>${p.titleRu}</strong>» (${totalAmount} ₽) получена мастером.`;
-  }
-
-  if (form) form.style.display = 'none';
-  if (successMsg) successMsg.style.display = 'block';
-  if (tgLinkBtn) tgLinkBtn.href = directTgUrl;
 };
+
 
 // --- Language Switcher ---
 function setLanguage(lang) {
