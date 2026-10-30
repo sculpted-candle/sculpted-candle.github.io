@@ -400,6 +400,11 @@ async function loadData() {
         if (data.settings) {
           saveSettings(data.settings);
         }
+        if (data.texts && typeof data.texts === 'object') {
+          localStorage.setItem('sc_custom_texts', JSON.stringify(data.texts));
+          localStorage.setItem('sc_site_texts', JSON.stringify(data.texts));
+          if (typeof initTextsManager === 'function') initTextsManager();
+        }
         localStorage.setItem('sc_last_local_save', String(remoteTime));
 
         renderAdminProducts();
@@ -420,6 +425,8 @@ window.pullLatestFromSite = async function() {
   if (confirm('Загрузить актуальные товары и фотографии с сайта в админку?')) {
     localStorage.removeItem('sc_last_local_save');
     localStorage.removeItem('sc_products');
+    localStorage.removeItem('sc_custom_texts');
+    localStorage.removeItem('sc_site_texts');
     await loadData();
     alert('✅ Каталог и фото успешно обновлены с сайта!');
   }
