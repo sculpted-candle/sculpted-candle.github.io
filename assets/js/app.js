@@ -921,10 +921,10 @@ function renderProducts() {
         ${(hasCandle && hasBox) ? `
           <div class="card-format-pills">
             <button type="button" class="format-pill ${activeFormat === 'candle' ? 'active' : ''}" onclick="event.stopPropagation(); window.switchCardFormat('${p.id}', 'candle', this)">
-              🕯️ Свеча ${priceCandle.toLocaleString('ru-RU')} ₽
+              Свеча ${priceCandle.toLocaleString('ru-RU')} ₽
             </button>
             <button type="button" class="format-pill ${activeFormat === 'box' ? 'active' : ''}" onclick="event.stopPropagation(); window.switchCardFormat('${p.id}', 'box', this)">
-              🎁 Шкатулка ${priceBox.toLocaleString('ru-RU')} ₽
+              Шкатулка ${priceBox.toLocaleString('ru-RU')} ₽
             </button>
           </div>
         ` : ''}
@@ -1089,19 +1089,18 @@ window.openQuickView = function(id) {
         ${(hasCandle && hasBox) ? `
           <div class="modal-format-picker">
             <div class="scent-select-label">
-              <span>🕯️ / 🎁 Выберите формат изделия:</span>
-              <span style="font-size: 0.72rem; color: var(--accent-sage);">цена переключается автоматически</span>
+              <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-primary);">Формат изделия:</span>
             </div>
             <div class="format-options-row">
               <label class="format-option-btn ${initialFormat === 'candle' ? 'active' : ''}" id="modal-opt-candle" onclick="window.updateModalFormat('${p.id}', 'candle')">
                 <input type="radio" name="modal-format-choice" value="candle" ${initialFormat === 'candle' ? 'checked' : ''}>
-                <span class="format-opt-title">🕯️ Свеча</span>
+                <span class="format-opt-title">Свеча</span>
                 <span class="format-opt-price">${priceCandle.toLocaleString('ru-RU')} ₽</span>
                 <span class="format-opt-sub">с воском и ароматом</span>
               </label>
               <label class="format-option-btn ${initialFormat === 'box' ? 'active' : ''}" id="modal-opt-box" onclick="window.updateModalFormat('${p.id}', 'box')">
                 <input type="radio" name="modal-format-choice" value="box" ${initialFormat === 'box' ? 'checked' : ''}>
-                <span class="format-opt-title">🎁 Шкатулка</span>
+                <span class="format-opt-title">Шкатулка</span>
                 <span class="format-opt-price">${priceBox.toLocaleString('ru-RU')} ₽</span>
                 <span class="format-opt-sub">гипсовый кашпо-бокс</span>
               </label>
@@ -1147,7 +1146,7 @@ window.openQuickView = function(id) {
 
             <!-- Для шкатулки: пояснение вместо аромата -->
             <div id="modal-box-info" style="${initialFormat === 'box' ? 'display: block;' : 'display: none;'} margin-bottom: 10px; padding: 10px 12px; background: rgba(63,94,77,0.06); border-radius: 6px; font-size: 0.8rem; color: var(--accent-sage-dark);">
-              🎁 <strong>Формат «Шкатулка»:</strong> Изделие выполнено как интерьерный гипсовый арт-объект с крышечкой для хранения украшений. Аромат не требуется.
+              <strong>Формат «Шкатулка»:</strong> Изделие выполнено как интерьерный гипсовый арт-объект с крышечкой для хранения украшений. Аромат не требуется.
             </div>
 
             <!-- Выбор типа покрытия -->
