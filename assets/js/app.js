@@ -386,9 +386,9 @@ const TRANSLATIONS = {
     btnOrderTg: 'Заказать изделие',
     btnQuickView: 'Быстрый просмотр',
     aboutSub: 'О мастере',
-    aboutQuote: '«Я создаю вещи, которые наполняют пространство сказочным уютом, ароматами трав и спокойствием живого пламени.»',
-    aboutText1: 'Привет! Меня зовут Катерина. Родом я из Беларуси, а мастерскую волшебных свечей и гипсового декора Sculpted&Candle создаю в Санкт-Петербурге. Для меня каждое изделие — это маленькая история тепла и душевного спокойствия.',
-    aboutText2: 'Каждую свечу из чистого соевого воска и гипсовую форму я отливаю, шлифую и бережно упаковываю вручную. Доставляем заказы по всей России и Беларуси, чтобы в каждом доме зажегся огонек уюта.',
+    aboutQuote: '«Я создаю вещи, которые приносят в дом тепло, приятный аромат и визуальное спокойствие.»',
+    aboutText1: 'Привет! Меня зовут Катерина. Родом я из Беларуси, а мастерскую Sculpted&Candle создаю в Санкт-Петербурге. Для меня свечи и гипс — это не массовое производство, а способ замедлиться и наполнить дом уютом.',
+    aboutText2: 'Каждое изделие я отливаю, шлифую, расписываю и покрываю защитным составом вручную. Доставляю заказы по всей России любыми удобными транспортными компаниями, а также отправляю в Беларусь компанией СДЭК.',
     stat1Num: '250+',
     stat1Lbl: 'Созданных свечей',
     stat2Num: '100%',
@@ -649,7 +649,7 @@ function initData() {
 
 // --- Apply Custom Editable Site Texts ---
 function applyCustomTexts() {
-  const textsStr = localStorage.getItem('sc_site_texts');
+  const textsStr = localStorage.getItem('sc_site_texts') || localStorage.getItem('sc_custom_texts');
   if (!textsStr) return;
   try {
     const texts = JSON.parse(textsStr);
@@ -706,6 +706,11 @@ async function loadSiteData() {
         if (data.promocodes && Array.isArray(data.promocodes)) {
           promocodes = data.promocodes;
           localStorage.setItem('sc_promocodes', JSON.stringify(promocodes));
+        }
+        if (data.texts && typeof data.texts === 'object') {
+          localStorage.setItem('sc_site_texts', JSON.stringify(data.texts));
+          localStorage.setItem('sc_custom_texts', JSON.stringify(data.texts));
+          applyCustomTexts();
         }
         renderCategoryTabs();
         renderHolidayChips();
