@@ -1,439 +1,6 @@
 {
-  "products": [
-    {
-      "id": "sc-01",
-      "titleRu": "Свеча «Тыковка» (Осенняя коллекция с золотым хвостиком)",
-      "titleEn": "Spiced Pumpkin Soy Candle with Gold Stem",
-      "categories": [
-        "candles",
-        "seasonal"
-      ],
-      "holidays": [
-        "autumn",
-        "bday"
-      ],
-      "price": 1200,
-      "priceUsd": 24.0,
-      "status": "in-stock",
-      "image": "assets/img/tg_catalog/pumpkin_1.jpg",
-      "images": [
-        "assets/img/tg_catalog/pumpkin_1.jpg",
-        "assets/img/tg_catalog/pumpkin_2.jpg",
-        "assets/img/tg_catalog/pumpkin_3.jpg"
-      ],
-      "ingredients": "100% натуральный соевый воск, хлопковый фитиль, изящный золотой хвостик и поталь",
-      "availableScents": [
-        "Тыквенный крем-брюле & Пряности",
-        "Тыква со специями & Карамель",
-        "Без отдушки (чистый соевый воск)"
-      ],
-      "availableFinishes": [
-        "Золотой хвостик & поталь",
-        "Натуральный воск (без покрытия)",
-        "Матовое защитное"
-      ],
-      "availableGypsumColors": [
-        "Теплый беж / Айвори",
-        "Пудровый терракот",
-        "Белоснежный гипс"
-      ],
-      "descRu": "Фактурная авторская свеча в виде спелой тыквы с изящным золотым хвостиком и золотыми брызгами. Изготавливается из 100% соевого воска с хлопковым фитилем.",
-      "descEn": "Handcrafted sculptural pumpkin candle made from 100% pure organic soy wax with an elegant gold stem and delicate gold foil splatters. Autumn limited edition.",
-      "size": "8 × 7 см",
-      "weightGrams": 220,
-      "hasCandle": true,
-      "hasBox": true,
-      "priceCandle": 1200,
-      "priceBox": 900
-    },
-    {
-      "id": "sc-02",
-      "titleRu": "Скульптурная свеча «Анатомическое сердце»",
-      "titleEn": "Anatomical Heart Sculptural Soy Candle",
-      "categories": [
-        "candles",
-        "seasonal"
-      ],
-      "holidays": [
-        "feb14",
-        "bday"
-      ],
-      "price": 1900,
-      "priceUsd": 38.0,
-      "status": "preorder",
-      "image": "assets/img/tg_catalog/heart_1.jpg",
-      "images": [
-        "assets/img/tg_catalog/heart_1.jpg",
-        "assets/img/tg_catalog/heart_2.jpg",
-        "assets/img/tg_catalog/heart_3.jpg"
-      ],
-      "ingredients": "100% натуральный соевый воск, хлопковый фитиль, скульптурный термостойкий гипс, ручная роспись",
-      "availableScents": [
-        "Вишня в коньяке",
-        "Сандал, Черный перец & Амбра",
-        "Табак & Ваниль",
-        "Без отдушки (чистый соевый воск)"
-      ],
-      "availableFinishes": [
-        "Матовое защитное",
-        "Полуматовое шелковистое",
-        "Золотое напыление (поталь)"
-      ],
-      "availableGypsumColors": [
-        "Белоснежный гипс",
-        "Графит / Антрацит",
-        "Теплый беж / Айвори",
-        "Черный мраморный микс"
-      ],
-      "descRu": "Главный хит и арт-объект мастерской. Невероятно детализированная анатомическая форма, ручная лепка и заливка. Время изготовления — от 3 до 7 дней.",
-      "descEn": "Intricately sculpted anatomical heart candle. Cast in ultra-high-density gypsum and poured with pure organic soy wax. A gothic, romantic statement piece.",
-      "size": "11 × 8 см",
-      "weightGrams": 380,
-      "hasCandle": true,
-      "hasBox": true,
-      "priceCandle": 1900,
-      "priceBox": 1500
-    },
-    {
-      "id": "sc-03",
-      "titleRu": "Свеча «Magic Mushrooms» (Светящиеся мухоморы)",
-      "titleEn": "Magic Mushrooms Glowing Forest Soy Candle",
-      "categories": [
-        "candles",
-        "gypsum",
-        "seasonal"
-      ],
-      "holidays": [
-        "autumn",
-        "ny",
-        "bday"
-      ],
-      "price": 2400,
-      "priceUsd": 48.0,
-      "status": "in-stock",
-      "image": "assets/img/tg_catalog/mushrooms_1.jpg",
-      "images": [
-        "assets/img/tg_catalog/mushrooms_1.jpg",
-        "assets/img/tg_catalog/mushrooms_2.jpg",
-        "assets/img/tg_catalog/mushrooms_3.jpg"
-      ],
-      "ingredients": "100% соевый воск, высокопрочный скульптурный гипс, люминофорный пигмент (светится в темноте!), ручная роспись",
-      "availableScents": [
-        "Лесные ягоды & Мох",
-        "Морозная хвоя & Кедр",
-        "Без отдушки (чистый соевый воск)"
-      ],
-      "availableFinishes": [
-        "Люминесцентное свечение в темноте",
-        "Матовое защитное"
-      ],
-      "availableGypsumColors": [
-        "Природный лесной микс",
-        "Белоснежный гипс"
-      ],
-      "descRu": "Флагманское творение мастерской: лесные мухоморчики из высокопрочного гипса, расписанные вручную. После захода солнца шляпки мягко светятся в темноте магическим светом!",
-      "descEn": "Whimsical forest agaric mushrooms cast in premium sculptural plaster and poured with 100% soy wax. The caps are hand-painted with phosphorescent pigment and glow magically in the dark.",
-      "size": "12 × 9 см",
-      "weightGrams": 450,
-      "hasCandle": true,
-      "hasBox": true,
-      "priceCandle": 2400,
-      "priceBox": 1800
-    },
-    {
-      "id": "sc-04",
-      "titleRu": "Свеча «Карусель» (С рельефными лошадками)",
-      "titleEn": "Carousel Fairytale Candle with Relief Horses",
-      "categories": [
-        "candles",
-        "seasonal",
-        "sets"
-      ],
-      "holidays": [
-        "ny",
-        "bday"
-      ],
-      "price": 2100,
-      "priceUsd": 42.0,
-      "status": "preorder",
-      "image": "assets/img/tg_catalog/carousel_1.jpg",
-      "images": [
-        "assets/img/tg_catalog/carousel_1.jpg",
-        "assets/img/tg_catalog/carousel_2.jpg",
-        "assets/img/tg_catalog/carousel_3.jpg"
-      ],
-      "ingredients": "100% растительный соевый воск, хлопковый фитиль, скульптурный гипс с рельефным куполом",
-      "availableScents": [
-        "Имбирный пряник & Морозная хвоя",
-        "Табак & Ваниль",
-        "Шампанское & Клубника",
-        "Без отдушки (чистый соевый воск)"
-      ],
-      "availableFinishes": [
-        "Золотое напыление (поталь)",
-        "Серебряное напыление",
-        "Матовое защитное"
-      ],
-      "availableGypsumColors": [
-        "Теплый беж / Айвори",
-        "Белоснежный гипс",
-        "Пудровый терракот"
-      ],
-      "descRu": "Винтажная сказочная карусель со съемной гипсовой крышечкой с рельефными лошадками. Зимняя сказка в вашем доме и открытый ранний предзаказ.",
-      "descEn": "Vintage festive carousel candle holder with a sculpted dome lid featuring relief carousel horses. Reusable plaster vessel poured with soy wax.",
-      "size": "12 × 10 см",
-      "weightGrams": 420,
-      "hasCandle": true,
-      "hasBox": true,
-      "priceCandle": 2100,
-      "priceBox": 1600
-    },
-    {
-      "id": "sc-05",
-      "titleRu": "Свеча «Сочный гранат» (В гипсовом кашпо)",
-      "titleEn": "Juicy Pomegranate Soy Candle in Plaster Pot",
-      "categories": [
-        "candles",
-        "gypsum",
-        "seasonal"
-      ],
-      "holidays": [
-        "feb14",
-        "mar8",
-        "bday"
-      ],
-      "price": 1600,
-      "priceUsd": 32.0,
-      "status": "in-stock",
-      "image": "assets/img/tg_catalog/granat_1.jpg",
-      "images": [
-        "assets/img/tg_catalog/granat_1.jpg",
-        "assets/img/tg_catalog/granat_2.jpg",
-        "assets/img/tg_catalog/granat_3.jpg"
-      ],
-      "ingredients": "100% натуральный соевый воск, хлопковый фитиль, скульптурный гипс с защитным покрытием",
-      "availableScents": [
-        "Игристое с кислинкой / Сочный гранат",
-        "Клубника & Гранат",
-        "Без отдушки (чистый соевый воск)"
-      ],
-      "availableFinishes": [
-        "Глянцевая глазурь",
-        "Матовое защитное",
-        "Золотое напыление (поталь)"
-      ],
-      "availableGypsumColors": [
-        "Насыщенный рубин / Гранат",
-        "Теплый беж / Айвори",
-        "Белоснежный гипс"
-      ],
-      "descRu": "Свеча в форме спелого раскрытого граната с ароматом игристого вина с кислинкой. Пирамида аромата: клубника, гранат, шампанское, ваниль.",
-      "descEn": "Vibrant sculpted ripe pomegranate candle pot. Poured with soy wax scented with champagne, sparkling strawberries, and tangy red pomegranate.",
-      "size": "9 × 8.5 см",
-      "weightGrams": 310,
-      "hasCandle": true,
-      "hasBox": true,
-      "priceCandle": 1600,
-      "priceBox": 1200
-    },
-    {
-      "id": "sc-06",
-      "titleRu": "Кашпо «Гиацинт» (Подарок, который растет)",
-      "titleEn": "Living Hyacinth Bulb & Soy Candle Gift Set",
-      "categories": [
-        "sets",
-        "gypsum",
-        "seasonal"
-      ],
-      "holidays": [
-        "mar8",
-        "feb14",
-        "bday",
-        "wedding"
-      ],
-      "price": 2300,
-      "priceUsd": 45.0,
-      "status": "in-stock",
-      "image": "assets/img/tg_catalog/hyacinth_1.jpg",
-      "images": [
-        "assets/img/tg_catalog/hyacinth_1.jpg",
-        "assets/img/tg_catalog/hyacinth_2.jpg",
-        "assets/img/tg_catalog/hyacinth_3.jpg"
-      ],
-      "ingredients": "Гипсовое кашпо ручной отливки, живая луковица гиацинта, натуральная соевая свеча",
-      "availableScents": [
-        "Яблочный штрудель & Кленовый сироп",
-        "Весенний гиацинт & Зеленый чай",
-        "Без отдушки (чистый соевый воск)"
-      ],
-      "availableFinishes": [
-        "Влагозащитное гидрофобное",
-        "Матовое шелковистое"
-      ],
-      "availableGypsumColors": [
-        "Белоснежный гипс",
-        "Теплый беж / Айвори",
-        "Шалфей / Эвкалипт"
-      ],
-      "descRu": "Подарок, который растет! Кашпо к праздникам с луковицей живого цветка и соевой свечой со сладковато-пряным ароматом яблочного штруделя.",
-      "descEn": "A gift that blooms! Dual handcrafted plaster planter featuring a living hyacinth flower bulb paired with a fragrant soy candle (apple strudel & maple syrup).",
-      "size": "14 × 10 см",
-      "weightGrams": 520,
-      "hasCandle": true,
-      "priceCandle": 2300,
-      "hasBox": false,
-      "priceBox": 1500
-    },
-    {
-      "id": "sc-07",
-      "titleRu": "Шкатулка для украшений «Анатомическое сердце»",
-      "titleEn": "Anatomical Heart Jewelry & Keepsake Box",
-      "categories": [
-        "gypsum",
-        "seasonal"
-      ],
-      "holidays": [
-        "feb14",
-        "mar8",
-        "bday"
-      ],
-      "price": 1500,
-      "priceUsd": 30.0,
-      "status": "in-stock",
-      "image": "assets/img/tg_catalog/heart_box_1.jpg",
-      "images": [
-        "assets/img/tg_catalog/heart_box_1.jpg",
-        "assets/img/tg_catalog/heart_box_2.jpg",
-        "assets/img/tg_catalog/heart_box_3.jpg"
-      ],
-      "ingredients": "Высокопрочный скульптурный гипс, гидрофобная пропитка, демпферы на дне, съемная крышка",
-      "availableScents": [
-        "Без отдушки (чистый соевый воск)"
-      ],
-      "availableFinishes": [
-        "Полуматовое шелковистое",
-        "Влагозащитное гидрофобное",
-        "Золотое напыление (поталь)"
-      ],
-      "availableGypsumColors": [
-        "Белоснежный гипс",
-        "Теплый беж / Айвори",
-        "Графит / Антрацит",
-        "Черный мраморный микс"
-      ],
-      "descRu": "Шкатулка для колец и украшений в виде анатомического сердца с плотной крышечкой. Оригинальный дизайн и тактильная прохлада скульптурного гипса.",
-      "descEn": "Handcrafted plaster trinket box in the shape of a human anatomical heart. Fitted lid, velvet base feet, water-resistant finish.",
-      "size": "11 × 8 см",
-      "weightGrams": 340,
-      "hasCandle": true,
-      "hasBox": true,
-      "priceCandle": 1900,
-      "priceBox": 1500
-    },
-    {
-      "id": "sc-08",
-      "titleRu": "Свеча «Крапива и Полынь» в гипсе",
-      "titleEn": "Nettle & Wormwood Herbal Candle with Crackling Wood Wick",
-      "categories": [
-        "candles",
-        "gypsum",
-        "seasonal"
-      ],
-      "holidays": [
-        "teacher",
-        "mar8",
-        "autumn"
-      ],
-      "price": 1450,
-      "priceUsd": 29.0,
-      "status": "in-stock",
-      "image": "assets/img/tg_catalog/nettle_1.jpg",
-      "images": [
-        "assets/img/tg_catalog/nettle_1.jpg",
-        "assets/img/tg_catalog/nettle_2.jpg",
-        "assets/img/tg_catalog/nettle_3.jpg"
-      ],
-      "ingredients": "100% соевый воск, натуральный деревянный потрескивающий фитиль, скульптурный гипс",
-      "availableScents": [
-        "Крапива, Полынь & Луговые травы",
-        "Бергамот, Инжир & Белый кедр",
-        "Без отдушки (чистый соевый воск)"
-      ],
-      "availableFinishes": [
-        "Матовое защитное",
-        "Влагозащитное гидрофобное"
-      ],
-      "availableGypsumColors": [
-        "Шалфей / Эвкалипт",
-        "Белоснежный гипс",
-        "Черный мраморный микс"
-      ],
-      "descRu": "Аромасвеча в минималистичном гипсовом горшочке с потрескивающим деревянным фитилем, напоминающим уютный вечер у камина.",
-      "descEn": "Earthy herbal soy candle in a minimalist raw gypsum vessel with a crackling natural wood wick. Scent of wild nettle, wormwood, and summer meadow.",
-      "size": "9 × 8.5 см",
-      "weightGrams": 290,
-      "hasCandle": true,
-      "priceCandle": 1450,
-      "hasBox": false,
-      "priceBox": 1500
-    }
-  ],
-  "scents": [
-    {
-      "id": "scent-1",
-      "title": "Вишня в коньяке",
-      "desc": "Сочная спелая вишня, благородный дубовый коньяк, миндальная косточка, темный шоколад",
-      "active": true
-    },
-    {
-      "id": "scent-2",
-      "title": "Игристое с кислинкой / Сочный гранат",
-      "desc": "Охлажденное шампанское, спелый рубиновый гранат, лесная земляника, мадагаскарская ваниль",
-      "active": true
-    },
-    {
-      "id": "scent-3",
-      "title": "Тыквенный крем-брюле & Пряности",
-      "desc": "Печеная карамелизированная тыква, корица, мускат, сливочная хрустящая корочка крем-брюле",
-      "active": true
-    },
-    {
-      "id": "scent-4",
-      "title": "Крапива, Полынь & Луговые травы",
-      "desc": "Свежескошенные луговые травы, горьковатая полынь, сосновая смола, дикая мята",
-      "active": true
-    },
-    {
-      "id": "scent-5",
-      "title": "Яблочный штрудель & Кленовый сироп",
-      "desc": "Теплое слоеное яблочное тесто, корица, густой канадский кленовый сироп, грецкий орех",
-      "active": true
-    },
-    {
-      "id": "scent-6",
-      "title": "Табак & Ваниль",
-      "desc": "Пряный табачный лист, сливочная бурбонская ваниль, какао, сушеные сухофрукты",
-      "active": true
-    },
-    {
-      "id": "scent-7",
-      "title": "Сандал, Черный перец & Амбра",
-      "desc": "Благородный сандал, терпкий черный перец, теплая смолистая амбра, кожаные ноты",
-      "active": true
-    },
-    {
-      "id": "scent-8",
-      "title": "Имбирный пряник & Морозная хвоя",
-      "desc": "Имбирное пряничное тесто, пряная гвоздика, морозные сосновые ветви, цедра апельсина",
-      "active": true
-    },
-    {
-      "id": "scent-9",
-      "title": "Без отдушки (чистый соевый воск)",
-      "desc": "Натуральный деликатный аромат экологически чистого растительного воска без ароматизаторов",
-      "active": true
-    }
-  ],
+  "version": 1,
+  "lastUpdated": "2026-10-30T17:23:41.434Z",
   "categories": [
     {
       "id": "all",
@@ -460,27 +27,6 @@
       "titleRu": "Сезонное / Праздники",
       "titleEn": "Seasonal"
     }
-  ],
-  "finishes": [
-    "Натуральный воск (без покрытия)",
-    "Матовое защитное",
-    "Полуматовое шелковистое",
-    "Влагозащитное гидрофобное",
-    "Золотое напыление (поталь)",
-    "Золотой хвостик & поталь",
-    "Серебряное напыление",
-    "Люминесцентное свечение в темноте",
-    "Глянцевая глазурь"
-  ],
-  "gypsumColors": [
-    "Белоснежный гипс",
-    "Теплый беж / Айвори",
-    "Графит / Антрацит",
-    "Черный мраморный микс",
-    "Шалфей / Эвкалипт",
-    "Природный лесной микс",
-    "Насыщенный рубин / Гранат",
-    "Пудровый терракот"
   ],
   "holidays": [
     {
@@ -547,6 +93,67 @@
       "icon": "💍"
     }
   ],
+  "scents": [
+    {
+      "id": "scent-1",
+      "title": "Табак & Ваниль",
+      "desc": "Пряный табачный лист, сливочная бурбонская ваниль, какао, теплые сухофрукты",
+      "active": true
+    },
+    {
+      "id": "scent-2",
+      "title": "Сандал, Черный перец & Амбра",
+      "desc": "Благородный сандал, терпкий черный перец, теплая смолистая амбра",
+      "active": true
+    },
+    {
+      "id": "scent-3",
+      "title": "Крапива, Полынь & Луговые травы",
+      "desc": "Свежескошенные луговые травы, горьковатая полынь, сосновая смола",
+      "active": true
+    },
+    {
+      "id": "scent-4",
+      "title": "Тыква со специями & Карамель",
+      "desc": "Спелая печеная тыква, корица, мускатный орех, сливочная тягучая карамель",
+      "active": true
+    },
+    {
+      "id": "scent-5",
+      "title": "Имбирный пряник & Морозная хвоя",
+      "desc": "Имбирное пряничное тесто, пряная гвоздика, морозные сосновые ветви",
+      "active": true
+    },
+    {
+      "id": "scent-6",
+      "title": "Бергамот, Инжир & Белый кедр",
+      "desc": "Искристый зеленый бергамот, спелый инжир, пудровый белый кедр",
+      "active": true
+    },
+    {
+      "id": "scent-7",
+      "title": "Без отдушки (чистый соевый воск)",
+      "desc": "Натуральный деликатный аромат экологически чистого растительного воска",
+      "active": true
+    }
+  ],
+  "finishes": [
+    "Натуральный воск (без покрытия)",
+    "Матовое защитное",
+    "Полуматовое шелковистое",
+    "Влагозащитное гидрофобное",
+    "Золотое напыление (поталь)",
+    "Серебряное напыление"
+  ],
+  "gypsumColors": [
+    "Белоснежный гипс",
+    "Теплый беж / Айвори",
+    "Графит / Антрацит",
+    "Черный мраморный микс",
+    "Шалфей / Эвкалипт",
+    "Нежная лаванда",
+    "Пудровый терракот"
+  ],
   "promocodes": [
     {
       "id": "promo-1",
@@ -573,12 +180,406 @@
       "active": true
     }
   ],
-  "promoToast": {
-    "enabled": true,
-    "badge": "Флагман мастерской",
-    "title": "Свеча «Magic Mushrooms»",
-    "desc": "Мухоморы из скульптурного гипса ручной росписи со светящимися в темноте шляпками.",
-    "btnText": "Посмотреть грибы",
-    "productId": "sc-03"
-  }
+  "promo": {},
+  "texts": {},
+  "settings": {
+    "pin": "1234",
+    "phone": "+7 (900) 000-00-00",
+    "bank": "Альфа-Банк",
+    "recipient": "Екатерина М. (Катерина)",
+    "tgUser": "@layra_ms",
+    "tgToken": "",
+    "tgChatId": "",
+    "sbpCustomLink": "",
+    "itemsPerPage": "6"
+  },
+  "heroImg": null,
+  "aboutImg": null,
+  "heroBadgeTitle": null,
+  "heroBadgeSub": null,
+  "products": [
+    {
+      "id": "sc-01",
+      "titleRu": "Свеча «Тыковка» (Осенняя серия)",
+      "categories": [
+        "candles",
+        "seasonal"
+      ],
+      "holidays": [
+        "autumn"
+      ],
+      "price": 1200,
+      "status": "in-stock",
+      "image": "assets/img/product_1.jpg",
+      "images": [
+        "assets/img/product_1.jpg",
+        "assets/img/product_8.jpg",
+        "assets/img/product_3.jpg"
+      ],
+      "ingredients": "100% соевый воск, хлопковый фитиль, премиальные аромамасла",
+      "availableScents": [
+        "Тыква со специями & Карамель",
+        "Табак & Ваниль",
+        "Без отдушки (чистый соевый воск)"
+      ],
+      "availableFinishes": [
+        "Натуральный воск (без покрытия)",
+        "Матовое защитное"
+      ],
+      "availableGypsumColors": [
+        "Теплый беж / Айвори",
+        "Пудровый терракот",
+        "Белоснежный гипс"
+      ],
+      "descRu": "Нежная фактурная свеча в виде спелой тыквы. Изготавливается из 100% соевого воска с хлопковым фитилем.",
+      "size": "8 × 7 см"
+    },
+    {
+      "id": "sc-02",
+      "titleRu": "Скульптурная свеча «Анатомическое сердце»",
+      "categories": [
+        "candles",
+        "seasonal"
+      ],
+      "holidays": [
+        "feb14",
+        "bday"
+      ],
+      "price": 1800,
+      "status": "preorder",
+      "image": "assets/img/product_4.jpg",
+      "images": [
+        "assets/img/product_4.jpg",
+        "assets/img/product_6.jpg",
+        "assets/img/product_2.jpg"
+      ],
+      "ingredients": "100% натуральный соевый воск, хлопковый фитиль, премиальные французские аромамасла",
+      "availableScents": [
+        "Сандал, Черный перец & Амбра",
+        "Табак & Ваниль",
+        "Бергамот, Инжир & Белый кедр",
+        "Без отдушки (чистый соевый воск)"
+      ],
+      "availableFinishes": [
+        "Матовое защитное",
+        "Полуматовое шелковистое",
+        "Золотое напыление (поталь)"
+      ],
+      "availableGypsumColors": [
+        "Белоснежный гипс",
+        "Графит / Антрацит",
+        "Теплый беж / Айвори",
+        "Черный мраморный микс"
+      ],
+      "descRu": "Бестселлер и главный арт-объект мастерской. Невероятно детализированная ручная лепка и заливка. Время кропотливого изготовления — от 3 до 7 дней.",
+      "size": "11 × 8 см"
+    },
+    {
+      "id": "sc-03",
+      "titleRu": "Свеча «Карусель» (Праздничный предзаказ)",
+      "categories": [
+        "candles",
+        "seasonal",
+        "sets"
+      ],
+      "holidays": [
+        "ny",
+        "bday"
+      ],
+      "price": 2100,
+      "status": "preorder",
+      "image": "assets/img/product_3.jpg",
+      "images": [
+        "assets/img/product_3.jpg",
+        "assets/img/product_7.jpg",
+        "assets/img/product_1.jpg"
+      ],
+      "ingredients": "100% растительный соевый воск, хлопковый фитиль, ароматические композиции из Граса",
+      "availableScents": [
+        "Имбирный пряник & Морозная хвоя",
+        "Табак & Ваниль",
+        "Без отдушки (чистый соевый воск)"
+      ],
+      "availableFinishes": [
+        "Матовое защитное",
+        "Золотое напыление (поталь)",
+        "Серебряное напыление"
+      ],
+      "availableGypsumColors": [
+        "Теплый беж / Айвори",
+        "Белоснежный гипс"
+      ],
+      "descRu": "Зимняя сказка в вашем доме. Изящные лошадки карусели и теплый аромат новогодних праздников. Открыт ранний предзаказ к зимнему сезону.",
+      "size": "12 × 10 см"
+    },
+    {
+      "id": "sc-04",
+      "titleRu": "Свеча «Крапива и Полынь» в гипсе",
+      "categories": [
+        "candles",
+        "gypsum",
+        "seasonal"
+      ],
+      "holidays": [
+        "teacher",
+        "mar8"
+      ],
+      "price": 1450,
+      "status": "in-stock",
+      "image": "assets/img/product_2.jpg",
+      "images": [
+        "assets/img/product_2.jpg",
+        "assets/img/product_5.jpg",
+        "assets/img/product_4.jpg"
+      ],
+      "ingredients": "100% соевый воск, натуральный деревянный потрескивающий фитиль, скульптурный гипс",
+      "availableScents": [
+        "Крапива, Полынь & Луговые травы",
+        "Бергамот, Инжир & Белый кедр",
+        "Без отдушки (чистый соевый воск)"
+      ],
+      "availableFinishes": [
+        "Матовое защитное",
+        "Влагозащитное гидрофобное"
+      ],
+      "availableGypsumColors": [
+        "Шалфей / Эвкалипт",
+        "Белоснежный гипс",
+        "Черный мраморный микс"
+      ],
+      "descRu": "Аромасвеча в прочном гипсовом кашпо ручной отливки с деревянным потрескивающим фитилем, напоминающим уютный камин.",
+      "size": "9 × 8.5 см"
+    },
+    {
+      "id": "sc-05",
+      "titleRu": "Гипсовый овальный поднос для украшений",
+      "categories": [
+        "gypsum",
+        "seasonal"
+      ],
+      "holidays": [
+        "mar8",
+        "bday",
+        "teacher",
+        "wedding"
+      ],
+      "price": 750,
+      "status": "in-stock",
+      "image": "assets/img/product_5.jpg",
+      "images": [
+        "assets/img/product_5.jpg",
+        "assets/img/product_2.jpg",
+        "assets/img/product_6.jpg"
+      ],
+      "ingredients": "Скульптурный гипс повышенной прочности, гидрофобная пропитка, демпферы на дне",
+      "availableScents": [
+        "Без отдушки (чистый соевый воск)"
+      ],
+      "availableFinishes": [
+        "Полуматовое шелковистое",
+        "Влагозащитное гидрофобное",
+        "Золотое напыление (поталь)"
+      ],
+      "availableGypsumColors": [
+        "Белоснежный гипс",
+        "Теплый беж / Айвори",
+        "Графит / Антрацит",
+        "Черный мраморный микс",
+        "Шалфей / Эвкалипт",
+        "Пудровый терракот"
+      ],
+      "descRu": "Минималистичный поднос с гидрофобным защитным покрытием. Подходит для хранения украшений, духов, ключей или как подставка под свечи.",
+      "size": "18 × 9.5 см"
+    },
+    {
+      "id": "sc-06",
+      "titleRu": "Подарочный сет «Тепло и Камень»",
+      "categories": [
+        "sets",
+        "gypsum",
+        "candles",
+        "seasonal"
+      ],
+      "holidays": [
+        "ny",
+        "feb14",
+        "mar8",
+        "teacher",
+        "bday",
+        "wedding"
+      ],
+      "price": 2900,
+      "status": "in-stock",
+      "image": "assets/img/product_6.jpg",
+      "images": [
+        "assets/img/product_6.jpg",
+        "assets/img/product_5.jpg",
+        "assets/img/product_4.jpg"
+      ],
+      "ingredients": "Соевая свеча с деревянным фитилем, овальный поднос из гипса, спички в стекле, крафт-упаковка",
+      "availableScents": [
+        "Бергамот, Инжир & Белый кедр",
+        "Сандал, Черный перец & Амбра",
+        "Табак & Ваниль"
+      ],
+      "availableFinishes": [
+        "Матовое защитное",
+        "Полуматовое шелковистое"
+      ],
+      "availableGypsumColors": [
+        "Белоснежный гипс",
+        "Теплый беж / Айвори",
+        "Графит / Антрацит",
+        "Черный мраморный микс"
+      ],
+      "descRu": "Идеальный готовый подарок в крафтовой упаковке: свеча в гипсе, овальный поднос и стильные спички в стеклянной колбе.",
+      "size": "Сет 3 предмета"
+    },
+    {
+      "id": "sc-07",
+      "titleRu": "Новогодний сет «Зимняя Сказка»",
+      "categories": [
+        "candles",
+        "seasonal",
+        "sets"
+      ],
+      "holidays": [
+        "ny"
+      ],
+      "price": 3200,
+      "status": "preorder",
+      "image": "assets/img/product_3.jpg",
+      "images": [
+        "assets/img/product_3.jpg",
+        "assets/img/product_1.jpg",
+        "assets/img/product_7.jpg"
+      ],
+      "ingredients": "100% соевый воск, аромамасла корицы и хвои, скульптурный гипсовый декор, открытка",
+      "availableScents": [
+        "Имбирный пряник & Морозная хвоя",
+        "Табак & Ваниль"
+      ],
+      "availableFinishes": [
+        "Золотое напыление (поталь)",
+        "Матовое защитное"
+      ],
+      "availableGypsumColors": [
+        "Белоснежный гипс",
+        "Теплый беж / Айвори"
+      ],
+      "descRu": "Праздничный набор ручной работы: скульптурная свеча, новогодний декор из гипса, аромат морозной хвои и праздничная открытка с пожеланием.",
+      "size": "Подарочный бокс"
+    },
+    {
+      "id": "sc-08",
+      "titleRu": "Подарочный бокс «Нежность» (к 8 Марта)",
+      "categories": [
+        "candles",
+        "gypsum",
+        "seasonal",
+        "sets"
+      ],
+      "holidays": [
+        "mar8",
+        "wedding"
+      ],
+      "price": 2600,
+      "status": "in-stock",
+      "image": "assets/img/product_7.jpg",
+      "images": [
+        "assets/img/product_7.jpg",
+        "assets/img/product_4.jpg",
+        "assets/img/product_5.jpg"
+      ],
+      "ingredients": "Ароматическая свеча в кашпо из соевого воска, поднос для украшений, сухоцветы, открытка",
+      "availableScents": [
+        "Бергамот, Инжир & Белый кедр",
+        "Крапива, Полынь & Луговые травы"
+      ],
+      "availableFinishes": [
+        "Полуматовое шелковистое",
+        "Матовое защитное"
+      ],
+      "availableGypsumColors": [
+        "Нежная лаванда",
+        "Пудровый терракот",
+        "Теплый беж / Айвори",
+        "Белоснежный гипс"
+      ],
+      "descRu": "Весенний подарочный бокс для самых любимых женщин: ароматическая свеча в кашпо из гипса, изящный поднос и деликатный цветочный комплимент.",
+      "size": "Набор 2 предмета"
+    },
+    {
+      "id": "sc-09",
+      "titleRu": "Сет «Благодарность» (День Учителя / 1 Сентября)",
+      "categories": [
+        "candles",
+        "gypsum",
+        "seasonal",
+        "sets"
+      ],
+      "holidays": [
+        "teacher"
+      ],
+      "price": 1950,
+      "status": "in-stock",
+      "image": "assets/img/product_2.jpg",
+      "images": [
+        "assets/img/product_2.jpg",
+        "assets/img/product_1.jpg",
+        "assets/img/product_6.jpg"
+      ],
+      "ingredients": "Соевый воск, деревянный фитиль, мини-поднос из гипса, крафтовая коробка с лентой",
+      "availableScents": [
+        "Крапива, Полынь & Луговые травы",
+        "Табак & Ваниль"
+      ],
+      "availableFinishes": [
+        "Матовое защитное"
+      ],
+      "availableGypsumColors": [
+        "Белоснежный гипс",
+        "Теплый беж / Айвори"
+      ],
+      "descRu": "Изящный и душевный подарок преподавателю или наставнику: свеча с легким природным ароматом, мини-поднос для мелочей и крафтовая упаковка с лентой.",
+      "size": "Сет с открыткой"
+    },
+    {
+      "id": "sc-10",
+      "titleRu": "Подарочный сет «С Днем Рождения!»",
+      "categories": [
+        "sets",
+        "seasonal"
+      ],
+      "holidays": [
+        "bday"
+      ],
+      "price": 3100,
+      "status": "in-stock",
+      "image": "assets/img/product_6.jpg",
+      "images": [
+        "assets/img/product_6.jpg",
+        "assets/img/product_3.jpg",
+        "assets/img/product_8.jpg"
+      ],
+      "ingredients": "Соевая свеча, гипсовый поднос, фирменные спички в стекле, праздничная открытка",
+      "availableScents": [
+        "Табак & Ваниль",
+        "Сандал, Черный перец & Амбра",
+        "Бергамот, Инжир & Белый кедр"
+      ],
+      "availableFinishes": [
+        "Полуматовое шелковистое",
+        "Золотое напыление (поталь)"
+      ],
+      "availableGypsumColors": [
+        "Графит / Антрацит",
+        "Черный мраморный микс",
+        "Белоснежный гипс",
+        "Теплый беж / Айвори"
+      ],
+      "descRu": "Универсальный праздничный подарок на юбилей или день рождения. Авторская ручная работа из Санкт-Петербурга с персональной открыткой.",
+      "size": "Подарочный набор"
+    }
+  ]
 }
