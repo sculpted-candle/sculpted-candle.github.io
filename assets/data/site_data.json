@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastUpdated": "2026-10-30T17:38:59.507Z",
+  "lastUpdated": "2026-10-30T21:40:00.000Z",
   "categories": [
     {
       "id": "all",
@@ -374,9 +374,15 @@
         "Оранжевый+фиолет"
       ],
       "images": [
-        "assets/img/product_1.jpg"
+        "assets/img/tg_catalog/mushrooms_1.jpg",
+        "assets/img/tg_catalog/mushrooms_2.jpg",
+        "assets/img/tg_catalog/mushrooms_3.jpg"
       ],
-      "image": "assets/img/product_1.jpg"
+      "image": "assets/img/tg_catalog/mushrooms_1.jpg",
+      "hasCandle": true,
+      "priceCandle": 3150,
+      "hasBox": true,
+      "priceBox": 2500
     },
     {
       "id": "sc-custom-1793055275922",
@@ -412,9 +418,14 @@
         "Желтый"
       ],
       "images": [
-        "assets/img/product_1.jpg"
+        "assets/img/tg_catalog/hyacinth_1.jpg",
+        "assets/img/tg_catalog/hyacinth_2.jpg",
+        "assets/img/tg_catalog/hyacinth_3.jpg"
       ],
-      "image": "assets/img/product_1.jpg"
+      "image": "assets/img/tg_catalog/hyacinth_1.jpg",
+      "hasCandle": true,
+      "priceCandle": 1590,
+      "hasBox": false
     },
     {
       "id": "sc-custom-1793055089908",
@@ -473,9 +484,14 @@
         "Молочный"
       ],
       "images": [
-        "assets/img/product_1.jpg"
+        "assets/img/tg_catalog/granat_1.jpg",
+        "assets/img/tg_catalog/granat_2.jpg",
+        "assets/img/tg_catalog/granat_3.jpg"
       ],
-      "image": "assets/img/product_1.jpg"
+      "image": "assets/img/tg_catalog/granat_1.jpg",
+      "hasCandle": true,
+      "priceCandle": 990,
+      "hasBox": false
     },
     {
       "id": "sc-01",
@@ -493,7 +509,7 @@
       ],
       "price": 1350,
       "status": "in-stock",
-      "image": "assets/img/product_1.jpg",
+      "image": "assets/img/tg_catalog/pumpkin_1.jpg",
       "scentRu": "Натуральный воск",
       "scentEn": "Spiced pumpkin, warm caramel, nutmeg",
       "colors": "Охра, Бежевый, Натуральный воск",
@@ -504,7 +520,9 @@
       "size": "Стандарт",
       "category": "candles",
       "images": [
-        "assets/img/product_1.jpg"
+        "assets/img/tg_catalog/pumpkin_1.jpg",
+        "assets/img/tg_catalog/pumpkin_2.jpg",
+        "assets/img/tg_catalog/pumpkin_3.jpg"
       ],
       "ingredients": "Состав подсвечника: высокопрочный акриловый гипс, краска акриловая, жидкая поталь, стекловидный лак/защитный воск/матовый акриловый лак. Состав свечи: соевый воск, деревянный фитиль с эффектом треска, ароматическая отдушка премиум-класса.",
       "availableScents": [
@@ -535,7 +553,11 @@
       "availableGypsumColors": [
         "Исландскй мох",
         "Оранжевый"
-      ]
+      ],
+      "hasCandle": true,
+      "priceCandle": 1350,
+      "hasBox": true,
+      "priceBox": 900
     },
     {
       "id": "sc-02",
@@ -556,7 +578,7 @@
       ],
       "price": 2850,
       "status": "in-stock",
-      "image": "assets/img/product_4.jpg",
+      "image": "assets/img/tg_catalog/heart_1.jpg",
       "scentRu": "Сандал, черный перец, амбра",
       "scentEn": "Sandalwood, black pepper, warm amber",
       "colors": "Белый, Графит, Бежевый, Винный",
@@ -566,7 +588,9 @@
       "burnTime": "25-30 ч",
       "size": "11 × 8 см",
       "images": [
-        "assets/img/product_4.jpg"
+        "assets/img/tg_catalog/heart_1.jpg",
+        "assets/img/tg_catalog/heart_2.jpg",
+        "assets/img/tg_catalog/heart_3.jpg"
       ],
       "ingredients": "Состав подсвечника: высокопрочный акриловый гипс, краска акриловая, жидкая поталь, стекловидный лак/защитный воск/матовый акриловый лак. Состав свечи: соевый воск, деревянный фитиль с эффектом треска, ароматическая отдушка премиум-класса.",
       "category": "candles",
@@ -605,7 +629,11 @@
         "Красный",
         "Черный",
         "Розовый"
-      ]
+      ],
+      "hasCandle": true,
+      "priceCandle": 2850,
+      "hasBox": true,
+      "priceBox": 2200
     },
     {
       "id": "sc-03",
@@ -622,7 +650,7 @@
       ],
       "price": 2150,
       "status": "in-stock",
-      "image": "assets/img/product_3.jpg",
+      "image": "assets/img/tg_catalog/carousel_1.jpg",
       "scentRu": "Имбирный пряник, корица, морозная хвоя",
       "scentEn": "Gingerbread cookie, cinnamon, winter pine",
       "colors": "Айвори, Белый, Золоченый акцент",
@@ -632,7 +660,9 @@
       "burnTime": "30-35 ч",
       "size": "12 × 10 см",
       "images": [
-        "assets/img/product_3.jpg"
+        "assets/img/tg_catalog/carousel_1.jpg",
+        "assets/img/tg_catalog/carousel_2.jpg",
+        "assets/img/tg_catalog/carousel_3.jpg"
       ],
       "ingredients": "Состав подсвечника: высокопрочный акриловый гипс, краска акриловая, жидкая поталь, стекловидный лак/защитный воск/матовый акриловый лак. Состав свечи: соевый воск, деревянный фитиль с эффектом треска, ароматическая отдушка премиум-класса.",
       "category": "candles",
@@ -666,7 +696,11 @@
         "Небесно-голубой",
         "Красный",
         "Розовый"
-      ]
+      ],
+      "hasCandle": true,
+      "priceCandle": 2150,
+      "hasBox": true,
+      "priceBox": 1700
     },
     {
       "id": "sc-04",
@@ -686,7 +720,7 @@
       ],
       "price": 2550,
       "status": "in-stock",
-      "image": "assets/img/product_2.jpg",
+      "image": "assets/img/tg_catalog/heart_box_1.jpg",
       "scentRu": "Дикие луговые травы, полынь, смола",
       "scentEn": "Wild meadow herbs, wormwood, fresh resin",
       "colors": "Белый гипс, Мраморная дымка, Шалфей",
@@ -696,7 +730,9 @@
       "burnTime": "35-40 ч",
       "size": "9 × 8.5 см",
       "images": [
-        "assets/img/product_2.jpg"
+        "assets/img/tg_catalog/heart_box_1.jpg",
+        "assets/img/tg_catalog/heart_box_2.jpg",
+        "assets/img/tg_catalog/heart_box_3.jpg"
       ],
       "ingredients": "Состав подсвечника: высокопрочный акриловый гипс, краска акриловая, жидкая поталь, стекловидный лак/защитный воск/матовый акриловый лак. Состав свечи: соевый воск, деревянный фитиль с эффектом треска, ароматическая отдушка премиум-класса.",
       "category": "candles",
@@ -736,7 +772,11 @@
         "Красный",
         "Черный",
         "Розовый"
-      ]
+      ],
+      "hasCandle": true,
+      "priceCandle": 2550,
+      "hasBox": true,
+      "priceBox": 1900
     }
   ]
 }

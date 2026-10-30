@@ -283,7 +283,7 @@ function compressImage(file, maxDimension = 900, quality = 0.82) {
 }
 
 // --- Load / Save Data ---
-function loadData() {
+function loadFromLocalStorage() {
   // Products
   const storedProd = localStorage.getItem('sc_products');
   if (storedProd) {
@@ -305,11 +305,7 @@ function loadData() {
   // Categories
   const storedCat = localStorage.getItem('sc_categories');
   if (storedCat) {
-    try {
-      categories = JSON.parse(storedCat);
-    } catch (e) {
-      categories = [...DEFAULT_CATEGORIES];
-    }
+    try { categories = JSON.parse(storedCat); } catch (e) { categories = [...DEFAULT_CATEGORIES]; }
   } else {
     categories = [...DEFAULT_CATEGORIES];
     localStorage.setItem('sc_categories', JSON.stringify(categories));
@@ -318,11 +314,7 @@ function loadData() {
   // Scents
   const storedScents = localStorage.getItem('sc_scents');
   if (storedScents) {
-    try {
-      scents = JSON.parse(storedScents);
-    } catch (e) {
-      scents = [...DEFAULT_SCENTS];
-    }
+    try { scents = JSON.parse(storedScents); } catch (e) { scents = [...DEFAULT_SCENTS]; }
   } else {
     scents = [...DEFAULT_SCENTS];
     localStorage.setItem('sc_scents', JSON.stringify(scents));
@@ -331,11 +323,7 @@ function loadData() {
   // Finishes
   const storedFinishes = localStorage.getItem('sc_finishes');
   if (storedFinishes) {
-    try {
-      finishes = JSON.parse(storedFinishes);
-    } catch (e) {
-      finishes = [...DEFAULT_FINISHES];
-    }
+    try { finishes = JSON.parse(storedFinishes); } catch (e) { finishes = [...DEFAULT_FINISHES]; }
   } else {
     finishes = [...DEFAULT_FINISHES];
     localStorage.setItem('sc_finishes', JSON.stringify(finishes));
@@ -344,11 +332,7 @@ function loadData() {
   // Gypsum Colors
   const storedColors = localStorage.getItem('sc_gypsum_colors');
   if (storedColors) {
-    try {
-      gypsumColors = JSON.parse(storedColors);
-    } catch (e) {
-      gypsumColors = [...DEFAULT_GYPSUM_COLORS];
-    }
+    try { gypsumColors = JSON.parse(storedColors); } catch (e) { gypsumColors = [...DEFAULT_GYPSUM_COLORS]; }
   } else {
     gypsumColors = [...DEFAULT_GYPSUM_COLORS];
     localStorage.setItem('sc_gypsum_colors', JSON.stringify(gypsumColors));
@@ -357,11 +341,7 @@ function loadData() {
   // Holidays
   const storedHolidays = localStorage.getItem('sc_holidays');
   if (storedHolidays) {
-    try {
-      holidays = JSON.parse(storedHolidays);
-    } catch (e) {
-      holidays = [...DEFAULT_HOLIDAYS];
-    }
+    try { holidays = JSON.parse(storedHolidays); } catch (e) { holidays = [...DEFAULT_HOLIDAYS]; }
   } else {
     holidays = [...DEFAULT_HOLIDAYS];
     localStorage.setItem('sc_holidays', JSON.stringify(holidays));
@@ -370,130 +350,80 @@ function loadData() {
   // Promocodes
   const storedPromos = localStorage.getItem('sc_promocodes');
   if (storedPromos) {
-    try {
-      promocodes = JSON.parse(storedPromos);
-    } catch (e) {
-      promocodes = [...DEFAULT_PROMOCODES];
-    }
+    try { promocodes = JSON.parse(storedPromos); } catch (e) { promocodes = [...DEFAULT_PROMOCODES]; }
   } else {
     promocodes = [...DEFAULT_PROMOCODES];
     localStorage.setItem('sc_promocodes', JSON.stringify(promocodes));
   }
 }
 
-function notifyDataUpdated() {
-  localStorage.setItem('sc_last_local_save', String(Date.now()));
-  autoSyncToServer();
-}
+async function loadData() {
+  loadFromLocalStorage();
 
-async function autoSyncToServer() {
   try {
-    const payload = {
-      products,
-      categories,
-      scents,
-      finishes,
-      gypsumColors,
-      holidays,
-      promocodes
-    };
-    await fetch('/api/save_and_deploy', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-  } catch (e) {
-    // offline or static
+    const res = await fetch('assets/data/site_data.json?v=' + Date.now(), { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      const localSavedTime = parseInt(localStorage.getItem('sc_last_local_save') || '0', 10);
+      const remoteTime = data.lastUpdated ? new Date(data.lastUpdated).getTime() : 0;
+      
+      // If remote has newer data or local has no products, adopt remote
+      if (remoteTime > localSavedTime || !localStorage.getItem('sc_products')) {
+        if (data.products && Array.isArray(data.products) && data.products.length > 0) {
+          products = data.products;
+          localStorage.setItem('sc_products', JSON.stringify(products));
+        }
+        if (data.categories && Array.isArray(data.categories)) {
+          categories = data.categories;
+          localStorage.setItem('sc_categories', JSON.stringify(categories));
+        }
+        if (data.scents && Array.isArray(data.scents)) {
+          scents = data.scents;
+          localStorage.setItem('sc_scents', JSON.stringify(scents));
+        }
+        if (data.finishes && Array.isArray(data.finishes)) {
+          finishes = data.finishes;
+          localStorage.setItem('sc_finishes', JSON.stringify(finishes));
+        }
+        if (data.gypsumColors && Array.isArray(data.gypsumColors)) {
+          gypsumColors = data.gypsumColors;
+          localStorage.setItem('sc_gypsum_colors', JSON.stringify(gypsumColors));
+        }
+        if (data.holidays && Array.isArray(data.holidays)) {
+          holidays = data.holidays;
+          localStorage.setItem('sc_holidays', JSON.stringify(holidays));
+        }
+        if (data.promocodes && Array.isArray(data.promocodes)) {
+          promocodes = data.promocodes;
+          localStorage.setItem('sc_promocodes', JSON.stringify(promocodes));
+        }
+        if (data.settings) {
+          saveSettings(data.settings);
+        }
+        localStorage.setItem('sc_last_local_save', String(remoteTime));
+
+        renderAdminProducts();
+        renderAdminCategories();
+        renderAdminScents();
+        renderAdminFinishes();
+        renderAdminGypsumColors();
+        renderAdminHolidays();
+        renderAdminPromocodes();
+      }
+    }
+  } catch (err) {
+    console.warn('Could not sync admin with remote site_data.json:', err);
   }
 }
 
-function saveProducts() {
-  localStorage.setItem('sc_products', JSON.stringify(products));
-  notifyDataUpdated();
-}
-
-function saveCategories() {
-  localStorage.setItem('sc_categories', JSON.stringify(categories));
-  notifyDataUpdated();
-}
-
-function saveScents() {
-  localStorage.setItem('sc_scents', JSON.stringify(scents));
-  notifyDataUpdated();
-}
-
-function saveFinishes() {
-  localStorage.setItem('sc_finishes', JSON.stringify(finishes));
-  notifyDataUpdated();
-}
-
-function saveGypsumColors() {
-  localStorage.setItem('sc_gypsum_colors', JSON.stringify(gypsumColors));
-  notifyDataUpdated();
-}
-
-function saveHolidays() {
-  localStorage.setItem('sc_holidays', JSON.stringify(holidays));
-  notifyDataUpdated();
-}
-
-function savePromocodes() {
-  localStorage.setItem('sc_promocodes', JSON.stringify(promocodes));
-  notifyDataUpdated();
-}
-
-// --- Settings ---
-function getSettings() {
-  const def = {
-    pin: DEFAULT_PIN,
-    phone: '+7 (900) 000-00-00',
-    bank: 'Альфа-Банк',
-    recipient: 'Екатерина М. (Катерина)',
-    tgUser: '@layra_ms',
-    tgToken: '',
-    tgChatId: '',
-    sbpCustomLink: '',
-    itemsPerPage: '6'
-  };
-  try {
-    const s = localStorage.getItem('sc_settings');
-    return s ? { ...def, ...JSON.parse(s) } : def;
-  } catch (e) {
-    return def;
+window.pullLatestFromSite = async function() {
+  if (confirm('Загрузить актуальные товары и фотографии с сайта в админку?')) {
+    localStorage.removeItem('sc_last_local_save');
+    localStorage.removeItem('sc_products');
+    await loadData();
+    alert('✅ Каталог и фото успешно обновлены с сайта!');
   }
-}
-
-function saveSettings(s) {
-  localStorage.setItem('sc_settings', JSON.stringify(s));
-  notifyDataUpdated();
-}
-
-// --- Auth ---
-function checkAuth() {
-  const isAuth = sessionStorage.getItem('sc_is_admin') === 'true';
-  const authScreen = document.getElementById('auth-screen');
-  const workspace = document.getElementById('admin-workspace');
-
-  if (isAuth) {
-    authScreen.style.display = 'none';
-    workspace.style.display = 'block';
-    renderAdminProducts();
-    renderAdminOrders();
-    renderAdminCategories();
-    renderAdminHolidays();
-    renderAdminFinishes();
-    renderAdminGypsumColors();
-    renderAdminScents();
-    renderAdminPromocodes();
-    initAdminPromoForm();
-    initPhotosManager();
-    initSettingsForm();
-    initTextsManager();
-  } else {
-    authScreen.style.display = 'flex';
-    workspace.style.display = 'none';
-  }
-}
+};
 
 function setupAuth() {
   const form = document.getElementById('form-pin') || document.getElementById('form-pin-auth');
