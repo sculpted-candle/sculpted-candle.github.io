@@ -165,7 +165,7 @@
           </div>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
-          <button id="btn-admin-publish-now" class="btn btn-primary btn-sm" onclick="publishChangesToNetlify()">
+          <button id="btn-admin-publish-now" class="btn btn-primary btn-sm" onclick="publishChangesToGitHub()">
             🚀 Опубликовать на сайт сейчас
           </button>
         </div>
@@ -763,6 +763,10 @@
             <button id="btn-export-json" class="btn btn-outline btn-sm">
               📥 Скачать каталог (JSON)
             </button>
+            <button id="btn-import-json" class="btn btn-outline btn-sm" onclick="document.getElementById('input-import-json').click()">
+              📤 Загрузить из файла (Импорт JSON)
+            </button>
+            <input type="file" id="input-import-json" accept=".json" style="display: none;">
             <button id="btn-reset-default" class="btn btn-danger btn-sm">
               🔄 Сбросить к исходным товарам
             </button>
@@ -957,6 +961,6 @@
     </div>
   </div>
 
-  <script src="assets/js/admin.js?v=20261029_3"></script>
+  <script src="assets/js/admin.js?v=20261030_1"></script>
 </body>
 </html>
