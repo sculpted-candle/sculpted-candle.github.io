@@ -4,7 +4,7 @@
  * seasonal holidays, promocodes system, hero badge customization, requisites and orders.
  */
 
-const DEFAULT_PIN = '1234';
+
 
 const DEFAULT_CATEGORIES = [
   { id: 'all', titleRu: 'Все изделия', titleEn: 'All Pieces' },
@@ -424,6 +424,59 @@ window.pullLatestFromSite = async function() {
     alert('✅ Каталог и фото успешно обновлены с сайта!');
   }
 };
+
+
+
+function getSettings() {
+  const def = {
+    pin: '1234',
+    phone: '+7 (900) 000-00-00',
+    bank: 'Альфа-Банк',
+    recipient: 'Екатерина М. (Катерина)',
+    tgUser: '@layra_ms',
+    tgToken: '',
+    tgChatId: '',
+    sbpCustomLink: '',
+    itemsPerPage: '6'
+  };
+  try {
+    const s = localStorage.getItem('sc_settings');
+    return s ? { ...def, ...JSON.parse(s) } : def;
+  } catch (e) {
+    return def;
+  }
+}
+
+function saveSettings(s) {
+  localStorage.setItem('sc_settings', JSON.stringify(s));
+  if (typeof notifyDataUpdated === 'function') notifyDataUpdated();
+}
+
+function checkAuth() {
+  const isAuth = sessionStorage.getItem('sc_is_admin') === 'true';
+  const authScreen = document.getElementById('auth-screen');
+  const workspace = document.getElementById('admin-workspace');
+
+  if (isAuth) {
+    if (authScreen) authScreen.style.display = 'none';
+    if (workspace) workspace.style.display = 'block';
+    renderAdminProducts();
+    renderAdminOrders();
+    renderAdminCategories();
+    renderAdminHolidays();
+    renderAdminFinishes();
+    renderAdminGypsumColors();
+    renderAdminScents();
+    renderAdminPromocodes();
+    if (typeof initAdminPromoForm === 'function') initAdminPromoForm();
+    if (typeof initPhotosManager === 'function') initPhotosManager();
+    if (typeof initSettingsForm === 'function') initSettingsForm();
+    if (typeof initTextsManager === 'function') initTextsManager();
+  } else {
+    if (authScreen) authScreen.style.display = 'flex';
+    if (workspace) workspace.style.display = 'none';
+  }
+}
 
 function setupAuth() {
   const form = document.getElementById('form-pin') || document.getElementById('form-pin-auth');
